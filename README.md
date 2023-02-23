@@ -1,1 +1,3 @@
 # ErrorQLler
+
+We kill errors
