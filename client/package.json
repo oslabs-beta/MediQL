@@ -12,9 +12,15 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^4.2.2",
+    "d3": "^7.8.2",
     "html-webpack-plugin": "^5.5.0",
     "react": "^18.2.0",
     "react-router-dom": "^6.8.1",
+    "sass": "^1.58.3",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
     "webpack-bundle-analyzer": "^4.8.0"
   },
   "devDependencies": {
