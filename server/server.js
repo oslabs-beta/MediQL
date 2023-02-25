@@ -35,6 +35,11 @@ app.use(express.static(path.resolve(__dirname, '../client')));
 //   })
 // );
 
+//insert another website into localhost 8080 on the side
+// fetch another website
+// display website in div 
+// implementation for MVP purposes 
+
 //frontend fetches this route for queryResp stored in our database
 app.use('/queryResp', queryRespRouter);
 

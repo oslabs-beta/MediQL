@@ -168,4 +168,5 @@ const TreeDiagram = () => {
       return d.data[1];
     });
 };
+
 export default TreeDiagram;
