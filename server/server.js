@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const graphqlHTTP = require("express-graphql");
+const { graphqlHTTP } = require("express-graphql");
 require("dotenv").config();
 const queryRespRouter = require("./routes/queryRespRoute");
 const QueryRes = require("./models/queryResModel");
@@ -30,7 +30,7 @@ app.use(express.static(path.resolve(__dirname, "../client")));
 // graphQL
 // app.use('/graphql',
 //   graphqlHTTP({
-//     schema: executableSchema,
+//     schema,
 //     context: data,
 //     graphiql: true,
 //   })
