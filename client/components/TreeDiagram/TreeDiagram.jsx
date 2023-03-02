@@ -4,7 +4,9 @@ const TreeDiagram = () => {
   // let width = 400
   // let height = 200
 
-  let data = [
+  //useContext, useEffect to grab data from rerender in the graphql call! 
+  
+  let data = [ 
     {
       Title: 'Adaptation',
       Distributor: 'Sony Pictures',

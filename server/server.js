@@ -48,7 +48,10 @@ app.use('/queryRespReceiver', async (req, res) => {
   console.log('reqbody: ', req.body);
   const savedData = await QueryRes.create({ response: req.body });
   console.log('saved in DB: ', savedData);
-  res.json(req.body);
+  //req.body.queryResp.Data.Movie
+  const itemToSend = req.body.queryResp
+  console.log('queryResp: --->',req.body.queryResp)
+  res.json('we got it');
 });
 
 // catch-all route handler for any requests to an unknown route
