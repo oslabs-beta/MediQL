@@ -1,12 +1,32 @@
+import React, { useState, useEffect } from 'react';
+const io = require('socket.io-client');
 import * as d3 from 'd3';
 
+// const socket = io('http://localhost:3000/queryResponseReceiver');
+const socket = io();
 const TreeDiagram = () => {
+  // socket.on('connect', () => {
+  //   console.log('connected on the front end ');
+  // });
+  // socket.emit('hello from client');
+
+  // socket.on('hello from server', (...args) => {
+  //   console.log('hello from server typed in');
+  //   console.log('args', args);
+  // });
   // let width = 400
   // let height = 200
 
-  //useContext, useEffect to grab data from rerender in the graphql call! 
-  
-  let data = [ 
+  //useContext, useEffect to grab data from rerender in the graphql call!
+  // const [queryData, setQueryData] = useState([]);
+
+  // useEffect(() => {
+  //   socket.on('message', (newData) => {
+  //     console.log('received message:', newData);
+  //   });
+  // });
+
+  let data = [
     {
       Title: 'Adaptation',
       Distributor: 'Sony Pictures',

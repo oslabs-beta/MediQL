@@ -15,7 +15,11 @@ module.exports = {
     open: true,
     hot: true,
     liveReload: true,
-    proxy: {},
+    proxy: {
+      '/': {
+        target: 'http://localhost:3000',
+      },
+    },
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
