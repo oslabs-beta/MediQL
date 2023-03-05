@@ -2,15 +2,59 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http');
+const mongoose = require('mongoose');
+
+const queryRespRouter = require('./routes/queryRespRoute');
+const QueryRes = require('./models/queryResModel');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.resolve('../client/index.html'));
-// });
+mongoose.set('strictQuery', false);
+
+mongoose
+  .connect(
+    'mongodb+srv://OSP:417918@cluster0.bzy9avm.mongodb.net/?retryWrites=true&w=majority'
+  )
+  .then(() => {
+    console.log('Connected to DB ✅');
+  })
+  .catch(console.error);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../client')));
+
+// queryResponseReceiver --> Commented out
+app.use('/queryRespReceiver', async (req, res) => {
+  console.log('reqbody: ', req.body);
+  const savedData = await QueryRes.create({ response: req.body });
+  console.log('saved in DB: ', savedData);
+
+  // const io = req.app.get('socket.io');
+
+  io.on('connection', (socket) => {
+    socket.emit('connected inside of query resp');
+    // console.log('connected inside of query resp');
+  });
+
+  //req.body.queryResp.Data.Movie
+  const itemToSend = req.body.queryResp;
+
+  console.log('queryResp: --->', req.body.queryResp);
+
+  // io.on('connection', (socket) => {
+  //   console.log('hello im connected sir');
+
+  //   socket.on('data', (data) => {
+  //     console.log('data', data);
+  //   });
+  //   socket.emit('whaaaaatup');
+  // });
+
+  res.json('we got it');
+});
 
 io.on('connection', (socket) => {
   console.log('a user connected');
