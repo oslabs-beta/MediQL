@@ -26,6 +26,16 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../client')));
 
+app.get('/queryRespReceiver', async (req, res, next) => {  
+  const data = await QueryRes.find({ });
+  // console.log('data--->',data[2])
+  // res.json(data);
+  const parsed_data = data.map((item) => {
+    return item.response?.queryResp;
+  })
+  res.json(parsed_data);
+});
+
 // queryResponseReceiver --> Commented out
 app.use('/queryRespReceiver', async (req, res) => {
   console.log('reqbody: ', req.body);
@@ -34,30 +44,23 @@ app.use('/queryRespReceiver', async (req, res) => {
 
   // const io = req.app.get('socket.io');
 
-  io.on('connection', (socket) => {
+  io.on("connection", (socket) => {
+    console.log('connected inside of query resp');
     socket.emit('connected inside of query resp');
-    // console.log('connected inside of query resp');
+    socket.on("hello", (...args) =>{
+      res.json(...args)
+    })
   });
 
   //req.body.queryResp.Data.Movie
-  const itemToSend = req.body.queryResp;
+  // const itemToSend = req.body.queryResp;
 
   console.log('queryResp: --->', req.body.queryResp);
-
-  // io.on('connection', (socket) => {
-  //   console.log('hello im connected sir');
-
-  //   socket.on('data', (data) => {
-  //     console.log('data', data);
-  //   });
-  //   socket.emit('whaaaaatup');
-  // });
-
-  res.json('we got it');
+  res.json(req.body.queryResp);
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('Connected to socket.io');
 });
 
 server.listen(3000, () => {
