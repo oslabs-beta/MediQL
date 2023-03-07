@@ -5,6 +5,7 @@ const graphqlHTTP = require("express-graphql");
 
 require("dotenv").config();
 const queryRespRouter = require("./routes/queryRespRoute");
+const originRespRouter = require("./routes/originRespRoute");
 const QueryRes = require("./models/queryResModel");
 const OriginResp = require("./models/originRespModel");
 
@@ -38,7 +39,7 @@ app.use(express.static(path.resolve(__dirname, "../client")));
 //   })
 // )
 //frontend fetches this route for originResp stored in our database
-//app.use("/originResp", originRespRouter);
+app.use("/originResp", originRespRouter);
 
 //frontend fetches this route for queryResp stored in our database
 app.use("/queryResp", queryRespRouter);
