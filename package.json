@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-server": "cd server && npm start"
+    "server": "nodemon server/server.js",
+    "dev": "webpack serve --hot & nodemon server/server.js",
+    "build": "webpack --config webpack.config.js --progress --color",
+    "start-server": "npm run start-server --prefix server",
+    "start-client": "npm start --prefix client"
   },
   "repository": {
     "type": "git",
@@ -17,9 +21,6 @@
     "url": "https://github.com/oslabs-beta/ErrorQLler/issues"
   },
   "homepage": "https://github.com/oslabs-beta/ErrorQLler#readme",
-  "devDependencies": {
-    "dotenv": "^16.0.3"
-  },
   "dependencies": {
     "express-graphql": "^0.12.0"
   }

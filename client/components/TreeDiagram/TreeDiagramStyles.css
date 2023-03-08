@@ -1,0 +1,19 @@
+body {
+	font-family: Sans-Serif;
+}
+
+circle {
+  fill: steelblue;
+  stroke: none;
+}
+
+line {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+text {
+	font-size: 12px;
+	text-anchor: middle;
+}
