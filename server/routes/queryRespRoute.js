@@ -6,4 +6,7 @@ router.get('/', queryRespController.getLatestQueryResp, (req,res)=>{
     res.status(200).json(res.locals.latestQuery)
 })
 
+
+
+
 module.exports = router;

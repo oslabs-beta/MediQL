@@ -26,6 +26,79 @@ const TreeDiagram = () => {
   //   });
   // });
 
+   let data = [
+    {
+      Title: 'Adaptation',
+      Distributor: 'Sony Pictures',
+      Genre: 'Comedy',
+      Worldwide_Gross: 22498520,
+      Rating: 91,
+    },
+    {
+      Title: 'Air Bud',
+      Distributor: 'Walt Disney Pictures',
+      Genre: 'Comedy',
+      Worldwide_Gross: 27555061,
+      Rating: 45,
+    },
+    {
+      Title: 'Air Force One',
+      Distributor: 'Sony Pictures',
+      Genre: 'Action',
+      Worldwide_Gross: 315268353,
+      Rating: 78,
+    },
+    {
+      Title: 'Alex & Emma',
+      Distributor: 'Warner Bros.',
+      Genre: 'Drama',
+      Worldwide_Gross: 15358583,
+      Rating: 11,
+    },
+    {
+      Title: 'Alexander',
+      Distributor: 'Warner Bros.',
+      Genre: 'Adventure',
+      Worldwide_Gross: 167297191,
+      Rating: 16,
+    },
+    {
+      Title: 'Ali',
+      Distributor: 'Sony Pictures',
+      Genre: 'Drama',
+      Worldwide_Gross: 84383966,
+      Rating: 67,
+    },
+    {
+      Title: 'Alice in Wonderland',
+      Distributor: 'Walt Disney Pictures',
+      Genre: 'Adventure',
+      Worldwide_Gross: 1023291110,
+      Rating: 51,
+    },
+    {
+      Title: 'Alive',
+      Distributor: 'Walt Disney Pictures',
+      Genre: 'Adventure',
+      Worldwide_Gross: 36299670,
+      Rating: 71,
+    },
+    {
+      Title: "All the King's Men",
+      Distributor: 'Sony Pictures',
+      Genre: 'Drama',
+      Worldwide_Gross: 9521458,
+      Rating: 11,
+    },
+    {
+      Title: 'Amadeus',
+      Distributor: 'Warner Bros.',
+      Genre: 'Drama',
+      Worldwide_Gross: 51973029,
+      Rating: 96,
+    },
+  ];
+
   let groups = d3.rollup(
     data,
     function (d) {
@@ -120,75 +193,3 @@ const TreeDiagram = () => {
 
 export default TreeDiagram;
 
- // let data = [
-  //   {
-  //     Title: 'Adaptation',
-  //     Distributor: 'Sony Pictures',
-  //     Genre: 'Comedy',
-  //     Worldwide_Gross: 22498520,
-  //     Rating: 91,
-  //   },
-  //   {
-  //     Title: 'Air Bud',
-  //     Distributor: 'Walt Disney Pictures',
-  //     Genre: 'Comedy',
-  //     Worldwide_Gross: 27555061,
-  //     Rating: 45,
-  //   },
-  //   {
-  //     Title: 'Air Force One',
-  //     Distributor: 'Sony Pictures',
-  //     Genre: 'Action',
-  //     Worldwide_Gross: 315268353,
-  //     Rating: 78,
-  //   },
-  //   {
-  //     Title: 'Alex & Emma',
-  //     Distributor: 'Warner Bros.',
-  //     Genre: 'Drama',
-  //     Worldwide_Gross: 15358583,
-  //     Rating: 11,
-  //   },
-  //   {
-  //     Title: 'Alexander',
-  //     Distributor: 'Warner Bros.',
-  //     Genre: 'Adventure',
-  //     Worldwide_Gross: 167297191,
-  //     Rating: 16,
-  //   },
-  //   {
-  //     Title: 'Ali',
-  //     Distributor: 'Sony Pictures',
-  //     Genre: 'Drama',
-  //     Worldwide_Gross: 84383966,
-  //     Rating: 67,
-  //   },
-  //   {
-  //     Title: 'Alice in Wonderland',
-  //     Distributor: 'Walt Disney Pictures',
-  //     Genre: 'Adventure',
-  //     Worldwide_Gross: 1023291110,
-  //     Rating: 51,
-  //   },
-  //   {
-  //     Title: 'Alive',
-  //     Distributor: 'Walt Disney Pictures',
-  //     Genre: 'Adventure',
-  //     Worldwide_Gross: 36299670,
-  //     Rating: 71,
-  //   },
-  //   {
-  //     Title: "All the King's Men",
-  //     Distributor: 'Sony Pictures',
-  //     Genre: 'Drama',
-  //     Worldwide_Gross: 9521458,
-  //     Rating: 11,
-  //   },
-  //   {
-  //     Title: 'Amadeus',
-  //     Distributor: 'Warner Bros.',
-  //     Genre: 'Drama',
-  //     Worldwide_Gross: 51973029,
-  //     Rating: 96,
-  //   },
-  // ];
