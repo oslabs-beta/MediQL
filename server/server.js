@@ -6,6 +6,12 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+//Socket.io
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server);
+
 //Routers
 const queryRespRouter = require("./routes/queryRespRoute");
 const originRespRouter = require("./routes/originRespRoute");
@@ -13,12 +19,6 @@ const originRespRouter = require("./routes/originRespRoute");
 //Models
 const QueryRes = require("./models/queryResModel");
 const OriginResp = require("./models/originRespModel");
-
-//Socket.io
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server);
 
 //Mongoose 
 const mongoose = require("mongoose");
@@ -38,17 +38,25 @@ app.get('/queryRespReceiver', async (req, res, next) => {
   const data = await QueryRes.find({ });
   // console.log('data--->',data[2])
   // res.json(data);
+  // console.log('data-->', data)
   const parsed_data = data.map((item) => {
-    return item.response?.queryResp;
-  })
-  res.json(parsed_data);
+    if(item.response?.queryResp){
+     return item.response.queryResp
+    };
+  });
+
+  const result = parsed_data.filter((element)=>{
+    return element !== undefined
+  });
+
+  res.json(result);
 });
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
 app.use('/queryRespReceiver', async (req, res) => {
   console.log('reqbody: ', req.body);
   const savedData = await QueryRes.create({ response: req.body });
-  // console.log('query resp saved in DB: ', savedData);
+  console.log('query resp saved in DB: ', savedData);
 
   // const io = req.app.get('socket.io');
 
@@ -72,7 +80,8 @@ app.get('/originalRespReceiver', async (req, res, next) => {
   const data = await OriginResp.find({ });
   // res.json(data);
   const parsed_data = data.map((item) => {
-    return item.response;
+    const {alias, parentNode, originRespStatus, originRespMessage } = item.response.client;
+    return {alias, parentNode, originRespStatus, originRespMessage};
   })
   res.json(parsed_data);
 });
@@ -115,10 +124,6 @@ app.use("/originalRespReceiver", async (req, res) => {
   // }
 });
 
-io.on('connection', (socket) => {
-  console.log('Connected to socket.io');
-});
-
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) =>
   res.status(404).send('Page not found, please check your URL endpoints!')
@@ -133,6 +138,10 @@ app.use((err, req, res, next) => {
   };
   const errorObj = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);
+});
+
+io.on('connection', (socket) => {
+  console.log('Connected to socket.io');
 });
  
 server.listen(PORT, () => {
