@@ -1,21 +1,135 @@
 import React, { useState, useEffect } from 'react';
-const io = require('socket.io-client');
+// const io = require('socket.io-client');
 import * as d3 from 'd3';
 
 // const socket = io('http://localhost:3000/queryResponseReceiver');
-const socket = io();
-const TreeDiagram = () => {
-  // socket.on('connect', () => {
-  //   console.log('connected on the front end ');
-  // });
-  // socket.emit('hello from client');
+// const socket = io();
 
-  // socket.on('hello from server', (...args) => {
-  //   console.log('hello from server typed in');
-  //   console.log('args', args);
-  // });
-  // let width = 400
-  // let height = 200
+const TreeDiagram = () => {
+  // create state to hold data from button click 
+  const [treeData, setTreeData] = useState('');
+
+  // make button
+  // make button on click 
+  const buttonClick = async () => {
+    //create fetch request to queryResp 
+    const data = await fetch('http://localhost:3000/queryResp', {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+			})
+      .then((res) => res.json())
+      // .then((data)=> {
+      //   setTreeData(data)
+      //   console.log(treeData)
+      // });
+    const holder = [data.pop()];
+
+    let groups = d3.rollup(
+      holder,
+      (d) => {
+        return d.length;
+      },
+      (d) => {
+        return d.data.Movie.title;
+      },
+      (d) => {
+        return d.data.Movie.director;
+      }
+    );
+
+    let root = d3.hierarchy(groups);
+  
+    root.sum(function (d) {
+        return d[1];
+    });
+
+    let treeLayout = d3.tree().size([650, 350]);
+
+    treeLayout(root);
+
+    // Links
+    d3.select('svg g')
+      .selectAll('line')
+      .data(root.links())
+      .join('line')
+      .attr('x1', function (d) {
+        return d.source.x;
+      })
+      .attr('y1', function (d) {
+        return d.source.y;
+      })
+      .attr('x2', function (d) {
+        return d.target.x;
+      })
+      .attr('y2', function (d) {
+        return d.target.y;
+      });
+
+    // Nodes
+    d3.select('svg g')
+      .selectAll('circle')
+      .data(root.descendants())
+      .join('circle')
+      .attr('cx', function (d) {
+        return d.x;
+      })
+      .attr('cy', function (d) {
+        return d.y;
+      })
+      .attr('r', 7);
+
+    // Labels
+    d3.select('svg g')
+      .selectAll('text.label')
+      .data(root.descendants())
+      .join('text')
+      .classed('label', true)
+      .attr('x', function (d) {
+        return d.x;
+      })
+      .attr('y', function (d) {
+        return d.y - 18;
+      })
+      .text(function (d) {
+        console.log('d in labels', d)
+        return d.data[0];
+      });
+
+    // Leaf count labels
+    d3.select('svg g')
+      .selectAll('text.count-label')
+      .data(root.descendants())
+      .join('text')
+      .classed('count-label', true)
+      .attr('x', function (d) {
+        return d.x;
+      })
+      .attr('y', function (d) {
+        return d.y + 20;
+      })
+      .text(function (d) {
+        if (d.height > 0) return '';
+        console.log('d in leaf count labels', d)
+        return d.data[1];
+      });
+
+
+    // console.log('holder-->',holder);
+    // // console.log('holder.data.Movie.title-->',holder.data.Movie.title)
+    // setTreeData(holder.data.Movie.title);
+    // console.log('treedata', treeData)
+}
+  return (
+    <>
+      <button onClick={buttonClick}>Fetch /queryResp</button>
+      {treeData && <div>{treeData}</div>}
+    </>
+  
+  )
+};
+
+export default TreeDiagram;
+
 
   //useContext, useEffect to grab data from rerender in the graphql call!
   // const [queryData, setQueryData] = useState([]);
@@ -25,171 +139,97 @@ const TreeDiagram = () => {
   //     console.log('received message:', newData);
   //   });
   // });
+  
 
-   let data = [
-    {
-      Title: 'Adaptation',
-      Distributor: 'Sony Pictures',
-      Genre: 'Comedy',
-      Worldwide_Gross: 22498520,
-      Rating: 91,
-    },
-    {
-      Title: 'Air Bud',
-      Distributor: 'Walt Disney Pictures',
-      Genre: 'Comedy',
-      Worldwide_Gross: 27555061,
-      Rating: 45,
-    },
-    {
-      Title: 'Air Force One',
-      Distributor: 'Sony Pictures',
-      Genre: 'Action',
-      Worldwide_Gross: 315268353,
-      Rating: 78,
-    },
-    {
-      Title: 'Alex & Emma',
-      Distributor: 'Warner Bros.',
-      Genre: 'Drama',
-      Worldwide_Gross: 15358583,
-      Rating: 11,
-    },
-    {
-      Title: 'Alexander',
-      Distributor: 'Warner Bros.',
-      Genre: 'Adventure',
-      Worldwide_Gross: 167297191,
-      Rating: 16,
-    },
-    {
-      Title: 'Ali',
-      Distributor: 'Sony Pictures',
-      Genre: 'Drama',
-      Worldwide_Gross: 84383966,
-      Rating: 67,
-    },
-    {
-      Title: 'Alice in Wonderland',
-      Distributor: 'Walt Disney Pictures',
-      Genre: 'Adventure',
-      Worldwide_Gross: 1023291110,
-      Rating: 51,
-    },
-    {
-      Title: 'Alive',
-      Distributor: 'Walt Disney Pictures',
-      Genre: 'Adventure',
-      Worldwide_Gross: 36299670,
-      Rating: 71,
-    },
-    {
-      Title: "All the King's Men",
-      Distributor: 'Sony Pictures',
-      Genre: 'Drama',
-      Worldwide_Gross: 9521458,
-      Rating: 11,
-    },
-    {
-      Title: 'Amadeus',
-      Distributor: 'Warner Bros.',
-      Genre: 'Drama',
-      Worldwide_Gross: 51973029,
-      Rating: 96,
-    },
-  ];
+  // let groups = d3.rollup(
+  //   data,
+  //   function (d) {
+  //     return d.length;
+  //   },
+  //   function (d) {
+  //     return d.Distributor;
+  //   },
+  //   function (d) {
+  //     return d.Genre;
+  //   }
+  // );
 
-  let groups = d3.rollup(
-    data,
-    function (d) {
-      return d.length;
-    },
-    function (d) {
-      return d.Distributor;
-    },
-    function (d) {
-      return d.Genre;
-    }
-  );
+  // console.log(...groups, 'groups');
 
-  console.log(...groups, 'groups');
+  // let root = d3.hierarchy(groups);
 
-  let root = d3.hierarchy(groups);
+  // console.log('ROOT', ...root);
 
-  console.log('ROOT', ...root);
+  // root.sum(function (d) {
+  //   return d[1];
+  // });
 
-  root.sum(function (d) {
-    return d[1];
-  });
+  // let treeLayout = d3.tree().size([650, 350]);
 
-  let treeLayout = d3.tree().size([650, 350]);
+  // treeLayout(root);
 
-  treeLayout(root);
+  // // Links
+  // d3.select('svg g')
+  //   .selectAll('line')
+  //   .data(root.links())
+  //   .join('line')
+  //   .attr('x1', function (d) {
+  //     return d.source.x;
+  //   })
+  //   .attr('y1', function (d) {
+  //     return d.source.y;
+  //   })
+  //   .attr('x2', function (d) {
+  //     return d.target.x;
+  //   })
+  //   .attr('y2', function (d) {
+  //     return d.target.y;
+  //   });
 
-  // Links
-  d3.select('svg g')
-    .selectAll('line')
-    .data(root.links())
-    .join('line')
-    .attr('x1', function (d) {
-      return d.source.x;
-    })
-    .attr('y1', function (d) {
-      return d.source.y;
-    })
-    .attr('x2', function (d) {
-      return d.target.x;
-    })
-    .attr('y2', function (d) {
-      return d.target.y;
-    });
+  // // Nodes
+  // d3.select('svg g')
+  //   .selectAll('circle')
+  //   .data(root.descendants())
+  //   .join('circle')
+  //   .attr('cx', function (d) {
+  //     return d.x;
+  //   })
+  //   .attr('cy', function (d) {
+  //     return d.y;
+  //   })
+  //   .attr('r', 7);
 
-  // Nodes
-  d3.select('svg g')
-    .selectAll('circle')
-    .data(root.descendants())
-    .join('circle')
-    .attr('cx', function (d) {
-      return d.x;
-    })
-    .attr('cy', function (d) {
-      return d.y;
-    })
-    .attr('r', 7);
+  // // Labels
+  // d3.select('svg g')
+  //   .selectAll('text.label')
+  //   .data(root.descendants())
+  //   .join('text')
+  //   .classed('label', true)
+  //   .attr('x', function (d) {
+  //     return d.x;
+  //   })
+  //   .attr('y', function (d) {
+  //     return d.y - 18;
+  //   })
+  //   .text(function (d) {
+  //     return d.data[0];
+  //   });
 
-  // Labels
-  d3.select('svg g')
-    .selectAll('text.label')
-    .data(root.descendants())
-    .join('text')
-    .classed('label', true)
-    .attr('x', function (d) {
-      return d.x;
-    })
-    .attr('y', function (d) {
-      return d.y - 18;
-    })
-    .text(function (d) {
-      return d.data[0];
-    });
+  // // Leaf count labels
+  // d3.select('svg g')
+  //   .selectAll('text.count-label')
+  //   .data(root.descendants())
+  //   .join('text')
+  //   .classed('count-label', true)
+  //   .attr('x', function (d) {
+  //     return d.x;
+  //   })
+  //   .attr('y', function (d) {
+  //     return d.y + 20;
+  //   })
+  //   .text(function (d) {
+  //     if (d.height > 0) return '';
+  //     return d.data[1];
+  //   });
 
-  // Leaf count labels
-  d3.select('svg g')
-    .selectAll('text.count-label')
-    .data(root.descendants())
-    .join('text')
-    .classed('count-label', true)
-    .attr('x', function (d) {
-      return d.x;
-    })
-    .attr('y', function (d) {
-      return d.y + 20;
-    })
-    .text(function (d) {
-      if (d.height > 0) return '';
-      return d.data[1];
-    });
-};
-
-export default TreeDiagram;
 

@@ -7,10 +7,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //Socket.io
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server);
+// const http = require('http');
+// const server = http.createServer(app);
+// const { Server } = require('socket.io');
+// const io = new Server(server);
 
 //Routers
 const queryRespRouter = require("./routes/queryRespRoute");
@@ -32,24 +32,17 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../client')));
+app.use(cors());
 
-//Displays data on /queryRespReceiver 
-app.get('/queryRespReceiver', async (req, res, next) => {  
-  const data = await QueryRes.find({ });
-  // console.log('data--->',data[2])
-  // res.json(data);
-  // console.log('data-->', data)
-  const parsed_data = data.map((item) => {
-    if(item.response?.queryResp){
-     return item.response.queryResp
-    };
-  });
+//frontend fetches this route for originResp stored in our database
+app.use("/originResp", originRespRouter, (req, res) => {
+  res.send(res.locals.originResps);
+});
 
-  const result = parsed_data.filter((element)=>{
-    return element !== undefined
-  });
-
-  res.json(result);
+//frontend fetches this route for queryResp stored in our database
+app.use("/queryResp", queryRespRouter, (req, res) => {
+  // console.log('res.locals.latestQuery--->',res.locals.latestQuery)
+  res.send(res.locals.latestQuery);
 });
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
@@ -60,30 +53,19 @@ app.use('/queryRespReceiver', async (req, res) => {
 
   // const io = req.app.get('socket.io');
 
-  io.on("connection", (socket) => {
-    console.log('connected inside of query resp');
-    socket.emit('connected inside of query resp');
-    socket.on("hello", (...args) =>{
-      res.json(...args)
-    })
-  });
+  // io.on("connection", (socket) => {
+  //   console.log('connected inside of query resp');
+  //   socket.emit('connected inside of query resp');
+  //   socket.on("hello", (...args) =>{
+  //     res.json(...args)
+  //   })
+  // });
 
   //req.body.queryResp.Data.Movie
   // const itemToSend = req.body.queryResp;
 
   console.log('queryResp: --->', req.body.queryResp);
   res.json(req.body.queryResp);
-});
-
-//Displays data on /queryRespReceiver 
-app.get('/originalRespReceiver', async (req, res, next) => {  
-  const data = await OriginResp.find({ });
-  // res.json(data);
-  const parsed_data = data.map((item) => {
-    const {alias, parentNode, originRespStatus, originRespMessage } = item.response.client;
-    return {alias, parentNode, originRespStatus, originRespMessage};
-  })
-  res.json(parsed_data);
 });
 
 //originalResponseReceiver
@@ -140,10 +122,10 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-io.on('connection', (socket) => {
-  console.log('Connected to socket.io');
-});
+// io.on('connection', (socket) => {
+//   console.log('Connected to socket.io');
+// });
  
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
