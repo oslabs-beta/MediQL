@@ -24,17 +24,25 @@ const TreeDiagram = () => {
       // });
     const holder = [data.pop()];
     console.log('holder: ', holder);
-    const dataKeys = Object.keys(holder.response.queryResp);
-    const movieKeys = Object.keys(holder.response.queryResp.data);
+    const dataKeys = Object.keys(holder[0].response.queryResp);
+    const movieKeys = Object.keys(holder[0].response.queryResp.data);
     console.log('datakeys: ', dataKeys)
     console.log('moviekeys: ', movieKeys)
 
     let groups = d3.rollup(
       holder,
-      dataKeys,
-      movieKeys,
       (d) => {
         return d.length;
+      },
+      (d) => {
+        const dataKeys = Object.keys(holder[0].response.queryResp);
+        console.log('datakeys: ', dataKeys);
+        return dataKeys;
+      },
+      (d) => {
+        const movieKeys = Object.keys(holder[0].response.queryResp.data);
+        console.log('moviekeys: ', movieKeys);
+        return movieKeys;
       },
       (d) => {
         return d.response.queryResp.data.movie1.director;
@@ -43,6 +51,8 @@ const TreeDiagram = () => {
         return d.response.queryResp.data.movie1.title;
       }
     );
+
+
 
     let root = d3.hierarchy(groups);
   
