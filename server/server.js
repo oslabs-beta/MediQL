@@ -46,7 +46,7 @@ app.use("/queryResp", queryRespRouter, (req, res) => {
 });
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
-app.use('/queryRespReceiver', async (req, res) => {
+app.post('/queryRespReceiver', async (req, res) => {
   console.log('reqbody: ', req.body);
   const savedData = await QueryRes.create({ response: req.body });
   console.log('query resp saved in DB: ', savedData);
@@ -69,11 +69,11 @@ app.use('/queryRespReceiver', async (req, res) => {
 });
 
 //originalResponseReceiver
-app.use("/originalRespReceiver", async (req, res) => {
+app.post("/originalRespReceiver", async (req, res) => {
   // console.log("reqbody: ", req.body);
   const {parentNode} = req.body;
   //  console.log("parentNode: ", parentNode)
-  await OriginResp.create({ response: {[`${parentNode}`]:req.body}});
+  await OriginResp.create({ response: req.body});
   res.json(req.body);
   // //check for a database entry
   // const dbData = await OriginResp.findOne({});

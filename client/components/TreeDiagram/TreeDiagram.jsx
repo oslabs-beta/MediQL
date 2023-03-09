@@ -23,17 +23,24 @@ const TreeDiagram = () => {
       //   console.log(treeData)
       // });
     const holder = [data.pop()];
+    console.log('holder: ', holder);
+    const dataKeys = Object.keys(holder.response.queryResp);
+    const movieKeys = Object.keys(holder.response.queryResp.data);
+    console.log('datakeys: ', dataKeys)
+    console.log('moviekeys: ', movieKeys)
 
     let groups = d3.rollup(
       holder,
+      dataKeys,
+      movieKeys,
       (d) => {
         return d.length;
       },
       (d) => {
-        return d.data.Movie.title;
+        return d.response.queryResp.data.movie1.director;
       },
       (d) => {
-        return d.data.Movie.director;
+        return d.response.queryResp.data.movie1.title;
       }
     );
 
