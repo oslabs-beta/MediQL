@@ -22,6 +22,7 @@ const TreeDiagram = () => {
       //   setTreeData(data)
       //   console.log(treeData)
       // });
+
     const holder = [data.pop()];
     console.log('holder: ', holder);
     const dataKeys = Object.keys(holder[0].response.queryResp);
@@ -53,8 +54,30 @@ const TreeDiagram = () => {
     );
 
 
+      var data2 = {
+  "name": "data",
+  "children": [
+    {
+      "name": "alias1",
+      "children": [
+        {
+          "name": "field1",
+        },
+        {
+          "name": "field2",
+        },
+        {
+          "name": "field3",
+        }
+      ]
+    },
+    {
+      "name": "alias2",
+    }
+  ]
+};
 
-    let root = d3.hierarchy(groups);
+    let root = d3.hierarchy(data2);
   
     root.sum(function (d) {
         return d[1];
@@ -82,6 +105,7 @@ const TreeDiagram = () => {
         return d.target.y;
       });
 
+
     // Nodes
     d3.select('svg g')
       .selectAll('circle')
@@ -94,6 +118,41 @@ const TreeDiagram = () => {
         return d.y;
       })
       .attr('r', 7);
+
+      // function handleClick(d) {
+      //   console.log("Clicked on node:", d);
+      // }
+    
+      // d3.selectAll("circle")
+      //   .on("click", handleClick);
+
+      const nodes = d3.selectAll('circle');
+
+      // Add an event listener to each node that listens for a click event
+      nodes.on('click', function(d) {
+
+    // Create a div for the pop-up and position it relative to the clicked node
+    const popup = d3.select('body').append('div')
+      .classed('popup', true)
+      .style('position', 'absolute')
+      .style('left', d.x + 'px')
+      .style('top', d.y + 'px');
+
+    // Add content to the pop-up
+      popup.append('h2')
+        .text('Node ID: ' + d.id);
+
+      popup.append('p')
+        .text('Additional information goes here...');
+
+    // Add a close button to the pop-up
+      popup.append('button')
+        .text('Close')
+        .on('click', function() {
+          // Remove the pop-up from the DOM when the close button is clicked
+          popup.remove();
+        });
+    });
 
     // Labels
     d3.select('svg g')
@@ -109,7 +168,7 @@ const TreeDiagram = () => {
       })
       .text(function (d) {
         console.log('d in labels', d)
-        return d.data[0];
+        return d.data;
       });
 
     // Leaf count labels
