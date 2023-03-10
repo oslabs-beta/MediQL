@@ -6,82 +6,92 @@ import * as d3 from 'd3';
 // const socket = io();
 
 const TreeDiagram = () => {
-  // create state to hold data from button click 
+  // create state to hold data from button click
   const [treeData, setTreeData] = useState('');
 
   // make button
-  // make button on click 
+  // make button on click
+   const getOriginResp = async()=>{   
+   const data =  await fetch('http://localhost:3000/originResp', {
+      method: 'GET',
+      headers: {'content-type' : 'application/json'}
+    }).then((res)=> res.json());
+    return data
+  };
+
+
+
   const buttonClick = async () => {
-    //create fetch request to queryResp 
+    //create fetch request to queryResp
     const data = await fetch('http://localhost:3000/queryResp', {
-      method: "GET",
-      headers: { "content-type": "application/json" },
-			})
-      .then((res) => res.json())
-      // .then((data)=> {
-      //   setTreeData(data)
-      //   console.log(treeData)
-      // });
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    }).then((res) => res.json());
+    // .then((data)=> {
+    //   setTreeData(data)
+    //   console.log(treeData)
+    // });
 
-    const holder = [data.pop()];
-    console.log('holder: ', holder);
-    const dataKeys = Object.keys(holder[0].response.queryResp);
-    const movieKeys = Object.keys(holder[0].response.queryResp.data);
-    console.log('datakeys: ', dataKeys)
-    console.log('moviekeys: ', movieKeys)
+   
 
-    let groups = d3.rollup(
-      holder,
-      (d) => {
-        return d.length;
-      },
-      (d) => {
-        const dataKeys = Object.keys(holder[0].response.queryResp);
-        console.log('datakeys: ', dataKeys);
-        return dataKeys;
-      },
-      (d) => {
-        const movieKeys = Object.keys(holder[0].response.queryResp.data);
-        console.log('moviekeys: ', movieKeys);
-        return movieKeys;
-      },
-      (d) => {
-        return d.response.queryResp.data.movie1.director;
-      },
-      (d) => {
-        return d.response.queryResp.data.movie1.title;
-      }
-    );
+    // const treeD = document.getElementById('tree-d');
+    // treeD.innerHTML = '';
+    // const holder = [data.pop()];
+    // const filteredData = holder[0].response.queryResp.data;
+    // console.log('FilfteredData', filteredData);
+    // console.log('holder: ', holder);
+    // // const dataKeys = Object.keys(holder[0].response.queryResp);
+    // const finalData = [];
 
+    // for (const key in filteredData) {
+    //   finalData.push(filteredData[key]);
+    // }
 
-      var data2 = {
-  "name": "data",
-  "children": [
-    {
-      "name": "alias1",
-      "children": [
-        {
-          "name": "field1",
-        },
-        {
-          "name": "field2",
-        },
-        {
-          "name": "field3",
-        }
-      ]
-    },
-    {
-      "name": "alias2",
-    }
-  ]
-};
+    // console.log('finalData', finalData);
+    // let groups = d3.rollup(
+    //   finalData,
+    //   (d) => {
+    //     console.log('d', d);
+    //     return d.length;
+    //   },
+    //   (d) => {
+    //     return 'movie';
+    //   },
+    //   (d) => {
+    //     return d.director;
+    //   },
+    //   (d) =>{
+    //     return d.title;
+    //   }
+      
+      // (d) => {
+      //   const dataKeys = Object.keys(holder[0].response.queryResp);
+      //   console.log('datakeys: ', dataKeys);
 
-    let root = d3.hierarchy(data2);
-  
-    root.sum(function (d) {
-        return d[1];
-    });
+      //   return dataKeys;
+      // },
+      // (d) => {
+      //   const movieKeys = Object.keys(holder[0].response.queryResp.data);
+      //   console.log('moviekeys: ', movieKeys);
+      //   return movieKeys;
+      // },
+      // (d) => {
+      //   return d.response.queryResp.data.movie1.director;
+      // },
+      // (d) => {
+      //   return d.response.queryResp.data.movie1.title;
+      // }
+    // );
+
+    // console.log(groups, 'groups');
+
+    let root = d3.hierarchy(data);
+
+    console.log('ROOT, ', root);
+    // root.sum(function (d) {
+    //   console.log('d in root sum', d[1], 'd[0]', d[0]);
+    //   return d[1];
+    // });
 
     let treeLayout = d3.tree().size([650, 350]);
 
@@ -105,7 +115,6 @@ const TreeDiagram = () => {
         return d.target.y;
       });
 
-
     // Nodes
     d3.select('svg g')
       .selectAll('circle')
@@ -117,14 +126,16 @@ const TreeDiagram = () => {
       .attr('cy', function (d) {
         return d.y;
       })
-      .attr('r', 7);
-
-      // function handleClick(d) {
-      //   console.log("Clicked on node:", d);
-      // }
-    
-      // d3.selectAll("circle")
-      //   .on("click", handleClick);
+      .attr('r', 7)
+      .attr('fill', (d) => {
+        console.log('d in attr for fill : ', d)
+        if(d.data.name === null){
+          return "red"
+        }
+        else{
+          return 'green'
+        }
+      })
 
       const nodes = d3.selectAll('circle');
 
@@ -136,11 +147,11 @@ const TreeDiagram = () => {
       .classed('popup', true)
       .style('position', 'absolute')
       .style('left', d.x + 'px')
-      .style('top', d.y + 'px');
+      .style('top', d.y + 'px')
 
     // Add content to the pop-up
       popup.append('h2')
-        .text('Node ID: ' + d.id);
+        .text('Node ID: ' +  d)
 
       popup.append('p')
         .text('Additional information goes here...');
@@ -167,8 +178,8 @@ const TreeDiagram = () => {
         return d.y - 18;
       })
       .text(function (d) {
-        console.log('d in labels', d)
-        return d.data;
+        console.log('d in labels', d);
+        return d.data.name;
       });
 
     // Leaf count labels
@@ -185,127 +196,16 @@ const TreeDiagram = () => {
       })
       .text(function (d) {
         if (d.height > 0) return '';
-        console.log('d in leaf count labels', d)
+        console.log('d in leaf count labels', d);
         return d.data[1];
       });
-
-
-    // console.log('holder-->',holder);
-    // // console.log('holder.data.Movie.title-->',holder.data.Movie.title)
-    // setTreeData(holder.data.Movie.title);
-    // console.log('treedata', treeData)
-}
+  };
   return (
     <>
       <button onClick={buttonClick}>Fetch /queryResp</button>
       {treeData && <div>{treeData}</div>}
     </>
-  
-  )
+  );
 };
 
 export default TreeDiagram;
-
-
-  //useContext, useEffect to grab data from rerender in the graphql call!
-  // const [queryData, setQueryData] = useState([]);
-
-  // useEffect(() => {
-  //   socket.on('message', (newData) => {
-  //     console.log('received message:', newData);
-  //   });
-  // });
-  
-
-  // let groups = d3.rollup(
-  //   data,
-  //   function (d) {
-  //     return d.length;
-  //   },
-  //   function (d) {
-  //     return d.Distributor;
-  //   },
-  //   function (d) {
-  //     return d.Genre;
-  //   }
-  // );
-
-  // console.log(...groups, 'groups');
-
-  // let root = d3.hierarchy(groups);
-
-  // console.log('ROOT', ...root);
-
-  // root.sum(function (d) {
-  //   return d[1];
-  // });
-
-  // let treeLayout = d3.tree().size([650, 350]);
-
-  // treeLayout(root);
-
-  // // Links
-  // d3.select('svg g')
-  //   .selectAll('line')
-  //   .data(root.links())
-  //   .join('line')
-  //   .attr('x1', function (d) {
-  //     return d.source.x;
-  //   })
-  //   .attr('y1', function (d) {
-  //     return d.source.y;
-  //   })
-  //   .attr('x2', function (d) {
-  //     return d.target.x;
-  //   })
-  //   .attr('y2', function (d) {
-  //     return d.target.y;
-  //   });
-
-  // // Nodes
-  // d3.select('svg g')
-  //   .selectAll('circle')
-  //   .data(root.descendants())
-  //   .join('circle')
-  //   .attr('cx', function (d) {
-  //     return d.x;
-  //   })
-  //   .attr('cy', function (d) {
-  //     return d.y;
-  //   })
-  //   .attr('r', 7);
-
-  // // Labels
-  // d3.select('svg g')
-  //   .selectAll('text.label')
-  //   .data(root.descendants())
-  //   .join('text')
-  //   .classed('label', true)
-  //   .attr('x', function (d) {
-  //     return d.x;
-  //   })
-  //   .attr('y', function (d) {
-  //     return d.y - 18;
-  //   })
-  //   .text(function (d) {
-  //     return d.data[0];
-  //   });
-
-  // // Leaf count labels
-  // d3.select('svg g')
-  //   .selectAll('text.count-label')
-  //   .data(root.descendants())
-  //   .join('text')
-  //   .classed('count-label', true)
-  //   .attr('x', function (d) {
-  //     return d.x;
-  //   })
-  //   .attr('y', function (d) {
-  //     return d.y + 20;
-  //   })
-  //   .text(function (d) {
-  //     if (d.height > 0) return '';
-  //     return d.data[1];
-  //   });
-
-
