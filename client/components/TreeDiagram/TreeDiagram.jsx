@@ -12,10 +12,6 @@ const TreeDiagram = ({ data }) => {
     let root = d3.hierarchy(data[0]);
 
     console.log('ROOT, ', root);
-    // root.sum(function (d) {
-    //   console.log('d in root sum', d[1], 'd[0]', d[0]);
-    //   return d[1];
-    // });
 
     let treeLayout = d3.tree().size([650, 350]);
 
@@ -27,7 +23,7 @@ const TreeDiagram = ({ data }) => {
       .data(root.links())
       .join('line')
       .attr('x1', function (d) {
-        // console.log('d in x1', d);
+        console.log('d in x1', d);
         return d.source.x;
       })
       .attr('y1', function (d) {
@@ -53,7 +49,7 @@ const TreeDiagram = ({ data }) => {
       })
       .attr('r', 7)
       .attr('fill', (d) => {
-        // console.log('d in attr for fill : ', d);
+        console.log('d in attr for fill : ', d);
         if (d.data.name === null) {
           return 'red';
         } else {
@@ -80,12 +76,12 @@ const TreeDiagram = ({ data }) => {
 
       popup.append('p').text((d) => {
         console.log('d in append: ', d);
-        //   if(d.data.name === null){
-        //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
-        // }
-        // else{
-        //   return 'originRespStatus: 200, originRespMessage: "OK"'
-        // }
+          if(d.data.name === null){
+          return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
+        }
+        else{
+          return 'originRespStatus: 200, originRespMessage: "OK"'
+        }
       });
 
       // Add a close button to the pop-up
