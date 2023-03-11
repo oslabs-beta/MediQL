@@ -8,34 +8,29 @@ const Visualizer = () => {
   //   const [fetchClicked, setFetchClicked] = useState(false);
   const [data, setData] = useState(null);
 
-  const fetchData = () => {
-    //fetch data then set 
-    setData('harharhar');
-    setNum(num + 1);
+  const fetchData = async () => {
+    //fetch data then set
+    //create fetch request to queryResp
+    setData(
+      await fetch('http://localhost:3000/queryResp', {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' },
+      }).then((res) => res.json())
+    );
     return;
   };
 
   return (
     <>
-      {/* <VisualizerContext.Provider
-        value={{
-          fetchClicked,
-          setFetchClicked,
-          data,
-          setData,
-        }}
-      > */}
-      <button onClick={() => buttonClick()}>
-        {/* // fetchClicked={fetchClicked}
-        // setFetchClicked={setFetchClicked} */}
+      {/* <button onClick={() => fetchData()}>
         Fetch queryResp
-      </button>
+      </button> */}
+      <FetchButton fetchData={fetchData} />
       <TreeDiagram
         // fetchClicked={fetchClicked}
         // setFetchClicked={setFetchClicked}
-        data={num}
+        data={[data]}
       />
-      {/* </VisualizerContext.Provider> */}
     </>
   );
 };

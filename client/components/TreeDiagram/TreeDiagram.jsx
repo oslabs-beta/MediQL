@@ -6,84 +6,83 @@ import * as d3 from 'd3';
 // const socket = io();
 
 const TreeDiagram = ({ data }) => {
+  console.log(data);
   // create state to hold data from button click
-
-  const [treeData, setTreeData] = useState('');
-  console.log('data in treeDiagram', data);
   // make button
   // make button on click
-  const getOriginResp = async () => {
-    const data = await fetch('http://localhost:3000/originResp', {
-      method: 'GET',
-      headers: { 'content-type': 'application/json' },
-    }).then((res) => res.json());
-    return data;
-  };
+  // const getOriginResp = async () => {
+  //   const data = await fetch('http://localhost:3000/originResp', {
+  //     method: 'GET',
+  //     headers: { 'content-type': 'application/json' },
+  //   }).then((res) => res.json());
+  //   return data;
+  // };
 
-  const buttonClick = async () => {
-    //create fetch request to queryResp
-    const data = await fetch('http://localhost:3000/queryResp', {
-      method: 'GET',
-      headers: { 'content-type': 'application/json' },
-    }).then((res) => res.json());
+  // const buttonClick = async () => {
+  //   //create fetch request to queryResp
+  //   const data = await fetch('http://localhost:3000/queryResp', {
+  //     method: 'GET',
+  //     headers: { 'content-type': 'application/json' },
+  //   }).then((res) => res.json());
 
-    // .then((data)=> {
-    //   setTreeData(data)
-    //   console.log(treeData)
-    // });
+  // .then((data)=> {
+  //   setTreeData(data)
+  //   console.log(treeData)
+  // });
 
-    // const treeD = document.getElementById('tree-d');
-    // treeD.innerHTML = '';
-    // const holder = [data.pop()];
-    // const filteredData = holder[0].response.queryResp.data;
-    // console.log('FilfteredData', filteredData);
-    // console.log('holder: ', holder);
-    // // const dataKeys = Object.keys(holder[0].response.queryResp);
-    // const finalData = [];
+  // const treeD = document.getElementById('tree-d');
+  // treeD.innerHTML = '';
+  // const holder = [data.pop()];
+  // const filteredData = holder[0].response.queryResp.data;
+  // console.log('FilfteredData', filteredData);
+  // console.log('holder: ', holder);
+  // // const dataKeys = Object.keys(holder[0].response.queryResp);
+  // const finalData = [];
 
-    // for (const key in filteredData) {
-    //   finalData.push(filteredData[key]);
-    // }
+  // for (const key in filteredData) {
+  //   finalData.push(filteredData[key]);
+  // }
 
-    // console.log('finalData', finalData);
-    // let groups = d3.rollup(
-    //   finalData,
-    //   (d) => {
-    //     console.log('d', d);
-    //     return d.length;
-    //   },
-    //   (d) => {
-    //     return 'movie';
-    //   },
-    //   (d) => {
-    //     return d.director;
-    //   },
-    //   (d) =>{
-    //     return d.title;
-    //   }
+  // console.log('finalData', finalData);
+  // let groups = d3.rollup(
+  //   finalData,
+  //   (d) => {
+  //     console.log('d', d);
+  //     return d.length;
+  //   },
+  //   (d) => {
+  //     return 'movie';
+  //   },
+  //   (d) => {
+  //     return d.director;
+  //   },
+  //   (d) =>{
+  //     return d.title;
+  //   }
 
-    // (d) => {
-    //   const dataKeys = Object.keys(holder[0].response.queryResp);
-    //   console.log('datakeys: ', dataKeys);
+  // (d) => {
+  //   const dataKeys = Object.keys(holder[0].response.queryResp);
+  //   console.log('datakeys: ', dataKeys);
 
-    //   return dataKeys;
-    // },
-    // (d) => {
-    //   const movieKeys = Object.keys(holder[0].response.queryResp.data);
-    //   console.log('moviekeys: ', movieKeys);
-    //   return movieKeys;
-    // },
-    // (d) => {
-    //   return d.response.queryResp.data.movie1.director;
-    // },
-    // (d) => {
-    //   return d.response.queryResp.data.movie1.title;
-    // }
-    // );
+  //   return dataKeys;
+  // },
+  // (d) => {
+  //   const movieKeys = Object.keys(holder[0].response.queryResp.data);
+  //   console.log('moviekeys: ', movieKeys);
+  //   return movieKeys;
+  // },
+  // (d) => {
+  //   return d.response.queryResp.data.movie1.director;
+  // },
+  // (d) => {
+  //   return d.response.queryResp.data.movie1.title;
+  // }
+  // );
 
-    // console.log(groups, 'groups');
+  // console.log(groups, 'groups');
 
-    let root = d3.hierarchy(data);
+  if (data[0] !== null) {
+    let root = d3.hierarchy(data[0]);
 
     console.log('ROOT, ', root);
     // root.sum(function (d) {
@@ -101,6 +100,7 @@ const TreeDiagram = ({ data }) => {
       .data(root.links())
       .join('line')
       .attr('x1', function (d) {
+        console.log('d in x1', d);
         return d.source.x;
       })
       .attr('y1', function (d) {
@@ -126,7 +126,7 @@ const TreeDiagram = ({ data }) => {
       })
       .attr('r', 7)
       .attr('fill', (d) => {
-        console.log('d in attr for fill : ', d);
+        // console.log('d in attr for fill : ', d);
         if (d.data.name === null) {
           return 'red';
         } else {
@@ -174,7 +174,7 @@ const TreeDiagram = ({ data }) => {
         return d.y - 18;
       })
       .text(function (d) {
-        console.log('d in labels', d);
+        // console.log('d in labels', d);
         return d.data.name;
       });
 
@@ -192,13 +192,14 @@ const TreeDiagram = ({ data }) => {
       })
       .text(function (d) {
         if (d.height > 0) return '';
-        console.log('d in leaf count labels', d);
+        // console.log('d in leaf count labels', d);
         return d.data[1];
       });
-  };
+  }
+
   return (
     <div>
-      <div>hello</div>
+      <div></div>
     </div>
   );
 };

@@ -5,13 +5,10 @@ import * as d3 from 'd3';
 // const socket = io('http://localhost:3000/queryResponseReceiver');
 // const socket = io();
 
-const FetchButton = ({ setFetch, setFetchClicked }) => {
-  if (setFetch === true) {
-    console.log('true in fetch button');
-  }
+const FetchButton = ({ fetchData }) => {
   return (
     <div>
-      <button>Fetch /queryResp</button>
+      <button onClick={fetchData}>Fetch /queryResp</button>
     </div>
   );
 };
