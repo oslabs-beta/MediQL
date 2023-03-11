@@ -135,9 +135,11 @@ const TreeDiagram = ({ data }) => {
   }
 
   return (
-    <div>
-      <div></div>
-    </div>
+    <>
+      <svg id="tree-d" width="700" height="600">
+        <g transform="translate(0, 5)"></g>
+      </svg>
+    </>
   );
 };
 
