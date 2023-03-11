@@ -143,7 +143,7 @@ const TreeDiagram = () => {
       nodes.on('click', function(d) {
 
     // Create a div for the pop-up and position it relative to the clicked node
-    const popup = d3.select('body').append('div')
+    const popup = d3.select('body').append('div').data(root.descendants())
       .classed('popup', true)
       .style('position', 'absolute')
       .style('left', d.x + 'px')
@@ -151,10 +151,18 @@ const TreeDiagram = () => {
 
     // Add content to the pop-up
       popup.append('h2')
-        .text('Node ID: ' +  d)
+        .text('More Information: ')
 
       popup.append('p')
-        .text('Additional information goes here...');
+        .text((d) => {
+          console.log('d in append: ', d)
+          //   if(d.data.name === null){
+          //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
+          // }
+          // else{
+          //   return 'originRespStatus: 200, originRespMessage: "OK"'
+          // }
+        });
 
     // Add a close button to the pop-up
       popup.append('button')
