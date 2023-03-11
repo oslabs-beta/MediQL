@@ -138,22 +138,31 @@ const TreeDiagram = ({ data }) => {
 
     // Add an event listener to each node that listens for a click event
     nodes.on('click', function (d) {
-      // Create a div for the pop-up and position it relative to the clicked node
-      const popup = d3
-        .select('body')
-        .append('div')
-        .classed('popup', true)
-        .style('position', 'absolute')
-        .style('left', d.x + 'px')
-        .style('top', d.y + 'px');
 
-      // Add content to the pop-up
-      popup.append('h2').text('Node ID: ' + d);
-      popup.append('p').text('Additional information goes here...');
+    // Create a div for the pop-up and position it relative to the clicked node
+    const popup = d3.select('body').append('div').data(root.descendants())
+      .classed('popup', true)
+      .style('position', 'absolute')
+      .style('left', d.x + 'px')
+      .style('top', d.y + 'px')
 
-      // Add a close button to the pop-up
-      popup
-        .append('button')
+    // Add content to the pop-up
+      popup.append('h2')
+        .text('More Information: ')
+
+      popup.append('p')
+        .text((d) => {
+          console.log('d in append: ', d)
+          //   if(d.data.name === null){
+          //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
+          // }
+          // else{
+          //   return 'originRespStatus: 200, originRespMessage: "OK"'
+          // }
+        });
+
+    // Add a close button to the pop-up
+      popup.append('button')
         .text('Close')
         .on('click', function () {
           // Remove the pop-up from the DOM when the close button is clicked
