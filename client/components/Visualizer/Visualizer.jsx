@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useContext } from 'react';
 import TreeDiagram from '../TreeDiagram/TreeDiagram';
 import FetchButton from '../FetchButton/FetchButton';
-import VisualizerContext from '../../VisualizerContext';
 
 const Visualizer = () => {
   //   const [fetchClicked, setFetchClicked] = useState(false);
@@ -22,15 +21,8 @@ const Visualizer = () => {
 
   return (
     <>
-      {/* <button onClick={() => fetchData()}>
-        Fetch queryResp
-      </button> */}
       <FetchButton fetchData={fetchData} />
-      <TreeDiagram
-        // fetchClicked={fetchClicked}
-        // setFetchClicked={setFetchClicked}
-        data={[data]}
-      />
+      <TreeDiagram data={[data]} />
     </>
   );
 };
