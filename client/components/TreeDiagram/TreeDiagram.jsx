@@ -1,195 +1,219 @@
 import React, { useState, useEffect } from 'react';
-const io = require('socket.io-client');
+// const io = require('socket.io-client');
 import * as d3 from 'd3';
 
 // const socket = io('http://localhost:3000/queryResponseReceiver');
-const socket = io();
+// const socket = io();
+
 const TreeDiagram = () => {
-  // socket.on('connect', () => {
-  //   console.log('connected on the front end ');
-  // });
-  // socket.emit('hello from client');
+  // create state to hold data from button click
+  const [treeData, setTreeData] = useState('');
 
-  // socket.on('hello from server', (...args) => {
-  //   console.log('hello from server typed in');
-  //   console.log('args', args);
-  // });
-  // let width = 400
-  // let height = 200
+  // make button
+  // make button on click
+   const getOriginResp = async()=>{   
+   const data =  await fetch('http://localhost:3000/originResp', {
+      method: 'GET',
+      headers: {'content-type' : 'application/json'}
+    }).then((res)=> res.json());
+    return data
+  };
 
-  //useContext, useEffect to grab data from rerender in the graphql call!
-  // const [queryData, setQueryData] = useState([]);
 
-  // useEffect(() => {
-  //   socket.on('message', (newData) => {
-  //     console.log('received message:', newData);
-  //   });
-  // });
 
-   let data = [
-    {
-      Title: 'Adaptation',
-      Distributor: 'Sony Pictures',
-      Genre: 'Comedy',
-      Worldwide_Gross: 22498520,
-      Rating: 91,
-    },
-    {
-      Title: 'Air Bud',
-      Distributor: 'Walt Disney Pictures',
-      Genre: 'Comedy',
-      Worldwide_Gross: 27555061,
-      Rating: 45,
-    },
-    {
-      Title: 'Air Force One',
-      Distributor: 'Sony Pictures',
-      Genre: 'Action',
-      Worldwide_Gross: 315268353,
-      Rating: 78,
-    },
-    {
-      Title: 'Alex & Emma',
-      Distributor: 'Warner Bros.',
-      Genre: 'Drama',
-      Worldwide_Gross: 15358583,
-      Rating: 11,
-    },
-    {
-      Title: 'Alexander',
-      Distributor: 'Warner Bros.',
-      Genre: 'Adventure',
-      Worldwide_Gross: 167297191,
-      Rating: 16,
-    },
-    {
-      Title: 'Ali',
-      Distributor: 'Sony Pictures',
-      Genre: 'Drama',
-      Worldwide_Gross: 84383966,
-      Rating: 67,
-    },
-    {
-      Title: 'Alice in Wonderland',
-      Distributor: 'Walt Disney Pictures',
-      Genre: 'Adventure',
-      Worldwide_Gross: 1023291110,
-      Rating: 51,
-    },
-    {
-      Title: 'Alive',
-      Distributor: 'Walt Disney Pictures',
-      Genre: 'Adventure',
-      Worldwide_Gross: 36299670,
-      Rating: 71,
-    },
-    {
-      Title: "All the King's Men",
-      Distributor: 'Sony Pictures',
-      Genre: 'Drama',
-      Worldwide_Gross: 9521458,
-      Rating: 11,
-    },
-    {
-      Title: 'Amadeus',
-      Distributor: 'Warner Bros.',
-      Genre: 'Drama',
-      Worldwide_Gross: 51973029,
-      Rating: 96,
-    },
-  ];
+  const buttonClick = async () => {
+    //create fetch request to queryResp
+    const data = await fetch('http://localhost:3000/queryResp', {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    }).then((res) => res.json());
+    // .then((data)=> {
+    //   setTreeData(data)
+    //   console.log(treeData)
+    // });
 
-  let groups = d3.rollup(
-    data,
-    function (d) {
-      return d.length;
-    },
-    function (d) {
-      return d.Distributor;
-    },
-    function (d) {
-      return d.Genre;
-    }
+   
+
+    // const treeD = document.getElementById('tree-d');
+    // treeD.innerHTML = '';
+    // const holder = [data.pop()];
+    // const filteredData = holder[0].response.queryResp.data;
+    // console.log('FilfteredData', filteredData);
+    // console.log('holder: ', holder);
+    // // const dataKeys = Object.keys(holder[0].response.queryResp);
+    // const finalData = [];
+
+    // for (const key in filteredData) {
+    //   finalData.push(filteredData[key]);
+    // }
+
+    // console.log('finalData', finalData);
+    // let groups = d3.rollup(
+    //   finalData,
+    //   (d) => {
+    //     console.log('d', d);
+    //     return d.length;
+    //   },
+    //   (d) => {
+    //     return 'movie';
+    //   },
+    //   (d) => {
+    //     return d.director;
+    //   },
+    //   (d) =>{
+    //     return d.title;
+    //   }
+      
+      // (d) => {
+      //   const dataKeys = Object.keys(holder[0].response.queryResp);
+      //   console.log('datakeys: ', dataKeys);
+
+      //   return dataKeys;
+      // },
+      // (d) => {
+      //   const movieKeys = Object.keys(holder[0].response.queryResp.data);
+      //   console.log('moviekeys: ', movieKeys);
+      //   return movieKeys;
+      // },
+      // (d) => {
+      //   return d.response.queryResp.data.movie1.director;
+      // },
+      // (d) => {
+      //   return d.response.queryResp.data.movie1.title;
+      // }
+    // );
+
+    // console.log(groups, 'groups');
+
+    let root = d3.hierarchy(data);
+
+    console.log('ROOT, ', root);
+    // root.sum(function (d) {
+    //   console.log('d in root sum', d[1], 'd[0]', d[0]);
+    //   return d[1];
+    // });
+
+    let treeLayout = d3.tree().size([650, 350]);
+
+    treeLayout(root);
+
+    // Links
+    d3.select('svg g')
+      .selectAll('line')
+      .data(root.links())
+      .join('line')
+      .attr('x1', function (d) {
+        return d.source.x;
+      })
+      .attr('y1', function (d) {
+        return d.source.y;
+      })
+      .attr('x2', function (d) {
+        return d.target.x;
+      })
+      .attr('y2', function (d) {
+        return d.target.y;
+      });
+
+    // Nodes
+    d3.select('svg g')
+      .selectAll('circle')
+      .data(root.descendants())
+      .join('circle')
+      .attr('cx', function (d) {
+        return d.x;
+      })
+      .attr('cy', function (d) {
+        return d.y;
+      })
+      .attr('r', 7)
+      .attr('fill', (d) => {
+        console.log('d in attr for fill : ', d)
+        if(d.data.name === null){
+          return "red"
+        }
+        else{
+          return 'green'
+        }
+      })
+
+      const nodes = d3.selectAll('circle');
+
+      // Add an event listener to each node that listens for a click event
+      nodes.on('click', function(d) {
+
+    // Create a div for the pop-up and position it relative to the clicked node
+    const popup = d3.select('body').append('div').data(root.descendants())
+      .classed('popup', true)
+      .style('position', 'absolute')
+      .style('left', d.x + 'px')
+      .style('top', d.y + 'px')
+
+    // Add content to the pop-up
+      popup.append('h2')
+        .text('More Information: ')
+
+      popup.append('p')
+        .text((d) => {
+          console.log('d in append: ', d)
+          //   if(d.data.name === null){
+          //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
+          // }
+          // else{
+          //   return 'originRespStatus: 200, originRespMessage: "OK"'
+          // }
+        });
+
+    // Add a close button to the pop-up
+      popup.append('button')
+        .text('Close')
+        .on('click', function() {
+          // Remove the pop-up from the DOM when the close button is clicked
+          popup.remove();
+        });
+    });
+
+    // Labels
+    d3.select('svg g')
+      .selectAll('text.label')
+      .data(root.descendants())
+      .join('text')
+      .classed('label', true)
+      .attr('x', function (d) {
+        return d.x;
+      })
+      .attr('y', function (d) {
+        return d.y - 18;
+      })
+      .text(function (d) {
+        console.log('d in labels', d);
+        return d.data.name;
+      });
+
+    // Leaf count labels
+    d3.select('svg g')
+      .selectAll('text.count-label')
+      .data(root.descendants())
+      .join('text')
+      .classed('count-label', true)
+      .attr('x', function (d) {
+        return d.x;
+      })
+      .attr('y', function (d) {
+        return d.y + 20;
+      })
+      .text(function (d) {
+        if (d.height > 0) return '';
+        console.log('d in leaf count labels', d);
+        return d.data[1];
+      });
+  };
+  return (
+    <>
+      <button onClick={buttonClick}>Fetch /queryResp</button>
+      {treeData && <div>{treeData}</div>}
+    </>
   );
-
-  console.log(...groups, 'groups');
-
-  let root = d3.hierarchy(groups);
-
-  console.log('ROOT', ...root);
-
-  root.sum(function (d) {
-    return d[1];
-  });
-
-  let treeLayout = d3.tree().size([650, 350]);
-
-  treeLayout(root);
-
-  // Links
-  d3.select('svg g')
-    .selectAll('line')
-    .data(root.links())
-    .join('line')
-    .attr('x1', function (d) {
-      return d.source.x;
-    })
-    .attr('y1', function (d) {
-      return d.source.y;
-    })
-    .attr('x2', function (d) {
-      return d.target.x;
-    })
-    .attr('y2', function (d) {
-      return d.target.y;
-    });
-
-  // Nodes
-  d3.select('svg g')
-    .selectAll('circle')
-    .data(root.descendants())
-    .join('circle')
-    .attr('cx', function (d) {
-      return d.x;
-    })
-    .attr('cy', function (d) {
-      return d.y;
-    })
-    .attr('r', 7);
-
-  // Labels
-  d3.select('svg g')
-    .selectAll('text.label')
-    .data(root.descendants())
-    .join('text')
-    .classed('label', true)
-    .attr('x', function (d) {
-      return d.x;
-    })
-    .attr('y', function (d) {
-      return d.y - 18;
-    })
-    .text(function (d) {
-      return d.data[0];
-    });
-
-  // Leaf count labels
-  d3.select('svg g')
-    .selectAll('text.count-label')
-    .data(root.descendants())
-    .join('text')
-    .classed('count-label', true)
-    .attr('x', function (d) {
-      return d.x;
-    })
-    .attr('y', function (d) {
-      return d.y + 20;
-    })
-    .text(function (d) {
-      if (d.height > 0) return '';
-      return d.data[1];
-    });
 };
 
 export default TreeDiagram;
-
