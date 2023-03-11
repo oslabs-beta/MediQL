@@ -5,21 +5,20 @@ import * as d3 from 'd3';
 // const socket = io('http://localhost:3000/queryResponseReceiver');
 // const socket = io();
 
-const TreeDiagram = () => {
+const TreeDiagram = ({ data }) => {
   // create state to hold data from button click
-  const [treeData, setTreeData] = useState('');
 
+  const [treeData, setTreeData] = useState('');
+  console.log('data in treeDiagram', data);
   // make button
   // make button on click
-   const getOriginResp = async()=>{   
-   const data =  await fetch('http://localhost:3000/originResp', {
+  const getOriginResp = async () => {
+    const data = await fetch('http://localhost:3000/originResp', {
       method: 'GET',
-      headers: {'content-type' : 'application/json'}
-    }).then((res)=> res.json());
-    return data
+      headers: { 'content-type': 'application/json' },
+    }).then((res) => res.json());
+    return data;
   };
-
-
 
   const buttonClick = async () => {
     //create fetch request to queryResp
@@ -27,12 +26,11 @@ const TreeDiagram = () => {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     }).then((res) => res.json());
+
     // .then((data)=> {
     //   setTreeData(data)
     //   console.log(treeData)
     // });
-
-   
 
     // const treeD = document.getElementById('tree-d');
     // treeD.innerHTML = '';
@@ -63,24 +61,24 @@ const TreeDiagram = () => {
     //   (d) =>{
     //     return d.title;
     //   }
-      
-      // (d) => {
-      //   const dataKeys = Object.keys(holder[0].response.queryResp);
-      //   console.log('datakeys: ', dataKeys);
 
-      //   return dataKeys;
-      // },
-      // (d) => {
-      //   const movieKeys = Object.keys(holder[0].response.queryResp.data);
-      //   console.log('moviekeys: ', movieKeys);
-      //   return movieKeys;
-      // },
-      // (d) => {
-      //   return d.response.queryResp.data.movie1.director;
-      // },
-      // (d) => {
-      //   return d.response.queryResp.data.movie1.title;
-      // }
+    // (d) => {
+    //   const dataKeys = Object.keys(holder[0].response.queryResp);
+    //   console.log('datakeys: ', dataKeys);
+
+    //   return dataKeys;
+    // },
+    // (d) => {
+    //   const movieKeys = Object.keys(holder[0].response.queryResp.data);
+    //   console.log('moviekeys: ', movieKeys);
+    //   return movieKeys;
+    // },
+    // (d) => {
+    //   return d.response.queryResp.data.movie1.director;
+    // },
+    // (d) => {
+    //   return d.response.queryResp.data.movie1.title;
+    // }
     // );
 
     // console.log(groups, 'groups');
@@ -128,38 +126,36 @@ const TreeDiagram = () => {
       })
       .attr('r', 7)
       .attr('fill', (d) => {
-        console.log('d in attr for fill : ', d)
-        if(d.data.name === null){
-          return "red"
+        console.log('d in attr for fill : ', d);
+        if (d.data.name === null) {
+          return 'red';
+        } else {
+          return 'green';
         }
-        else{
-          return 'green'
-        }
-      })
+      });
 
-      const nodes = d3.selectAll('circle');
+    const nodes = d3.selectAll('circle');
 
-      // Add an event listener to each node that listens for a click event
-      nodes.on('click', function(d) {
+    // Add an event listener to each node that listens for a click event
+    nodes.on('click', function (d) {
+      // Create a div for the pop-up and position it relative to the clicked node
+      const popup = d3
+        .select('body')
+        .append('div')
+        .classed('popup', true)
+        .style('position', 'absolute')
+        .style('left', d.x + 'px')
+        .style('top', d.y + 'px');
 
-    // Create a div for the pop-up and position it relative to the clicked node
-    const popup = d3.select('body').append('div')
-      .classed('popup', true)
-      .style('position', 'absolute')
-      .style('left', d.x + 'px')
-      .style('top', d.y + 'px')
+      // Add content to the pop-up
+      popup.append('h2').text('Node ID: ' + d);
+      popup.append('p').text('Additional information goes here...');
 
-    // Add content to the pop-up
-      popup.append('h2')
-        .text('Node ID: ' +  d)
-
-      popup.append('p')
-        .text('Additional information goes here...');
-
-    // Add a close button to the pop-up
-      popup.append('button')
+      // Add a close button to the pop-up
+      popup
+        .append('button')
         .text('Close')
-        .on('click', function() {
+        .on('click', function () {
           // Remove the pop-up from the DOM when the close button is clicked
           popup.remove();
         });
@@ -201,10 +197,9 @@ const TreeDiagram = () => {
       });
   };
   return (
-    <>
-      <button onClick={buttonClick}>Fetch /queryResp</button>
-      {treeData && <div>{treeData}</div>}
-    </>
+    <div>
+      <div>hello</div>
+    </div>
   );
 };
 
