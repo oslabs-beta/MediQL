@@ -34,6 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../client')));
 app.use(cors());
 
+
+//frontend post fetch to route localhost3000/originResp/remove to remove all originResps
 //frontend fetches this route for originResp stored in our database
 app.use("/originResp", originRespRouter, (req, res) => {
   res.send(res.locals.originResps);
@@ -72,6 +74,7 @@ app.post('/queryRespReceiver', async (req, res) => {
 app.post("/originalRespReceiver", async (req, res) => {
   // console.log("reqbody: ", req.body);
   const {parentNode} = req.body;
+  console.log('reqbody: ', req.body)
   //  console.log("parentNode: ", parentNode)
   await OriginResp.create({ response: req.body});
   res.json(req.body);
