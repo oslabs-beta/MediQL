@@ -74,6 +74,7 @@ app.post('/queryRespReceiver', async (req, res) => {
 app.post("/originalRespReceiver", async (req, res) => {
   // console.log("reqbody: ", req.body);
   const {parentNode} = req.body;
+  console.log('reqbody: ', req.body)
   //  console.log("parentNode: ", parentNode)
   await OriginResp.create({ response: req.body});
   res.json(req.body);
