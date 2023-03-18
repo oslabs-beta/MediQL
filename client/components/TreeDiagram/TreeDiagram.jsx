@@ -51,7 +51,7 @@ const TreeDiagram = ({ data }) => {
       .attr('fill', (d) => {
         console.log('d in attr for fill : ', d);
         if (d.data.name === null) {
-          return 'red';
+          return 'orange';
         } else {
           return 'green';
         }
