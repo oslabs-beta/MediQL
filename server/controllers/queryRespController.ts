@@ -24,7 +24,7 @@
 
 // module.exports = queryRespController;
 // const queryRespController = {};
-const queryResModel = require('../models/queryResModel');
+import queryResModel from '../models/queryResModel';
 import { Request, Response, NextFunction } from 'express';
 
 interface Input {

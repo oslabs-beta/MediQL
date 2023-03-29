@@ -1,9 +1,8 @@
 import { NextFunction, Response, Request} from 'express';
 
-const express = require('express');
-const { NextFunction } = require('express');
-const path = require('path');
-const cors = require('cors');
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
 require('dotenv').config();
 const app = express();
 
@@ -16,15 +15,15 @@ const PORT = process.env.PORT || 3000;
 // const io = new Server(server);
 
 //Routers
-const queryRespRouter = require('./routes/queryRespRoute');
-const originRespRouter = require('./routes/originRespRoute');
+import queryRespRouter from './routes/queryRespRoute';
+import originRespRouter from './routes/originRespRoute';
 
 //Models
-const QueryRes = require('./models/queryResModel');
-const OriginResp = require('./models/originRespModel');
+import QueryRes from './models/queryResModel';
+import OriginResp from './models/originRespModel';
 
 //Mongoose
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 mongoose.set('strictQuery', false);
 
 mongoose
