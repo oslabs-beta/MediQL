@@ -4,12 +4,20 @@ import * as d3 from 'd3';
 
 // const socket = io('http://localhost:3000/queryResponseReceiver');
 // const socket = io();
+interface Data {
+  name: string | null;
+  children: Data[] | null;
+}
 
-const TreeDiagram = ({ data }) => {
+interface TreeDiagramProps {
+  data: Data[];
+}
+
+const TreeDiagram = ({ data }: TreeDiagramProps) => {
   console.log(data);
 
   if (data[0] !== null) {
-    let root = d3.hierarchy(data[0]);
+    let root = d3.hierarchy<Data>(data[0]);
 
     console.log('ROOT, ', root);
     // root.sum(function (d) {
@@ -17,14 +25,17 @@ const TreeDiagram = ({ data }) => {
     //   return d[1];
     // });
 
-    let treeLayout = d3.tree().size([650, 350]);
+    let treeLayout = d3.tree<Data>().size([650, 350]);
 
-    treeLayout(root);
+    let rootNode = treeLayout(root) as d3.HierarchyPointNode<Data>;
+
+    // MAY NEED TO UNCOMMENT
+    // treeLayout(root as d3.HierarchyPointNode<any>);
 
     // Links
     d3.select('svg g')
       .selectAll('line')
-      .data(root.links())
+      .data(rootNode.links())
       .join('line')
       .attr('x1', function (d) {
         // console.log('d in x1', d);
@@ -43,7 +54,7 @@ const TreeDiagram = ({ data }) => {
     // Nodes
     d3.select('svg g')
       .selectAll('circle')
-      .data(root.descendants())
+      .data(rootNode.descendants())
       .join('circle')
       .attr('cx', function (d) {
         return d.x;
@@ -78,15 +89,15 @@ const TreeDiagram = ({ data }) => {
       // Add content to the pop-up
       popup.append('h2').text('More Information: ');
 
-      popup.append('p').text((d) => {
-        console.log('d in append: ', d);
-        //   if(d.data.name === null){
-        //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
-        // }
-        // else{
-        //   return 'originRespStatus: 200, originRespMessage: "OK"'
-        // }
-      });
+      // popup.append('p').text((d) => {
+      //   console.log('d in append: ', d);
+      //   //   if(d.data.name === null){
+      //   //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
+      //   // }
+      //   // else{
+      //   //   return 'originRespStatus: 200, originRespMessage: "OK"'
+      //   // }
+      // });
 
       // Add a close button to the pop-up
       popup
@@ -101,7 +112,7 @@ const TreeDiagram = ({ data }) => {
     // Labels
     d3.select('svg g')
       .selectAll('text.label')
-      .data(root.descendants())
+      .data(rootNode.descendants())
       .join('text')
       .classed('label', true)
       .attr('x', function (d) {
@@ -118,7 +129,7 @@ const TreeDiagram = ({ data }) => {
     // Leaf count labels
     d3.select('svg g')
       .selectAll('text.count-label')
-      .data(root.descendants())
+      .data(rootNode.descendants())
       .join('text')
       .classed('count-label', true)
       .attr('x', function (d) {
@@ -126,12 +137,12 @@ const TreeDiagram = ({ data }) => {
       })
       .attr('y', function (d) {
         return d.y + 20;
-      })
-      .text(function (d) {
-        if (d.height > 0) return '';
-        // console.log('d in leaf count labels', d);
-        return d.data[1];
       });
+    // .text(function (d) {
+    //   if (d.height > 0) return '';
+    //   // console.log('d in leaf count labels', d);
+    //   return d.data[1];
+    // });
   }
 
   return (
