@@ -7,4 +7,4 @@ const originRespSchema = new mongoose.Schema(
 
 const OriginResp = mongoose.model("OriginResp", originRespSchema);
 
-module.exports = OriginResp;
+export default OriginResp;
