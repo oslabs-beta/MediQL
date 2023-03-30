@@ -17,20 +17,51 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
   console.log(data);
 
   if (data[0] !== null) {
-    let root = d3.hierarchy<Data>(data[0]);
+    // let root = d3.hierarchy<Data>(data[0]);
 
-    console.log('ROOT, ', root);
+    // console.log('ROOT, ', root);
     // root.sum(function (d) {
     //   console.log('d in root sum', d[1], 'd[0]', d[0]);
     //   return d[1];
     // });
+
+    let root = d3.hierarchy<Data>({
+      name: 'data',
+      children: [
+        {
+          status: 200,
+          name: 'movie1',
+          children: [
+            { name: 'title', children: [{ name: 'Attack of the Clones' }] },
+            { name: 'director', children: [{ name: 'George Lucas' }] },
+          ],
+        },
+        {
+          status: 200,
+          name: 'movie2',
+          children: [
+            { name: 'title', children: [{ name: 'Return of the Jedi' }] },
+            { name: 'director', children: [{ name: 'Richard Marquand' }] },
+          ],
+        },
+        {
+          status: 404,
+          name: 'person1',
+          children: [
+            { name: 'name', children: [] },
+            { name: 'birth_year', children: [] },
+          ],
+        },
+        { name: 'country100', children: [] },
+      ],
+    });
 
     let treeLayout = d3.tree<Data>().size([650, 350]);
 
     let rootNode = treeLayout(root) as d3.HierarchyPointNode<Data>;
 
     // MAY NEED TO UNCOMMENT
-    // treeLayout(root as d3.HierarchyPointNode<any>);
+    // treeLayout(root);
 
     // Links
     d3.select('svg g')
@@ -65,49 +96,112 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       .attr('r', 7)
       .attr('fill', (d) => {
         // console.log('d in attr for fill : ', d);
-        if (d.data.name === null) {
+        console.log('d.data-->', d.data);
+
+        if (d.data.children !== undefined && !d.data.children?.length) {
+          console.log('THIS CHILD IS LENGTH OF 0');
+          return 'orange';
+        } else if (d.data.status > 299) {
           return 'red';
         } else {
           return 'green';
         }
+      })
+      .on('click', (event, d) => {
+        // Create popup
+        if (document.getElementById('popup-data')) {
+          const popup = document.createElement('div');
+          popup.style.position = 'absolute';
+          popup.style.top = `${event.pageY}px`;
+          popup.style.left = `${event.pageX}px`;
+          popup.style.backgroundColor = 'white';
+          popup.style.padding = '30px';
+          popup.style.border = '1px solid black';
+          popup.setAttribute('width', '100px');
+          popup.setAttribute('height', '100px');
+          popup.setAttribute('id', 'popup-data');
+
+          console.log(popup, 'popup');
+          console.log(d.data, 'd.data after popup log');
+          console.log(d.data.status, 'bout to get this statussssssss');
+
+          popup.innerText = `Status Code : ${d.data.status}`;
+          let button = document.createElement('button');
+          button.innerText = 'Close';
+          button.addEventListener('click', function () {
+            // Remove the pop-up from the DOM when the close button is clicked
+            popup.remove();
+          });
+          popup.append(button);
+
+          //   // Populate popup with data
+          //   const dataString = JSON.stringify(d.data, null, 2);
+          //   const popupContent = document.createTextNode(dataString);
+          //   popup.appendChild(popupContent);
+
+          //   // Add popup to document
+          //   document.body.appendChild(popup);
+
+          //Remove popup on click outside of popup
+          // popup.addEventListener('click', (event) => {
+          //   console.log('hello');
+          // });
+          // document.addEventListener(
+          //   'click',
+          //   () => {
+          //     document.body.removeChild(popup);
+          //   },
+          //   { once: true }
+          // );
+
+          document.body.appendChild(popup);
+        }
       });
 
-    const nodes = d3.selectAll('circle');
+    // console.log('d.data.status in append: ', d.data.status);
+    //   if (d.data > 299) {
+    //     console.log('STATUS OVER 299')
+    //     return `originRespStatus: ${d.data}, originRespMessage: `
+    //   }
+    //   return 'originRespStatus: 200, originRespMessage: "OK"'
+    // });
 
-    // Add an event listener to each node that listens for a click event
-    nodes.on('click', function (d) {
-      // Create a div for the pop-up and position it relative to the clicked node
-      const popup = d3
-        .select('body')
-        .append('div')
-        .data(root.descendants())
-        .classed('popup', true)
-        .style('position', 'absolute')
-        .style('left', d.x + 'px')
-        .style('top', d.y + 'px');
+    // const nodes = d3.selectAll('circle');
 
-      // Add content to the pop-up
-      popup.append('h2').text('More Information: ');
+    // // Add an event listener to each node that listens for a click event
+    // nodes.on('click', function (d) {
+    //   // Create a div for the pop-up and position it relative to the clicked node
+    //   const popup = d3
+    //     .select('body')
+    //     .append('div')
+    //     .data(root.descendants())
+    //     .classed('popup', true)
+    //     .style('position', 'absolute')
+    //     .style('left', d.x + 'px')
+    //     .style('top', d.y + 'px');
 
-      // popup.append('p').text((d) => {
-      //   console.log('d in append: ', d);
-      //   //   if(d.data.name === null){
-      //   //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
-      //   // }
-      //   // else{
-      //   //   return 'originRespStatus: 200, originRespMessage: "OK"'
-      //   // }
-      // });
+    //   // Add content to the pop-up
+    //   popup.append('h2').text('More Information: ');
 
-      // Add a close button to the pop-up
-      popup
-        .append('button')
-        .text('Close')
-        .on('click', function () {
-          // Remove the pop-up from the DOM when the close button is clicked
-          popup.remove();
-        });
-    });
+    //   // popup.append('p').text((d) => {
+    //   //   console.log('d in append: ', d);
+    //   //   //   if(d.data.name === null){
+    //   //   //   return 'originRespStatus: 404, originRespMessage: "NOT FOUND"'
+    //   //   // }
+    //   //   // else{
+    //   //   //   return 'originRespStatus: 200, originRespMessage: "OK"'
+    //   //   // }
+    //   // });
+
+    //   // Add a close button to the pop-up
+    //   popup
+    //     .append('button')
+    //     .text('Close')
+    //     .on('click', function () {
+    //       // Remove the pop-up from the DOM when the close button is clicked
+    //       popup.remove();
+    //     });
+    // });
 
     // Labels
     d3.select('svg g')

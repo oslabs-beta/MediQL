@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const originRespSchema = new mongoose.Schema(
   {response: {type: Object}},

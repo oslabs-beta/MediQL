@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 import queryRespController from '../controllers/queryRespController';
