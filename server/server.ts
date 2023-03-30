@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 //Routers
 import queryRespRouter from './routes/queryRespRoute';
-import originRespRouter from './routes/originRespRoute';
+// import originRespRouter from './routes/originRespRoute';
 
 //Models
 import QueryRes from './models/queryResModel';
@@ -42,21 +42,16 @@ app.use(cors());
 
 //frontend post fetch to route localhost3000/originResp/remove to remove all originResps
 //frontend fetches this route for originResp stored in our database
-app.use('/originResp', originRespRouter, (req: Request, res: Response) => {
-  res.send(res.locals.originResps);
-});
+// app.use('/originResp', originRespRouter);
 
 //frontend fetches this route for queryResp stored in our database
-app.use('/queryResp', queryRespRouter, (req: Request, res: Response) => {
-  // console.log('res.locals.latestQuery--->',res.locals.latestQuery)
-  res.send(res.locals.latestQuery);
-});
+app.use('/queryResp', queryRespRouter);
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
 app.post('/queryRespReceiver', async (req: Request, res: Response) => {
-  console.log('reqbody: ', req.body);
+  // console.log('reqbody: ', req.body);
   const savedData = await QueryRes.create({ response: req.body });
-  console.log('query resp saved in DB: ', savedData);
+  // console.log('query resp saved in DB: ', savedData);
 
   // const io = req.app.get('socket.io');
 
@@ -71,15 +66,16 @@ app.post('/queryRespReceiver', async (req: Request, res: Response) => {
   //req.body.queryResp.Data.Movie
   // const itemToSend = req.body.queryResp;
 
-  console.log('queryResp: --->', req.body.queryResp);
+  // console.log('queryResp: --->', req.body.queryResp);
   res.json(req.body.queryResp);
 });
+
 
 //originalResponseReceiver
 app.post('/originalRespReceiver', async (req: Request, res: Response) => {
   // console.log("reqbody: ", req.body);
   const { parentNode } = req.body;
-  console.log('reqbody: ', req.body);
+  // console.log('reqbody: ', req.body);
   //  console.log("parentNode: ", parentNode)
   await OriginResp.create({ response: req.body });
   res.json(req.body);
