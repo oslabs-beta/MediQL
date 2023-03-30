@@ -25,6 +25,7 @@
 // module.exports = queryRespController;
 // const queryRespController = {};
 import queryResModel from '../models/queryResModel';
+import originRespModel from '../models/originRespModel'
 import { Request, Response, NextFunction } from 'express';
 
 interface Input {
@@ -38,7 +39,19 @@ interface FieldObject {
 
 interface MovieObject {
   name: string;
+  resp: string;
+  statusCode: string;
+  statusMsg: string
   children: any[];
+}
+
+interface resolverResp {
+  response: {
+    alias: string;
+    originResp: Object;
+    originRespStatus: Number;
+    originRespMessage: string;
+  }
 }
 
 interface Output {
@@ -52,22 +65,32 @@ export default {
     res: Response,
     next: NextFunction
   ) => {
-    // db.find_id.find({ }, {"_id": 1}).sort({_id:-1}).limit(1)
     const latestQuery = await queryResModel.find({}).sort({ _id: -1 }).limit(1);
+    const resolverQueries = await originRespModel.find({}).sort({ _id: -1 }).limit(4);
 
-    // const latestQuery = await queryResModel.findOne().sort({ createdAt: -1 });;
-    console.log('latest: ', latestQuery);
+    console.log('latest query: ', latestQuery);
+    console.log('latest origin resps: ', resolverQueries);
     const dataObj = latestQuery[0].response.queryResp.data;
     console.log('dataObj: ', dataObj);
 
-    const transformData = (input: Input) => {
+    //pull data from originResp database
+    
+    // transform happens after combining data
+    const transformData = async (input: Input) => {
       const output: Output = { name: 'data', children: [] };
       for (let [inputKey, inputValue] of Object.entries(input)) {
-        const movieObject: MovieObject = { name: inputKey, children: [] };
+        const matchedQuery = await resolverQueries.filter((obj : resolverResp) => {return (obj.response.alias === inputKey)})[0];
+        const {originResp, originRespStatus, originRespMessage} = matchedQuery.response;
+        console.log("matchedQuery: ", matchedQuery)
+        //const movieObject: MovieObject = { resp: '{}', statusCode: '200', statusMsg: 'x', name: inputKey, children: [] };
+        const movieObject: MovieObject = { resp: originResp, statusCode: originRespStatus, statusMsg: originRespMessage, name: inputKey, children: [] };
         if (!inputValue) {
-          inputValue = { [`${inputValue}`]: inputValue };
+          inputValue = {};
         }
         for (const [fieldKey, fieldValue] of Object.entries(inputValue)) {
+          if (!Object.keys(inputValue).length) {
+            continue;
+          }
           if (!fieldValue) {
             const fieldObject: FieldObject = {
               name: fieldKey,
@@ -84,11 +107,20 @@ export default {
         }
         output.children.push(movieObject);
       }
+
+      console.log('output line 90: ', output);
       return output;
     };
 
     const output = transformData(dataObj);
     res.locals.latestQuery = output;
+
+    
+    //delete originresp database
+    await originRespModel.deleteMany({});
+    //delete queryresp database
+    await queryResModel.deleteMany({});
+
     return next();
   },
 };
