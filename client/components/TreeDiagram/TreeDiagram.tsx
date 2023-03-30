@@ -14,7 +14,7 @@ interface TreeDiagramProps {
 }
 
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
-  console.log(data);
+  console.log('data[0]: ', data[0]);
 
   if (data[0] !== null) {
     // let root = d3.hierarchy<Data>(data[0]);
@@ -25,36 +25,38 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
     //   return d[1];
     // });
 
-    let root = d3.hierarchy<Data>({
-      name: 'data',
-      children: [
-        {
-          status: 200,
-          name: 'movie1',
-          children: [
-            { name: 'title', children: [{ name: 'Attack of the Clones' }] },
-            { name: 'director', children: [{ name: 'George Lucas' }] },
-          ],
-        },
-        {
-          status: 200,
-          name: 'movie2',
-          children: [
-            { name: 'title', children: [{ name: 'Return of the Jedi' }] },
-            { name: 'director', children: [{ name: 'Richard Marquand' }] },
-          ],
-        },
-        {
-          status: 404,
-          name: 'person1',
-          children: [
-            { name: 'name', children: [] },
-            { name: 'birth_year', children: [] },
-          ],
-        },
-        { name: 'country100', children: [] },
-      ],
-    });
+    // let root = d3.hierarchy<Data>({
+    //   name: 'data',
+    //   children: [
+    //     {
+    //       status: 200,
+    //       name: 'movie1',
+    //       children: [
+    //         { name: 'title', children: [{ name: 'Attack of the Clones' }] },
+    //         { name: 'director', children: [{ name: 'George Lucas' }] },
+    //       ],
+    //     },
+    //     {
+    //       status: 200,
+    //       name: 'movie2',
+    //       children: [
+    //         { name: 'title', children: [{ name: 'Return of the Jedi' }] },
+    //         { name: 'director', children: [{ name: 'Richard Marquand' }] },
+    //       ],
+    //     },
+    //     {
+    //       status: 404,
+    //       name: 'person1',
+    //       children: [
+    //         { name: 'name', children: [] },
+    //         { name: 'birth_year', children: [] },
+    //       ],
+    //     },
+    //     { name: 'country100', children: [] },
+    //   ],
+    // });
+
+    let root = d3.hierarchy<Data>(data[0]);
 
     let treeLayout = d3.tree<Data>().size([650, 350]);
 
@@ -101,7 +103,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         if (d.data.children !== undefined && !d.data.children?.length) {
           console.log('THIS CHILD IS LENGTH OF 0');
           return 'orange';
-        } else if (d.data.status > 299) {
+        } else if (d.data.statusCode > 299) {
           return 'red';
         } else {
           return 'green';
@@ -123,9 +125,9 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
 
           console.log(popup, 'popup');
           console.log(d.data, 'd.data after popup log');
-          console.log(d.data.status, 'bout to get this statussssssss');
+          console.log(d.data.statusCode, 'bout to get this statussssssss');
 
-          popup.innerText = `Status Code : ${d.data.status}`;
+          popup.innerText = `Status Code : ${d.data.statusCode}`;
           let button = document.createElement('button');
           button.innerText = 'Close';
           button.addEventListener('click', function () {

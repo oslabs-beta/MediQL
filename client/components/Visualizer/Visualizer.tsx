@@ -15,12 +15,15 @@ const Visualizer = () => {
  let fetchData = async () => {
     //fetch data then set
     //create fetch request to queryResp
-    setData(
-      await fetch('http://localhost:3000/queryResp', {
+    
+    const fetchedData = await fetch('http://localhost:3000/queryResp', {
         method: 'GET',
         headers: { 'content-type': 'application/json' },
-      }).then((res) => res.json())
-    );
+      }).then((res) => res.json());
+
+
+    console.log('fetchedData: ', fetchedData)
+    setData(fetchedData);
     return;
   };
 

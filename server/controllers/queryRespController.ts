@@ -1,29 +1,4 @@
-// const queryRespController = {};
-// const queryResModel = require('../models/queryResModel')
 
-// queryRespController.getLatestQueryResp = async (req,res,next) => {
-//     // db.find_id.find({ }, {"_id": 1}).sort({_id:-1}).limit(1)
-//     const latestQuery = await queryResModel.find({ });
-//     // const latestQuery = await queryResModel.find({ }).sort({_id:-1}).limit(1);
-//     // const latestQuery = await queryResModel.findOne().sort({ createdAt: -1 });;
-
-//     // const parsed_data = latestQuery.map((item) => {
-//     //     if(item.response?.queryResp){
-//     //         return item.response.queryResp
-//     //     };
-//     // });
-
-//     // const result = parsed_data.filter((element)=>{
-//     //     return element !== undefined
-//     // });
-
-//     // console.log('latest: ', latestQuery)
-//     res.locals.latestQuery = latestQuery;
-//     return next();
-// }
-
-// module.exports = queryRespController;
-// const queryRespController = {};
 import queryResModel from '../models/queryResModel';
 import originRespModel from '../models/originRespModel';
 import { Request, Response, NextFunction } from 'express';
@@ -72,11 +47,10 @@ export default {
     res: Response,
     next: NextFunction
   ) => {
-    const latestQuery = await queryResModel.find({}).sort({ _id: -1 }).limit(1);
-    const resolverQueries = await originRespModel
-      .find({})
-      .sort({ _id: -1 })
-      .limit(4);
+    const latestQuery = await queryResModel.find({});
+    //.sort({ _id: -1 }).limit(1);
+    const resolverQueries = await originRespModel.find({});
+    // .sort({ _id: -1 }).limit(4);
 
     console.log('latest query: ', latestQuery);
     console.log('latest origin resps: ', resolverQueries);
@@ -133,8 +107,8 @@ export default {
       return output;
     };
 
-    const output = transformData(dataObj);
-    res.locals.latestQuery = output;
+    const newDataObj = await transformData(dataObj);
+    res.locals.latestQuery = newDataObj;
 
     //delete originresp database
     await originRespModel.deleteMany({});
