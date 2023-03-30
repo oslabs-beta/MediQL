@@ -12,9 +12,9 @@ import DisplayGraphiql from './components/DisplayGraphiql/DisplayGraphiql';
 const App = () => {
   return (
     <div>
+      <DisplayGraphiql/>
       <LogoBar />
       <Visualizer />
-      <DisplayGraphiql/>
     </div>
   );
 };
