@@ -1,0 +1,19 @@
+.logo-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    align-items: center;
+    background-color: #eee;
+    padding: 1rem;
+    font-size: larger;
+    z-index: 100;
+  }
+    
+  body {
+    margin : 0;
+    padding: 0;
+  }
+    

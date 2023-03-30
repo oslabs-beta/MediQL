@@ -109,7 +109,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       })
       .on('click', (event, d) => {
         // Create popup
-        if (document.getElementById('popup-data')) {
+        if (!document.getElementById('popup-data')) {
           const popup = document.createElement('div');
           popup.style.position = 'absolute';
           popup.style.top = `${event.pageY}px`;

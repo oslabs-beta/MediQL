@@ -26,7 +26,7 @@ const Visualizer = () => {
 
   return (
     <>
-      <FetchButton fetchData={fetchData} />
+      <FetchButton className='fetchbutton' fetchData={fetchData} />
       {data && <TreeDiagram data={[data]} />}
     </>
   );
