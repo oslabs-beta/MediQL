@@ -7,9 +7,6 @@ const container = document.getElementById('root') as HTMLElement;
 
 if (container) {
   const root = createRoot(container);
-
-  //getElementById(elementId: string): HTMLElement | null;
-
   root.render(
     <StrictMode>
       <App />
