@@ -9,7 +9,7 @@ router.get(
   '/',
   queryRespController.getLatestQueryResp,
   (req: Request, res: Response) => {
-    console.log("reslocalslatestquery: ", res.locals.latestQuery);
+    console.log("res.locals.latestQuery: ", res.locals.latestQuery);
     res.status(200).json(res.locals.latestQuery);
   }
 );

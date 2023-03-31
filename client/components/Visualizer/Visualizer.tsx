@@ -1,35 +1,26 @@
-import React from 'react';
-import { useState, useContext } from 'react';
-import TreeDiagram from '../TreeDiagram/TreeDiagram';
-import FetchButton from '../FetchButton/FetchButton';
-// interface Data {
-//   name: string | null;
-//   children: Data[] | null;
-// }
+import React from "react";
+import { useState, useContext } from "react";
+import TreeDiagram from "../TreeDiagram/TreeDiagram";
+import FetchButton from "../FetchButton/FetchButton";
+
 const Visualizer = () => {
-  // const [fetchClicked, setFetchClicked] = useState(false);
-  // const [data, setData] = useState<Data[] | null>(null);
   const [data, setData] = useState(null);
 
-  
- let fetchData = async () => {
-    //fetch data then set
-    //create fetch request to queryResp
-    
-    const fetchedData = await fetch('http://localhost:3000/queryResp', {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-      }).then((res) => res.json());
-
-
-    console.log('fetchedData: ', fetchedData)
+  let fetchData = async () => {
+    const fetchedData = await fetch("http://localhost:3000/queryResp", {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+    }).then((res) => res.json());
+    console.log('fetchData invoked')
+    console.log("fetchData: ", fetchedData);
     setData(fetchedData);
     return;
   };
 
+  //deleted classname from FetchButton
   return (
     <>
-      <FetchButton className='fetchbutton' fetchData={fetchData} />
+      <FetchButton fetchData={fetchData} />
       {data && <TreeDiagram data={[data]} />}
     </>
   );

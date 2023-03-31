@@ -4,6 +4,7 @@ import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
 import 'graphiql/graphiql.min.css'
 
+//need user dev to input port
 const fetcher = createGraphiQLFetcher({url: 'http://localhost:3900/graphql' });
 
 const DisplayGraphiql = () => {

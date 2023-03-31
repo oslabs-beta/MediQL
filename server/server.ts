@@ -8,15 +8,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-//Socket.io
-// const http = require('http');
-// const server = http.createServer(app);
-// const { Server } = require('socket.io');
-// const io = new Server(server);
-
 //Routers
 import queryRespRouter from './routes/queryRespRoute';
-// import originRespRouter from './routes/originRespRoute';
 
 //Models
 import QueryRes from './models/queryResModel';
@@ -40,74 +33,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../client')));
 app.use(cors());
 
-//frontend post fetch to route localhost3000/originResp/remove to remove all originResps
-//frontend fetches this route for originResp stored in our database
-// app.use('/originResp', originRespRouter);
-
 //frontend fetches this route for queryResp stored in our database
 app.use('/queryResp', queryRespRouter);
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
 app.post('/queryRespReceiver', async (req: Request, res: Response) => {
-  // console.log('reqbody: ', req.body);
   const savedData = await QueryRes.create({ response: req.body });
-  // console.log('query resp saved in DB: ', savedData);
-
-  // const io = req.app.get('socket.io');
-
-  // io.on("connection", (socket) => {
-  //   console.log('connected inside of query resp');
-  //   socket.emit('connected inside of query resp');
-  //   socket.on("hello", (...args) =>{
-  //     res.json(...args)
-  //   })
-  // });
-
-  //req.body.queryResp.Data.Movie
-  // const itemToSend = req.body.queryResp;
-
-  // console.log('queryResp: --->', req.body.queryResp);
   res.json(req.body.queryResp);
 });
 
 
 //originalResponseReceiver
 app.post('/originalRespReceiver', async (req: Request, res: Response) => {
-  // console.log("reqbody: ", req.body);
   const { parentNode } = req.body;
-  // console.log('reqbody: ', req.body);
-  //  console.log("parentNode: ", parentNode)
   await OriginResp.create({ response: req.body });
   res.json(req.body);
-  // //check for a database entry
-  // const dbData = await OriginResp.findOne({});
-  // //if no database entry exists, we create one with respective parentNode and body of information
-  // if (!dbData){
-  //   // await OriginResp.create({response: {[`${parentNode}`]:[req.body]}})
-  //   await OriginResp.create({ response: { test: [{test:"test"}] } });
-  // }
-  // //if database entry already exists, aka not the first call, we will copy the entry and update it
-  // else {
-  //   //copy entry
-  //   const copyData = {...dbData}
-  //   console.log('copyData: ', copyData)
-  //   //check the new ParentNode to see if it exists in database entry
-  //   //if it does not have the parentNode, we will create it
-  //   if(copyData._doc.response[`${parentNode}`] === undefined) {
-  //     copyData._doc.response[`${parentNode}`] = [req.body];
-  //     console.log('1 if: ', copyData)
-  //     await OriginResp.findOneAndUpdate(copyData);
-  //   } else {
-  //   //if it already has the parentNode, we push it in
-  //     copyData._doc.response[`${parentNode}`].push(req.body)
-  //     //update database
-  //     console.log("2 else: ", copyData);
-  //     await OriginResp.findOneAndUpdate(copyData);
-  //   }
-  //   // const newArr = oldData.response[`${parentNode}`].push(req.body);
-  //   // const savedData = await OriginResp.findOneAndUpdate({ response: {...oldData.response,[`${parentNode}`]:newArr} });
-  //   res.json(req.body);
-  // }
 });
 
 // catch-all route handler for any requests to an unknown route
@@ -125,10 +65,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   const errorObj = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);
 });
-
-// io.on('connection', (socket) => {
-//   console.log('Connected to socket.io');
-// });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

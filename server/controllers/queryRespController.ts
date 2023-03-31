@@ -1,7 +1,6 @@
-
-import queryResModel from '../models/queryResModel';
-import originRespModel from '../models/originRespModel';
-import { Request, Response, NextFunction } from 'express';
+import queryResModel from "../models/queryResModel";
+import originRespModel from "../models/originRespModel";
+import { Request, Response, NextFunction } from "express";
 
 interface Input {
   [key: string]: Record<string, unknown> | string;
@@ -31,7 +30,7 @@ interface resolverResp {
   response?: {
     alias: string;
     originResp?: Object;
-    originRespStatus?: Number; 
+    originRespStatus?: Number;
     originRespMessage?: string;
   };
 }
@@ -48,20 +47,16 @@ export default {
     next: NextFunction
   ) => {
     const latestQuery = await queryResModel.find({});
-    //.sort({ _id: -1 }).limit(1);
     const resolverQueries = await originRespModel.find({});
-    // .sort({ _id: -1 }).limit(4);
-
-    console.log('latest query: ', latestQuery);
-    console.log('latest origin resps: ', resolverQueries);
+    
+    if (!latestQuery.length || !resolverQueries.length) {
+      return next({err: "database empty"});
+    }
     const dataObj = latestQuery[0].response.queryResp.data;
-    console.log('dataObj: ', dataObj);
-
-    //pull data from originResp database
 
     // transform happens after combining data
     const transformData = async (input: Input): Promise<Output> => {
-      const output: Output = { name: 'data', children: [] };
+      const output: Output = { name: "data", children: [] };
       for (let [inputKey, inputValue] of Object.entries(input)) {
         const matchedQuery: resolverResp | undefined = resolverQueries.filter(
           (obj: resolverResp): boolean => {
@@ -70,8 +65,6 @@ export default {
         )[0];
         const { originResp, originRespStatus, originRespMessage } =
           matchedQuery?.response || {};
-        console.log('matchedQuery: ', matchedQuery);
-        //const movieObject: MovieObject = { resp: '{}', statusCode: '200', statusMsg: 'x', name: inputKey, children: [] };
         const movieObject: MovieObject = {
           resp: originResp,
           statusCode: originRespStatus?.valueOf(),
@@ -102,14 +95,11 @@ export default {
         }
         output.children.push(movieObject);
       }
-
-      console.log('output line 90: ', output);
       return output;
     };
 
     const newDataObj = await transformData(dataObj);
     res.locals.latestQuery = newDataObj;
-
     //delete originresp database
     await originRespModel.deleteMany({});
     //delete queryresp database
