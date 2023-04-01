@@ -4,7 +4,13 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 require('dotenv').config();
+
+//Socket.io
+import http from 'http';
+import { Server } from 'socket.io';
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 
@@ -66,6 +72,15 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(PORT, () => {
+//Socket.io connection 
+io.on('connection', (socket) => {
+  console.log('socket.io is connected');
+
+  socket.on('disconnect', () => {
+    console.log('socket.io is disconnected')
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
