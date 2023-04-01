@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request} from 'express';
+import { NextFunction, Response, Request } from 'express';
 
 import express from 'express';
 import path from 'path';
@@ -42,7 +42,6 @@ app.post('/queryRespReceiver', async (req: Request, res: Response) => {
   res.json(req.body.queryResp);
 });
 
-
 //originalResponseReceiver
 app.post('/originalRespReceiver', async (req: Request, res: Response) => {
   const { parentNode } = req.body;
@@ -60,7 +59,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
-    message: { err: 'An error occurred' },
+    message: { err: err },
   };
   const errorObj = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);

@@ -7,7 +7,7 @@
 }
 
 body {
-	font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 circle {
@@ -21,7 +21,10 @@ line {
 }
 
 text {
-	font-size: 12px;
-	text-anchor: middle;
+  font-size: 12px;
+  text-anchor: middle;
 }
 
+#tree-container {
+  padding-bottom: 10%;
+}

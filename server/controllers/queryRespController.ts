@@ -1,6 +1,6 @@
-import queryResModel from "../models/queryResModel";
-import originRespModel from "../models/originRespModel";
-import { Request, Response, NextFunction } from "express";
+import queryResModel from '../models/queryResModel';
+import originRespModel from '../models/originRespModel';
+import { Request, Response, NextFunction } from 'express';
 
 interface Input {
   [key: string]: Record<string, unknown> | string;
@@ -48,15 +48,22 @@ export default {
   ) => {
     const latestQuery = await queryResModel.find({});
     const resolverQueries = await originRespModel.find({});
-    
-    if (!latestQuery.length || !resolverQueries.length) {
-      return next({err: "database empty"});
+
+    if (!latestQuery.length) {
+      return next({ err: 'latestQuery empty' });
     }
-    const dataObj = latestQuery[0].response.queryResp.data;
+
+    if (!resolverQueries.length) {
+      await queryResModel.deleteMany({});
+
+      return next({ err: 'resolver empty' });
+    }
+
+    const dataObj = latestQuery[latestQuery.length - 1].response.queryResp.data;
 
     // transform happens after combining data
     const transformData = async (input: Input): Promise<Output> => {
-      const output: Output = { name: "data", children: [] };
+      const output: Output = { name: 'data', children: [] };
       for (let [inputKey, inputValue] of Object.entries(input)) {
         const matchedQuery: resolverResp | undefined = resolverQueries.filter(
           (obj: resolverResp): boolean => {
