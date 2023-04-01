@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 const socket = io();
 
 const Visualizer = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     async function fetchData(){
@@ -26,7 +26,7 @@ const Visualizer = () => {
       }
     }
     fetchData();
-  });
+  }, []);
 
   //deleted classname from FetchButton
   return (
