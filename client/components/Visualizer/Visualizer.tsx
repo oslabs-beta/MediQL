@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 const socket = io();
 
 const Visualizer = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     async function fetchData(){
@@ -19,29 +19,14 @@ const Visualizer = () => {
         const jsonData = await fetchedData.json();
 
         console.log('socket.io jsonData-->', jsonData);
-        setData(jsonData.children);
-        socket.emit('data', jsonData.children);
+        setData(jsonData);
+        socket.emit('data', jsonData);
       }catch(error){
         console.log(error);
       }
     }
     fetchData();
-  }, []);
-
-// const Visualizer = () => {
-//   const [data, setData] = useState(null);
-
-  
-//   let fetchData = async () => {
-//     const fetchedData = await fetch("http://localhost:3000/queryResp", {
-//       method: "GET",
-//       headers: { "content-type": "application/json" },
-//     }).then((res) => res.json());
-//     console.log('fetchData invoked')
-//     console.log("fetchData: ", fetchedData);
-//     setData(fetchedData);
-//     return;
-//   };
+  });
 
   //deleted classname from FetchButton
   return (

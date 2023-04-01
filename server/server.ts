@@ -64,21 +64,6 @@ app.use((req: Request, res: Response) =>
 //Socket.io connection 
 io.on('connection', (socket) => {
   console.log('A user is connected in socket.io');
-
-  // socket.on('fetchData', async() => {
-  //   try{
-  //     // Fetch data from an API
-  //     const fetchedData = await fetch("http://localhost:3000/queryResp", {
-  //       method: "GET",
-  //       headers: { "content-type": "application/json" },
-  //     }).then((res) => res.json());
-
-  //     console.log('socket.io fetch data', fetchedData)
-  //     socket.emit('data', fetchedData.data);
-  //   }catch(error){
-  //     console.error(error);
-  //   }
-  // });
 });
 
 // express error handler

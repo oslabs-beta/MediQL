@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import * as d3 from "d3";
 
@@ -14,6 +14,9 @@ interface TreeDiagramProps {
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
   console.log("data[0]: ", data[0]);
 
+  const svgRef = useRef<SVGSVGElement | null>(null);
+
+useEffect(() => {
   if (data[0] !== null) {
     let root = d3.hierarchy<Data>(data[0]);
 
@@ -118,10 +121,11 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         return d.y + 20;
       });
   }
+})
 
   return (
     <>
-      <svg id="tree-d" width="700" height="600">
+      <svg id="tree-d" width="700" height="600" ref={svgRef}>
         <g transform="translate(0, 5)"></g>
       </svg>
     </>
