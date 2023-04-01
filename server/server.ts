@@ -3,12 +3,12 @@ import { NextFunction, Response, Request} from 'express';
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
+const app = express();
 require('dotenv').config();
 
 //Socket.io
 import http from 'http';
 import { Server } from 'socket.io';
-const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
@@ -61,6 +61,26 @@ app.use((req: Request, res: Response) =>
   res.status(404).send('Page not found, please check your URL endpoints!')
 );
 
+//Socket.io connection 
+io.on('connection', (socket) => {
+  console.log('A user is connected in socket.io');
+
+  // socket.on('fetchData', async() => {
+  //   try{
+  //     // Fetch data from an API
+  //     const fetchedData = await fetch("http://localhost:3000/queryResp", {
+  //       method: "GET",
+  //       headers: { "content-type": "application/json" },
+  //     }).then((res) => res.json());
+
+  //     console.log('socket.io fetch data', fetchedData)
+  //     socket.emit('data', fetchedData.data);
+  //   }catch(error){
+  //     console.error(error);
+  //   }
+  // });
+});
+
 // express error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   const defaultErr = {
@@ -72,14 +92,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-//Socket.io connection 
-io.on('connection', (socket) => {
-  console.log('socket.io is connected');
-
-  socket.on('disconnect', () => {
-    console.log('socket.io is disconnected')
-  });
-});
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

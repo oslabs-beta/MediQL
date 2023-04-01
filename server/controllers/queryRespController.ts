@@ -101,9 +101,9 @@ export default {
     const newDataObj = await transformData(dataObj);
     res.locals.latestQuery = newDataObj;
     //delete originresp database
-    await originRespModel.deleteMany({});
+    // await originRespModel.deleteMany({});
     //delete queryresp database
-    await queryResModel.deleteMany({});
+    // await queryResModel.deleteMany({});
 
     return next();
   },
