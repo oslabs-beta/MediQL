@@ -62,6 +62,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             console.log('THIS CHILD IS LENGTH OF 0');
             return 'orange';
           } else if (d.data.statusCode > 299) {
+
             return 'red';
           } else {
             return 'green';
