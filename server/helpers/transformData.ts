@@ -1,6 +1,6 @@
-import queryResModel from "../models/queryResModel";
-import originRespModel from "../models/originRespModel";
-import { Request, Response, NextFunction } from "express";
+import queryResModel from '../models/queryResModel';
+import originRespModel from '../models/originRespModel';
+import { Request, Response, NextFunction } from 'express';
 
 interface Input {
   [key: string]: Record<string, unknown> | string;
@@ -40,17 +40,17 @@ interface Output {
   children: any[];
 }
 
-
 export const transformData = async (input: Input): Promise<Output> => {
-      const resolverQueries = await originRespModel
-        .find({})
-        .sort({ timestamp: -1 })
-        .lean()
-        .exec()
-        .then((docs) => docs.reverse());
+  const resolverQueries = await originRespModel
+    .find({})
+    .sort({ timestamp: -1 })
+    .lean()
+    .exec()
+    .then((docs) => docs.reverse());
 
+  // await originRespModel.deleteMany({});
   // function code here
-  const output: Output = { name: "data", children: [] };
+  const output: Output = { name: 'data', children: [] };
   for (let [inputKey, inputValue] of Object.entries(input)) {
     const matchedQuery: resolverResp | undefined = resolverQueries.filter(
       (obj: resolverResp): boolean => {

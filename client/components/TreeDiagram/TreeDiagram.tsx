@@ -62,7 +62,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             console.log('THIS CHILD IS LENGTH OF 0');
             return 'orange';
           } else if (d.data.statusCode > 299) {
-
             return 'red';
           } else {
             return 'green';
@@ -127,7 +126,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
   return (
     <>
       <div id="tree-container">
-        <svg id="tree-d" width="700" height="600">
+        <svg id="tree-d">
           <g transform="translate(0, 5)"></g>
         </svg>
       </div>
