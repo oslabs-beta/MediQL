@@ -46,20 +46,26 @@ export default {
     res: Response,
     next: NextFunction
   ) => {
-    const latestQuery = await queryResModel.find({});
-    const resolverQueries = await originRespModel.find({});
+    //const latestQuery = await queryResModel.find({});
+    const latestQuery = await queryResModel.findOne({}).sort({ _id: -1 }).exec();
+    const resolverQueries = await originRespModel
+      .find({})
+      .sort({ timestamp: -1 })
+      .lean()
+      .exec()
+      .then((docs) => docs.reverse());
+    console.log('find latestQuery: ', latestQuery)
 
-    if (!latestQuery.length) {
+    if (!latestQuery) {
       return next({ err: 'latestQuery empty' });
     }
 
     if (!resolverQueries.length) {
       await queryResModel.deleteMany({});
-
       return next({ err: 'resolver empty' });
     }
 
-    const dataObj = latestQuery[latestQuery.length - 1].response.queryResp.data;
+    const dataObj = latestQuery.response.queryResp.data;
 
     // transform happens after combining data
     const transformData = async (input: Input): Promise<Output> => {

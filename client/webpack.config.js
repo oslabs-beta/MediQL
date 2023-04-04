@@ -2,32 +2,32 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  entry: './index.tsx',
+  mode: "development",
+  entry: "./index.tsx",
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "build"),
   },
-  target: 'web',
+  target: "web",
   devServer: {
     port: 8080,
-    host: 'localhost',
+    host: "localhost",
     open: true,
     hot: true,
     liveReload: true,
     proxy: {
-      '/': {
-        target: 'http://localhost:3000',
+      "/": {
+        target: "http://localhost:3000",
       },
     },
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.tsx', '.json'],
+    extensions: [".js", ".jsx", ".tsx", ".json"],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
-      template: 'index.html',
+      title: "Development",
+      template: "index.html",
     }),
   ],
   module: {
@@ -35,16 +35,16 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         options: {
-          presets: ['@babel/env', '@babel/react'],
+          presets: ["@babel/env", "@babel/react"],
         },
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'ts-loader',
+          loader: "ts-loader",
           options: {
             transpileOnly: true,
           },
@@ -52,8 +52,16 @@ module.exports = {
       },
       {
         test: /\.s?css/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
+  },
+  devServer: {
+    proxy: {
+      "/socket.io": {
+        target: "http://localhost:3000",
+        ws: true,
+      },
+    },
   },
 };

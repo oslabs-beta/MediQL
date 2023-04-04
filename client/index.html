@@ -8,5 +8,13 @@
   </head>
   <body>
     <div id="root"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.on("newDoc", (data) => {
+        console.log("Received new document:", data);
+        // Do something with the new document data
+      });
+    </script>
   </body>
 </html>
