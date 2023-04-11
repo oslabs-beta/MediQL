@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './App.Styles.scss'
 import './components/TreeDiagram/TreeDiagramStyles.scss';
 import './components/LogoBar/LogoBarStyles.scss';
 import './components/DisplayGraphiql/DisplayGraphiql.scss';
@@ -10,11 +11,15 @@ import DisplayGraphiql from './components/DisplayGraphiql/DisplayGraphiql';
 
 const App = () => {
   return (
-    <div>
+    <>
+    <LogoBar />
+    
+    <div className='mainDiv'>
       <DisplayGraphiql />
-      <LogoBar />
       <Visualizer />
-    </div>
+    </div> 
+    </>
+    
   );
 };
 

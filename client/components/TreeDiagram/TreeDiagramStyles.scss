@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap');
 
-.container {
-  max-width: 100rem;
-  margin: 0 auto;
-  padding: 0 15rem;
-}
+// .container {
+//   max-width: 100rem;
+//   margin: 0 auto;
+//   padding: 0 15rem;
+// }
 
 body {
   font-family: 'Montserrat', sans-serif;
@@ -26,15 +26,28 @@ text {
 }
 
 #tree-container {
-  padding-bottom: 10%;
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: center;
+  // margin-top: 130px;
+  width: 50%;
+  overflow: scroll;
+  // overflow-y: scroll;
+  // overflow-x: scroll;
+  height: 2000px;
+
+  // margin-left: 25px;
+  // padding-bottom: 10%;
 }
 
 #tree-d {
-  overflow-y: scroll;
-  width: 700px;
-  height: 700px;
+  // transform: translateX(50px);
+  position: relative;
+  width: 500px;
+  height: 100%;
 }
 
-g {
-  overflow-y: scroll;
-}
+// g {
+//   width: 700px;
+//   height: 100%;
+// }
