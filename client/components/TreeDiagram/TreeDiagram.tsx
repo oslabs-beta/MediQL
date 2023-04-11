@@ -14,6 +14,7 @@ interface TreeDiagramProps {
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
   //connects to the DOM and the SVG element returned below
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     console.log('data: ', data);
@@ -144,18 +145,20 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       let targetTreeD = document.getElementById('tree-d');
       targetTreeD?.setAttribute(
         'viewBox',
-        `${0} 
-         ${dimensions.x}
-         ${dimensions.width * 1.5}
-         ${dimensions.height * 1.1}`
+        `${dimensions.x} 
+         ${dimensions.y}
+         ${dimensions.width * 1.3}
+         ${dimensions.height}`
       );
     }
   });
   return (
     <>
-      <svg id="tree-d">
-        <g transform="translate(30, 0)"></g>
-      </svg>
+      <div id="tree-container">
+        <svg id="tree-d">
+          <g transform="translate(30, 0)"></g>
+        </svg>
+      </div>
     </>
   );
 };
