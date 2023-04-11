@@ -128,20 +128,35 @@ mongoose
   .then(() => {
     console.log('Connected to DB ✅');
 
-    // Watch QueryRes collection for changes and emit the latest document to the client using socket.io
-    QueryRes.watch().on('change', async (data) => {
-      // store data in var
+  //   // Watch QueryRes collection for changes and emit the latest document to the client using socket.io
+  //   QueryRes.watch().on('change', async (data) => {
+  //     // store data in var
+  //     const latestDoc = await QueryRes.findOne().sort({ _id: -1 });
+
+  //     //delete db
+  //     // await QueryRes.deleteMany({});
+  //     //emit data from stored var
+  //     const newDoc = await transformData(latestDoc?.response.queryResp.data);
+
+  //     io.emit('newDoc', newDoc);
+  //     // await QueryRes.deleteMany({});
+  //     // await OriginResp.deleteMany({});
+  //   });
+  // })
+  // .catch(console.error);
+
+  QueryRes.watch().on("change", async (data) => {
+    if (data.operationType === "insert") {
       const latestDoc = await QueryRes.findOne().sort({ _id: -1 });
 
-      //delete db
-      // await QueryRes.deleteMany({});
-      //emit data from stored var
       const newDoc = await transformData(latestDoc?.response.queryResp.data);
-
-      io.emit('newDoc', newDoc);
-    });
-  })
-  .catch(console.error);
+      io.emit("newDoc", newDoc);
+      await QueryRes.deleteMany({});
+      await OriginResp.deleteMany({});
+    }
+  });
+})
+.catch(console.error);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -10,7 +10,7 @@ const Visualizer = () => {
   const [data, setData] = useState(null);
 
   socket.on("newDoc", async (doc) => {
-    console.log("REACT Received new document:", doc);
+    // console.log("REACT Received new document:", doc);
     // Do something with the new document
     await setData(doc);
   });
@@ -20,8 +20,8 @@ const Visualizer = () => {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     }).then((res) => res.json());
-    console.log('fetchData invoked');
-    console.log('fetchData: ', fetchedData);
+    // console.log('fetchData invoked');
+    // console.log('fetchData: ', fetchedData);
     await setData(fetchedData);
     return;
   };
@@ -29,7 +29,7 @@ const Visualizer = () => {
   //deleted classname from FetchButton
   return (
     <>
-      <FetchButton fetchData={fetchData} />
+      {/* <FetchButton fetchData={fetchData} /> */}
       {data ? <TreeDiagram data={data} /> : null}
     </>
   );

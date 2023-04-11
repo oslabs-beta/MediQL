@@ -1,5 +1,8 @@
 import React from 'react';
+
 import { GraphiQL } from 'graphiql';
+import { GraphiQLProvider } from '@graphiql/react';
+import { QueryEditor } from '@graphiql/react';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
 import 'graphiql/graphiql.min.css';
@@ -14,11 +17,17 @@ const fetcher = createGraphiQLFetcher({
   skipSchemaValidation: true,
 });
 
+
+{/* <div>
+<QueryEditor/>  
+</div> */}
+// </GraphiQLProvider>
 const DisplayGraphiql = () => {
   return (
     <div id="graphiql-container">
-      <GraphiQL fetcher={fetcher} />
-    </div>
+      <GraphiQL fetcher={fetcher}/>
+        {/* <GraphiQL fetcher={fetcher} /> */}
+       </div>
   );
 };
 
