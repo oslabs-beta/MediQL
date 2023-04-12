@@ -25,6 +25,10 @@ text {
   text-anchor: middle;
 }
 
+.label {
+  fill: white;
+}
+
 #tree-container {
   // display: flex;
   // flex-direction: row;
@@ -41,6 +45,7 @@ text {
   overflow-x: scroll;
   height: 80vh;
   width: 50%;
+  background-color: hsl(219, 29%, 18%);
 }
 
 #tree-d {

@@ -113,6 +113,8 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .selectAll('text.label')
         .data(rootNode.descendants())
         .join('text')
+        // write function first object/child to be this color
+        // fill : hsl(243, 100%, 77%)
         .classed('label', true)
         .attr('x', function (d) {
           return d.y;
