@@ -14,28 +14,28 @@ interface TreeDiagramProps {
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
   //connects to the DOM and the SVG element returned below
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     console.log('data: ', data);
 
     if (data !== null) {
-  
       let root = d3.hierarchy<Data>(data);
 
       let levelWidth = [1];
-      let childCount = function(level: number, n: d3.HierarchyNode<Data>) {
-        if(n.children && n.children.length > 0) {
-        if(levelWidth.length <= level + 1) levelWidth.push(0);
+      let childCount = function (level: number, n: d3.HierarchyNode<Data>) {
+        if (n.children && n.children.length > 0) {
+          if (levelWidth.length <= level + 1) levelWidth.push(0);
 
-        levelWidth[level+1] += n.children.length;
-        n.children.forEach(function(d) {
-        childCount(level + 1, d);
+          levelWidth[level + 1] += n.children.length;
+          n.children.forEach(function (d) {
+            childCount(level + 1, d);
           });
         }
-      };  
+      };
       childCount(0, root);
-      console.log("level width: ", levelWidth)
-      let treeHeight= d3.max(levelWidth)*65;
+      console.log('level width: ', levelWidth);
+      let treeHeight = d3.max(levelWidth) * 65;
       let treeLayout = d3.tree<Data>().size([treeHeight, 350]);
 
       let rootNode = treeLayout(root) as d3.HierarchyPointNode<Data>;
@@ -87,8 +87,8 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
           if (!document.getElementById('popup-data')) {
             const popup = document.createElement('div');
             popup.style.position = 'absolute';
-            popup.style.top = `${event.pageX}px`;
-            popup.style.left = `${event.pageY}px`;
+            popup.style.top = `${event.pageX * 2}px`;
+            popup.style.left = `${event.pageY * 2}px`;
             popup.style.backgroundColor = 'white';
             popup.style.padding = '30px';
             popup.style.border = '1px solid black';
@@ -113,12 +113,14 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .selectAll('text.label')
         .data(rootNode.descendants())
         .join('text')
+        // write function first object/child to be this color
+        // fill : hsl(243, 100%, 77%)
         .classed('label', true)
         .attr('x', function (d) {
           return d.y;
         })
         .attr('y', function (d) {
-          return d.x-10;
+          return d.x - 10;
         })
         .text(function (d) {
           return d.data.name;
@@ -136,13 +138,27 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .attr('y', function (d) {
           return d.x;
         });
+
+      //set view box
+      let dimensions = (d3.select('svg g').node() as SVGGElement).getBBox();
+
+      console.log('dimensions', dimensions);
+
+      let targetTreeD = document.getElementById('tree-d');
+      targetTreeD?.setAttribute(
+        'viewBox',
+        `${dimensions.x} 
+         ${dimensions.y}
+         ${dimensions.width * 1.3}
+         ${dimensions.height}`
+      );
     }
   });
   return (
     <>
       <div id="tree-container">
         <svg id="tree-d">
-          <g transform="translate(30, 0)" ></g>
+          <g transform="translate(30, 0)"></g>
         </svg>
       </div>
     </>

@@ -25,26 +25,33 @@ text {
   text-anchor: middle;
 }
 
+.label {
+  fill: white;
+}
+
 #tree-container {
   // display: flex;
   // flex-direction: row;
   // justify-content: center;
   // margin-top: 130px;
-  width: 50%;
-  overflow: scroll;
+  // width: 50%;
+  // overflow: scroll;
   // overflow-y: scroll;
   // overflow-x: scroll;
-  height: 2000px;
-
+  // height: 2000px;
   // margin-left: 25px;
   // padding-bottom: 10%;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  height: 80vh;
+  width: 50%;
+  background-color: hsl(219, 29%, 18%);
 }
 
 #tree-d {
   // transform: translateX(50px);
-  position: relative;
-  width: 500px;
-  height: 100%;
+  min-height: 50%;
+  min-width: 50%;
 }
 
 // g {
