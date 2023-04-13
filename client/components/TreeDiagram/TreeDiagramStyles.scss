@@ -54,6 +54,17 @@ text {
   min-width: 50%;
 }
 
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
 // g {
 //   width: 700px;
 //   height: 100%;

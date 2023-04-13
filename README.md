@@ -1,4 +1,4 @@
-# ErrorQLler
+# MediQL
 
 We kill errors
 

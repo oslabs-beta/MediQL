@@ -83,25 +83,43 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
           }
         })
         .on('click', (event, d) => {
-          // Create popup
           if (!document.getElementById('popup-data')) {
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            overlay.setAttribute('id', 'popup-overlay');
+            document.body.appendChild(overlay);
+
+            // Create popup
             const popup = document.createElement('div');
-            popup.style.position = 'absolute';
-            popup.style.top = `${event.pageX * 2}px`;
-            popup.style.left = `${event.pageY * 2}px`;
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
             popup.style.backgroundColor = 'white';
             popup.style.padding = '30px';
             popup.style.border = '1px solid black';
-            popup.setAttribute('width', '100px');
-            popup.setAttribute('height', '100px');
+            popup.style.width = '200px';
+            popup.style.height = '100px';
+            popup.style.zIndex = '9999'; // Add this line to set the z-index
             popup.setAttribute('id', 'popup-data');
 
-            popup.innerText = `Status Code : ${d.data.statusCode}`;
+            popup.innerText = `${d.data.name} \n Status Code : ${d.data.statusCode} \n Status Message: ${d.data.statusMsg} \n Resp: ${d.data.children.resp}`;
             let button = document.createElement('button');
             button.innerText = 'Close';
+            button.style.position = 'absolute';
+            button.style.bottom = '10px';
+            button.style.left = '50%';
+            button.style.transform = 'translateX(-50%)';
             button.addEventListener('click', function () {
               // Remove the pop-up from the DOM when the close button is clicked
               popup.remove();
+              overlay.remove();
             });
             popup.append(button);
             document.body.appendChild(popup);
