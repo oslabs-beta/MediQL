@@ -34,7 +34,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         }
       };
       childCount(0, root);
-      console.log('level width: ', levelWidth);
+      // console.log('level width: ', levelWidth);
       let treeHeight = d3.max(levelWidth) * 65;
       let treeLayout = d3.tree<Data>().size([treeHeight, 350]);
 
@@ -86,36 +86,46 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
           if (!document.getElementById('popup-data')) {
             // Create overlay
             const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            // This will allow us to do the styling on scss 
+            overlay.classList.add('popup-overlay');
             overlay.setAttribute('id', 'popup-overlay');
             document.body.appendChild(overlay);
-
+        
             // Create popup
             const popup = document.createElement('div');
-            popup.style.position = 'fixed';
-            popup.style.top = '50%';
-            popup.style.left = '50%';
-            popup.style.transform = 'translate(-50%, -50%)';
-            popup.style.backgroundColor = 'white';
-            popup.style.padding = '30px';
-            popup.style.border = '1px solid black';
-            popup.style.width = '200px';
-            popup.style.height = '100px';
-            popup.style.zIndex = '9999'; // Add this line to set the z-index
+            // This will allow us to do the styling on scss 
+            popup.classList.add('popup');
             popup.setAttribute('id', 'popup-data');
+            
+            if (d.data.statusCodes && d.data.statusCode === 200 || d.data.statusMsg === 'OK') {
+              popup.innerHTML = `${d.data.name} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${JSON.stringify(d.data)}</div>`;
+              
+              const moreInfoLink = popup.querySelector('#more-info-link');
+              const moreInfoDiv = popup.querySelector('#more-info');
+                moreInfoLink.addEventListener('click', () => {
+                moreInfoDiv.style.display = 'block';
+              });
+            
+              // Show the popup
+              popup.style.display = 'block';
+            }
+            else if(d.data.statusCodes && d.data.statusCode === 404 || d.data.statusMsg){
+              const respText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
+              popup.innerText = `${d.data.name} \n Status Code : ${d.data.statusCode} \n Status Message: ${d.data.statusMsg} \n Resp: ${respText}`;
+            }
+            else if(!d.data.resp && !d.data.children){
+              popup.innerText = `${d.data.name}`;
+            }
+            else if(d.data.children !== undefined && !d.data.children?.length){
+              const childrenData = d.data.children ? JSON.stringify(d.data.children) : 'Null';
+              popup.innerText = `${d.data.name} \n Children: ${childrenData}`;
+            }
+            else{
+              popup.innerText = `${d.data.name}`;
+            }
 
-            popup.innerText = `${d.data.name} \n Status Code : ${d.data.statusCode} \n Status Message: ${d.data.statusMsg} \n Resp: ${d.data.children.resp}`;
             let button = document.createElement('button');
             button.innerText = 'Close';
-            button.style.position = 'absolute';
-            button.style.bottom = '10px';
-            button.style.left = '50%';
-            button.style.transform = 'translateX(-50%)';
             button.addEventListener('click', function () {
               // Remove the pop-up from the DOM when the close button is clicked
               popup.remove();
@@ -131,8 +141,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .selectAll('text.label')
         .data(rootNode.descendants())
         .join('text')
-        // write function first object/child to be this color
-        // fill : hsl(243, 100%, 77%)
         .classed('label', true)
         .attr('x', function (d) {
           return d.y;
@@ -141,8 +149,20 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
           return d.x - 10;
         })
         .text(function (d) {
-          return d.data.name;
+          const name = d.data.name;
+          if (typeof name === 'string') {
+            if (typeof name === 'string' && name.includes(',')) {
+              const words = name.split(' ');
+              for (let i = 0; i < words.length; i++) {
+                if (words[i].includes(',')) {
+                  return words.slice(0, i + 1).join(' ').replace(',', '') + '[...]';
+                }
+              }
+            }
+            return name;
+          }
         });
+
 
       // Leaf count labels
       d3.select('svg g')
@@ -160,7 +180,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       //set view box
       let dimensions = (d3.select('svg g').node() as SVGGElement).getBBox();
 
-      console.log('dimensions', dimensions);
+      // console.log('dimensions', dimensions);
 
       let targetTreeD = document.getElementById('tree-d');
       targetTreeD?.setAttribute(

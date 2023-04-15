@@ -1,13 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap');
 
-// .container {
-//   max-width: 100rem;
-//   margin: 0 auto;
-//   padding: 0 15rem;
-// }
+// Define variables
+$orange: orange;
+$red: red;
+$green: green;
+$white: white;
+$black: black;
+$font-size: 14px;
+$margin: 10px;
+$font-family: 'Montserrat', sans-serif;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* set the height to 100% of the viewport height */
+}
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $font-family;
+}
+
+
+text {
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.label {
+  fill: white;
 }
 
 circle {
@@ -20,27 +41,7 @@ line {
   stroke-width: 1px;
 }
 
-text {
-  font-size: 12px;
-  text-anchor: middle;
-}
-
-.label {
-  fill: white;
-}
-
 #tree-container {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: center;
-  // margin-top: 130px;
-  // width: 50%;
-  // overflow: scroll;
-  // overflow-y: scroll;
-  // overflow-x: scroll;
-  // height: 2000px;
-  // margin-left: 25px;
-  // padding-bottom: 10%;
   overflow-y: scroll;
   overflow-x: scroll;
   height: 80vh;
@@ -54,18 +55,48 @@ text {
   min-width: 50%;
 }
 
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
 .popup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   border: 1px solid black;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-  z-index: 999;
+  width: 30%;
+  height: 30%;
+  z-index: 9999;
+  text-align: center;
+  overflow-y: scroll;
+
+  button{
+    padding: $margin;
+    background-color: $orange;
+    border: none;
+    border-radius: 4px;
+    color: $white;
+    cursor: pointer;
+    &:hover {
+      background-color: lighten($orange, 20%);
+  }
+  }
 }
-// g {
-//   width: 700px;
-//   height: 100%;
-// }
+
+
