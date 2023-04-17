@@ -148,6 +148,17 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .attr('y', function (d) {
           return d.x - 10;
         })
+        .style('fill', function(d){
+          if (d.data.name === 'data') {
+            return '#00C2E0';
+          } 
+          else if(!d.data.resp && !d.data.children){
+            return '#FFCC99'
+          }
+          else {
+            return '#70BCFF'; 
+          }
+        })
         .text(function (d) {
           const name = d.data.name;
           if (typeof name === 'string') {
@@ -161,8 +172,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             }
             return name;
           }
-        });
-
+        })
 
       // Leaf count labels
       d3.select('svg g')

@@ -28,7 +28,7 @@ text {
 }
 
 .label {
-  fill: white;
+  fill: black;
 }
 
 circle {
@@ -46,7 +46,7 @@ line {
   overflow-x: scroll;
   height: 80vh;
   width: 50%;
-  background-color: hsl(219, 29%, 18%);
+  // background-color: hsl(219, 29%, 18%);
 }
 
 #tree-d {
