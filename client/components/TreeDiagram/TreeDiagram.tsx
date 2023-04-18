@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import CloseButton from './closeButton';
 import { createRoot } from 'react-dom/client';
 
-
 import * as d3 from 'd3';
 
 interface Data {
@@ -101,16 +100,14 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             popup.setAttribute('id', 'popup-data');
             
             if (d.data.statusCodes && d.data.statusCode === 200 || d.data.statusMsg === 'OK') {
-              popup.innerHTML = `${d.data.name} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${JSON.stringify(d.data)}</div>`;
-              
+              const response = `<pre>${JSON.stringify(d.data, null, 1)}</pre>`;
+              popup.innerHTML = `${d.data.name} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${response}</div>`;
+
               const moreInfoLink = popup.querySelector('#more-info-link');
               const moreInfoDiv = popup.querySelector('#more-info');
                 moreInfoLink.addEventListener('click', () => {
                 moreInfoDiv.style.display = 'block';
               });
-            
-              // Show the popup
-              popup.style.display = 'block';
             }
             else if(d.data.statusCodes && d.data.statusCode === 404 || d.data.statusMsg){
               const respText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
@@ -128,7 +125,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             }
 
             let button = document.createElement('div');
-            // button.innerText = 'Close';
             createRoot(button).render(<CloseButton />);
             button.addEventListener('click', function () {
               // Remove the pop-up from the DOM when the close button is clicked

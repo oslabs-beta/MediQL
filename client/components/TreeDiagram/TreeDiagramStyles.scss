@@ -69,7 +69,7 @@ line {
 }
 
 .popup {
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -80,12 +80,9 @@ line {
   background-color: white;
   padding: 30px;
   border: 1px solid black;
-  width: 30%;
-  height: 30%;
+  width: 40%;
+  height: 40%;
   z-index: 9999;
   text-align: center;
-  overflow-y: scroll;
-
-  
+  overflow-y: scroll; 
 }
-
