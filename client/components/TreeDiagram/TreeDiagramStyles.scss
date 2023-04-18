@@ -86,17 +86,6 @@ line {
   text-align: center;
   overflow-y: scroll;
 
-  button{
-    padding: $margin;
-    background-color: $orange;
-    border: none;
-    border-radius: 4px;
-    color: $white;
-    cursor: pointer;
-    &:hover {
-      background-color: lighten($orange, 20%);
-  }
-  }
+  
 }
-
 

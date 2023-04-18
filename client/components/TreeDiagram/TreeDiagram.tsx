@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import CloseButton from './closeButton';
+import { createRoot } from 'react-dom/client';
+
 
 import * as d3 from 'd3';
 
@@ -124,8 +127,9 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
               popup.innerText = `${d.data.name}`;
             }
 
-            let button = document.createElement('button');
-            button.innerText = 'Close';
+            let button = document.createElement('div');
+            // button.innerText = 'Close';
+            createRoot(button).render(<CloseButton />);
             button.addEventListener('click', function () {
               // Remove the pop-up from the DOM when the close button is clicked
               popup.remove();
