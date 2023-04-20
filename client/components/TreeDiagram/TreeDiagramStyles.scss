@@ -1,14 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap');
-
-// Define variables
-$orange: orange;
-$red: red;
-$green: green;
-$white: white;
-$black: black;
-$font-size: 14px;
-$margin: 10px;
-$font-family: 'Montserrat', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
 .container {
   display: flex;
@@ -18,9 +11,9 @@ $font-family: 'Montserrat', sans-serif;
 }
 
 body {
-  font-family: $font-family;
+  font-family: 'Fira Code', monospace;
+  // font-family: 'Roboto', sans-serif;
 }
-
 
 text {
   font-size: 12px;
@@ -46,13 +39,31 @@ line {
   overflow-x: scroll;
   height: 80vh;
   width: 50%;
-  // background-color: hsl(219, 29%, 18%);
 }
 
 #tree-d {
   // transform: translateX(50px);
   min-height: 50%;
   min-width: 50%;
+
+  /* Define the initial state of the element */
+  opacity: 0;
+
+  /* Define the animation using keyframes */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+/* Apply the animation to the element */
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
 }
 
 .popup-overlay {
@@ -83,6 +94,27 @@ line {
   width: 40%;
   height: 40%;
   z-index: 9999;
-  text-align: center;
   overflow-y: scroll; 
+  border-radius: 5px;
+  text-align: center;
 }
+
+.dataName{
+  font-weight: bolder;
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+#more-info{
+  text-align: left;
+  display: none;
+  // border: dashed lightblue;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;  
+  font-family: 'Fira Code', monospace !important;
+}
+
+
+

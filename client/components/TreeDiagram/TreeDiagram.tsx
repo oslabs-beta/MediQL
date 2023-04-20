@@ -95,33 +95,74 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         
             // Create popup
             const popup = document.createElement('div');
+
             // This will allow us to do the styling on scss 
             popup.classList.add('popup');
             popup.setAttribute('id', 'popup-data');
-            
-            if (d.data.statusCodes && d.data.statusCode === 200 || d.data.statusMsg === 'OK') {
-              const response = `<pre>${JSON.stringify(d.data, null, 1)}</pre>`;
-              popup.innerHTML = `${d.data.name} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${response}</div>`;
+
+            const dataName = document.createElement('h2');
+              dataName.setAttribute('class', 'dataName');
+              dataName.innerText = `${d.data.name}`;
+
+              const statusCode = document.createElement('p');
+              statusCode.innerText = `Status Code: ${d.data.statusCode}`
+
+              const statusMessage = document.createElement('p');
+              statusMessage.innerText = `Status Message: ${d.data.statusMsg}`
+
+              const moreInfo = document.createElement('a')
+              moreInfo.innerText = 'Show Original Response'
+              moreInfo.setAttribute('href', '#')
+              moreInfo.setAttribute('id', 'more-info-link')
+              
+              const displayMoreInfo = document.createElement('div');
+              displayMoreInfo.innerHTML = `<pre>${JSON.stringify(d.data.resp, null, 2)}</pre>`
+              displayMoreInfo.setAttribute('id', 'more-info');
+
+            if (d.data.statusCodes === 200 || d.data.statusMsg === 'OK') {
+
+              //popup.innerHTML = `${dataName} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${response}</div>`;
+              popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
+              
+              const moreInfoLink = popup.querySelector('#more-info-link');
+              const moreInfoDiv = popup.querySelector('#more-info');
+              moreInfoLink.addEventListener('click', () => {
+                if (moreInfoDiv.style.display === 'none') {
+                  moreInfoDiv.style.display = 'block';
+                  moreInfoLink.textContent = 'Hide Original Response';
+                } else {
+                  moreInfoDiv.style.display = 'none';
+                  moreInfoLink.textContent = 'Show Original Response';
+                }
+              });
+            }
+            else if(d.data.statusCodes === 404 || d.data.statusMsg){
+              // const respText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
+              displayMoreInfo.innerText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
+              popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
 
               const moreInfoLink = popup.querySelector('#more-info-link');
               const moreInfoDiv = popup.querySelector('#more-info');
-                moreInfoLink.addEventListener('click', () => {
-                moreInfoDiv.style.display = 'block';
+              moreInfoLink.addEventListener('click', () => {
+                if (moreInfoDiv.style.display === 'none') {
+                  moreInfoDiv.style.display = 'block';
+                  moreInfoLink.textContent = 'Hide Original Response';
+                } else {
+                  moreInfoDiv.style.display = 'none';
+                  moreInfoLink.textContent = 'Show Original Response';
+                }
               });
             }
-            else if(d.data.statusCodes && d.data.statusCode === 404 || d.data.statusMsg){
-              const respText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
-              popup.innerText = `${d.data.name} \n Status Code : ${d.data.statusCode} \n Status Message: ${d.data.statusMsg} \n Resp: ${respText}`;
-            }
             else if(!d.data.resp && !d.data.children){
-              popup.innerText = `${d.data.name}`;
+              popup.append(dataName)
             }
             else if(d.data.children !== undefined && !d.data.children?.length){
-              const childrenData = d.data.children ? JSON.stringify(d.data.children) : 'Null';
-              popup.innerText = `${d.data.name} \n Children: ${childrenData}`;
+              const childrenData = document.createElement('div')
+              childrenData.innerText =  d.data.children ? `Children: ${JSON.stringify(d.data.children)}` : 'Children: Null';
+              popup.append(dataName, childrenData);
             }
             else{
-              popup.innerText = `${d.data.name}`;
+              popup.append(dataName);
             }
 
             let button = document.createElement('div');
