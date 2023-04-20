@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import CloseButton from './closeButton';
+import { createRoot } from 'react-dom/client';
 
 import * as d3 from 'd3';
 
@@ -34,7 +36,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         }
       };
       childCount(0, root);
-      console.log('level width: ', levelWidth);
+      // console.log('level width: ', levelWidth);
       let treeHeight = d3.max(levelWidth) * 65;
       let treeLayout = d3.tree<Data>().size([treeHeight, 350]);
 
@@ -83,25 +85,92 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
           }
         })
         .on('click', (event, d) => {
-          // Create popup
           if (!document.getElementById('popup-data')) {
+            // Create overlay
+            const overlay = document.createElement('div');
+            // This will allow us to do the styling on scss 
+            overlay.classList.add('popup-overlay');
+            overlay.setAttribute('id', 'popup-overlay');
+            document.body.appendChild(overlay);
+        
+            // Create popup
             const popup = document.createElement('div');
-            popup.style.position = 'absolute';
-            popup.style.top = `${event.pageX * 2}px`;
-            popup.style.left = `${event.pageY * 2}px`;
-            popup.style.backgroundColor = 'white';
-            popup.style.padding = '30px';
-            popup.style.border = '1px solid black';
-            popup.setAttribute('width', '100px');
-            popup.setAttribute('height', '100px');
+
+            // This will allow us to do the styling on scss 
+            popup.classList.add('popup');
             popup.setAttribute('id', 'popup-data');
 
-            popup.innerText = `Status Code : ${d.data.statusCode}`;
-            let button = document.createElement('button');
-            button.innerText = 'Close';
+            const dataName = document.createElement('h2');
+              dataName.setAttribute('class', 'dataName');
+              dataName.innerText = `${d.data.name}`;
+
+              const statusCode = document.createElement('p');
+              statusCode.innerText = `Status Code: ${d.data.statusCode}`
+
+              const statusMessage = document.createElement('p');
+              statusMessage.innerText = `Status Message: ${d.data.statusMsg}`
+
+              const moreInfo = document.createElement('a')
+              moreInfo.innerText = 'Show Original Response'
+              moreInfo.setAttribute('href', '#')
+              moreInfo.setAttribute('id', 'more-info-link')
+              
+              const displayMoreInfo = document.createElement('div');
+              displayMoreInfo.innerHTML = `<pre>${JSON.stringify(d.data.resp, null, 2)}</pre>`
+              displayMoreInfo.setAttribute('id', 'more-info');
+
+            if (d.data.statusCodes === 200 || d.data.statusMsg === 'OK') {
+
+              //popup.innerHTML = `${dataName} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${response}</div>`;
+              popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
+              
+              const moreInfoLink = popup.querySelector('#more-info-link');
+              const moreInfoDiv = popup.querySelector('#more-info');
+              moreInfoLink.addEventListener('click', () => {
+                if (moreInfoDiv.style.display === 'none') {
+                  moreInfoDiv.style.display = 'block';
+                  moreInfoLink.textContent = 'Hide Original Response';
+                } else {
+                  moreInfoDiv.style.display = 'none';
+                  moreInfoLink.textContent = 'Show Original Response';
+                }
+              });
+            }
+            else if(d.data.statusCodes === 404 || d.data.statusMsg){
+              // const respText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
+              displayMoreInfo.innerText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
+              popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
+
+              const moreInfoLink = popup.querySelector('#more-info-link');
+              const moreInfoDiv = popup.querySelector('#more-info');
+              moreInfoLink.addEventListener('click', () => {
+                if (moreInfoDiv.style.display === 'none') {
+                  moreInfoDiv.style.display = 'block';
+                  moreInfoLink.textContent = 'Hide Original Response';
+                } else {
+                  moreInfoDiv.style.display = 'none';
+                  moreInfoLink.textContent = 'Show Original Response';
+                }
+              });
+            }
+            else if(!d.data.resp && !d.data.children){
+              popup.append(dataName)
+            }
+            else if(d.data.children !== undefined && !d.data.children?.length){
+              const childrenData = document.createElement('div')
+              childrenData.innerText =  d.data.children ? `Children: ${JSON.stringify(d.data.children)}` : 'Children: Null';
+              popup.append(dataName, childrenData);
+            }
+            else{
+              popup.append(dataName);
+            }
+
+            let button = document.createElement('div');
+            createRoot(button).render(<CloseButton />);
             button.addEventListener('click', function () {
               // Remove the pop-up from the DOM when the close button is clicked
               popup.remove();
+              overlay.remove();
             });
             popup.append(button);
             document.body.appendChild(popup);
@@ -113,8 +182,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .selectAll('text.label')
         .data(rootNode.descendants())
         .join('text')
-        // write function first object/child to be this color
-        // fill : hsl(243, 100%, 77%)
         .classed('label', true)
         .attr('x', function (d) {
           return d.y;
@@ -122,9 +189,31 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .attr('y', function (d) {
           return d.x - 10;
         })
+        .style('fill', function(d){
+          if (d.data.name === 'data') {
+            return '#00C2E0';
+          } 
+          else if(!d.data.resp && !d.data.children){
+            return '#FFCC99'
+          }
+          else {
+            return '#70BCFF'; 
+          }
+        })
         .text(function (d) {
-          return d.data.name;
-        });
+          const name = d.data.name;
+          if (typeof name === 'string') {
+            if (typeof name === 'string' && name.includes(',')) {
+              const words = name.split(' ');
+              for (let i = 0; i < words.length; i++) {
+                if (words[i].includes(',')) {
+                  return words.slice(0, i + 1).join(' ').replace(',', '') + '[...]';
+                }
+              }
+            }
+            return name;
+          }
+        })
 
       // Leaf count labels
       d3.select('svg g')
@@ -142,7 +231,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       //set view box
       let dimensions = (d3.select('svg g').node() as SVGGElement).getBBox();
 
-      console.log('dimensions', dimensions);
+      // console.log('dimensions', dimensions);
 
       let targetTreeD = document.getElementById('tree-d');
       targetTreeD?.setAttribute(
