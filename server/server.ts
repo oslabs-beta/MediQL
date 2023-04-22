@@ -51,11 +51,11 @@ mongoose
 		// .catch(console.error);
 
 		QueryRes.watch().on("change", async (data) => {
-			if (data.operationType === "insert") {
-				const latestDoc = await QueryRes.findOne({ id: SECRET }).sort({
-					_id: -1,
-				});
+			const latestDoc = await QueryRes.findOne({ id: SECRET }).sort({
+				_id: -1,
+			});
 
+			if (data.operationType === "insert" && latestDoc) {
 				const newDoc = await transformData(latestDoc?.response.queryResp.data);
 				io.emit("newDoc", newDoc);
 				await QueryRes.deleteMany({ id: SECRET });
