@@ -52,14 +52,14 @@ mongoose
 
 		QueryRes.watch().on("change", async (data) => {
 			if (data.operationType === "insert") {
-				const latestDoc = await QueryRes.findOne({ id: `${SECRET}` }).sort({
+				const latestDoc = await QueryRes.findOne({ id: SECRET }).sort({
 					_id: -1,
 				});
 
 				const newDoc = await transformData(latestDoc?.response.queryResp.data);
 				io.emit("newDoc", newDoc);
-				await QueryRes.deleteMany({});
-				await OriginResp.deleteMany({});
+				await QueryRes.deleteMany({ id: SECRET });
+				await OriginResp.deleteMany({ id: SECRET });
 			}
 		});
 	})
@@ -73,7 +73,7 @@ app.use(cors());
 //create mediqlSECRET
 app.post("/mediqlSECRET", async (req: Request, res: Response) => {
 	//reqbody will contain 3900 or port given
-	await fetch("http://localhost:3900/mediqlSECRET", {
+	await fetch("http://localhost:3900/mediqlSecret", {
 		method: "POST",
 		body: JSON.stringify({ SECRET: SECRET }),
 		headers: {
