@@ -28,12 +28,17 @@ function MyApp() {
 }
 
 export default function App() {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+  const [mode, setMode] = React.useState<'light' | 'dark'>(
+    () => (localStorage.getItem('color-mode') as 'light' | 'dark') || 'light'
+  );
+
   const colorMode = React.useMemo(
     () => ({
       mode,
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        const newMode = mode === 'light' ? 'dark' : 'light';
+        setMode(newMode);
+        localStorage.setItem('color-mode', newMode);
       },
     }),
     [mode],
@@ -51,8 +56,8 @@ export default function App() {
 
   React.useEffect(() => {
     document.body.style.backgroundColor =
-      colorMode.mode === 'dark' ? 'hsl(219, 29%, 18%)' : 'hsl(219, 28%, 100%)';
-  }, [colorMode.mode]);
+      mode === 'dark' ? 'hsl(219, 29%, 18%)' : 'hsl(219, 28%, 100%)';
+  }, [mode]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
