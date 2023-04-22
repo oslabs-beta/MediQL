@@ -1,15 +1,15 @@
 .mainDiv {
   display: flex;
   flex-direction: row;
-  margin-top: 100px;
+  margin-top: 20px;
   height: 100%;
   // border: 5px solid green;
 }
 
-body{
-  background-color: hsl(219, 29%, 18%);
-  // background-color: hsl(219, 28%, 100%);
-// 
+.toggle-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
 }
-
 

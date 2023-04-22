@@ -42,6 +42,7 @@ line {
 }
 
 #tree-d {
+  padding-top: 25%;
   // transform: translateX(50px);
   min-height: 50%;
   min-width: 50%;
@@ -91,10 +92,12 @@ line {
   background-color: white;
   padding: 30px;
   border: 1px solid black;
-  width: 40%;
-  height: 40%;
+  width: auto;
+  height: auto;
+  max-height: 80vh;
+  max-width: 80%;
   z-index: 9999;
-  overflow-y: scroll; 
+  overflow-y: auto; 
   border-radius: 5px;
   text-align: center;
 }
@@ -107,7 +110,7 @@ line {
 #more-info{
   text-align: left;
   display: none;
-  // border: dashed lightblue;
+  // border: groove lightblue;
 }
 
 pre {
@@ -116,5 +119,23 @@ pre {
   font-family: 'Fira Code', monospace !important;
 }
 
+.button-class {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: #8299ac;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
 
+  &:hover{
+    background-color: #9eb1c0;
+  }
 
+  &:active{
+    background-color: #7c959a;
+  }
+}
