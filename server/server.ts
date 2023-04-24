@@ -16,7 +16,7 @@ const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 
 //Routers
-import queryRespRouter from "./routes/queryRespRoute";
+// import queryRespRouter from "./routes/queryRespRoute";
 
 //Models
 import QueryRes from "./models/queryResModel";
@@ -32,23 +32,6 @@ mongoose
 	)
 	.then(() => {
 		console.log("Connected to DB ✅");
-
-		//   // Watch QueryRes collection for changes and emit the latest document to the client using socket.io
-		//   QueryRes.watch().on('change', async (data) => {
-		//     // store data in var
-		//     const latestDoc = await QueryRes.findOne().sort({ _id: -1 });
-
-		//     //delete db
-		//     // await QueryRes.deleteMany({});
-		//     //emit data from stored var
-		//     const newDoc = await transformData(latestDoc?.response.queryResp.data);
-
-		//     io.emit('newDoc', newDoc);
-		//     // await QueryRes.deleteMany({});
-		//     // await OriginResp.deleteMany({});
-		//   });
-		// })
-		// .catch(console.error);
 
 		QueryRes.watch().on("change", async (data) => {
 			const latestDoc = await QueryRes.findOne({ id: SECRET }).sort({
@@ -83,13 +66,12 @@ app.post("/mediqlSECRET", async (req: Request, res: Response) => {
 		console.log("SECRET sent: ", SECRET);
 		console.log("SECRET type: ", typeof SECRET);
 	});
-	// await QueryRes.create({ id: SECRET, response: { hello: "world" } });
-	// await OriginResp.create({ id: SECRET, response: { hello: "world" } });
 
 	res.status(200).send("thank you AGAIN");
 });
+
 //frontend fetches this route for queryResp stored in our database
-app.use("/queryResp", queryRespRouter);
+// app.use("/queryResp", queryRespRouter);
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
 app.post("/queryRespReceiver", async (req: Request, res: Response) => {
@@ -123,31 +105,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 io.on("connection", async (socket) => {
 	console.log("A user connected");
 
-	// Emit the latest document to the client on connection
-	// QueryRes.findOne()
-	//   .sort({ _id: -1 })
-	//   .then((latestDoc) => {
-	//     console.log("Latest document:", latestDoc);
-	//     socket.emit("newDoc", latestDoc?.response.queryResp.data);
-	//   });
-
 	socket.on("disconnect", () => {
 		console.log("A user disconnected");
 	});
 });
-
-// QueryRes.watch().on("change", async (data) => {
-// 	if (data.operationType === "insert") {
-// 		const latestDoc = await QueryRes.findOne({ id: `${SECRET}` }).sort({
-// 			_id: -1,
-// 		});
-
-// 		const newDoc = await transformData(latestDoc?.response.queryResp.data);
-// 		io.emit("newDoc", newDoc);
-// 		await QueryRes.deleteMany({});
-// 		await OriginResp.deleteMany({});
-// 	}
-// });
 
 server.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
