@@ -1,13 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
-// .container {
-//   max-width: 100rem;
-//   margin: 0 auto;
-//   padding: 0 15rem;
-// }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* set the height to 100% of the viewport height */
+}
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Fira Code', monospace;
+  // font-family: 'Roboto', sans-serif;
+}
+
+text {
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.label {
+  fill: black;
 }
 
 circle {
@@ -20,41 +34,87 @@ line {
   stroke-width: 1px;
 }
 
-text {
-  font-size: 12px;
-  text-anchor: middle;
-}
-
-.label {
-  fill: white;
-}
-
 #tree-container {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: center;
-  // margin-top: 130px;
-  // width: 50%;
-  // overflow: scroll;
-  // overflow-y: scroll;
-  // overflow-x: scroll;
-  // height: 2000px;
-  // margin-left: 25px;
-  // padding-bottom: 10%;
   overflow-y: scroll;
   overflow-x: scroll;
   height: 80vh;
   width: 50%;
-  background-color: hsl(219, 29%, 18%);
 }
 
 #tree-d {
   // transform: translateX(50px);
   min-height: 50%;
   min-width: 50%;
+
+  /* Define the initial state of the element */
+  opacity: 0;
+
+  /* Define the animation using keyframes */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+/* Apply the animation to the element */
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
 }
 
-// g {
-//   width: 700px;
-//   height: 100%;
-// }
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.popup {
+  display: block;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border: 1px solid black;
+  width: 40%;
+  height: 40%;
+  z-index: 9999;
+  overflow-y: scroll; 
+  border-radius: 5px;
+  text-align: center;
+}
+
+.dataName{
+  font-weight: bolder;
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+#more-info{
+  text-align: left;
+  display: none;
+  // border: dashed lightblue;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;  
+  font-family: 'Fira Code', monospace !important;
+}
+
+
+

@@ -44,8 +44,9 @@ interface Output {
 export const transformData = async (input: Input): Promise<Output> => {
   if (input == null) {
     // handle case where input is null or undefined
-    return { name: "data", children: [] };
-  }
+    return { name: 'data', children: [] };
+  };
+
   const resolverQueries = await originRespModel
     .find({ id: SECRET})
     .sort({ timestamp: -1 })
