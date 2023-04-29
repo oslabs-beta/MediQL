@@ -42,7 +42,7 @@ interface Output {
 }
 
 export const transformData = async (input: Input): Promise<Output> => {
-  if (input == null) {
+  if (input === null || input === undefined) {
     // handle case where input is null or undefined
     return { name: 'data', children: [] };
   };
