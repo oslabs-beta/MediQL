@@ -110,48 +110,44 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
               const statusMessage = document.createElement('p');
               statusMessage.innerText = `Status Message: ${d.data.statusMsg}`
 
-              const moreInfo = document.createElement('a')
-              moreInfo.innerText = 'Show Original Response'
-              moreInfo.setAttribute('href', '#')
-              moreInfo.setAttribute('id', 'more-info-link')
-              
+              // const moreInfo = document.createElement('a');
+              // moreInfo.innerText = 'Show Original Response';
+              // moreInfo.setAttribute('href', '#');
+              // moreInfo.setAttribute('id', 'more-info-link');
+
+              const moreInfo = document.createElement('button');
+              moreInfo.innerText = 'Show Original Response';
+              moreInfo.setAttribute('id', 'more-info-button');
+              moreInfo.setAttribute('class', 'button-class');
+
               const displayMoreInfo = document.createElement('div');
-              displayMoreInfo.innerHTML = `<pre>${JSON.stringify(d.data.resp, null, 2)}</pre>`
+              displayMoreInfo.innerHTML = `<pre>${JSON.stringify(d.data.resp, null, 2)}</pre>`;
               displayMoreInfo.setAttribute('id', 'more-info');
 
-            if (d.data.statusCodes === 200 || d.data.statusMsg === 'OK') {
+              const moreInfoClick = () =>{
+                const moreInfoButton = popup.querySelector('#more-info-button');
+                // const moreInfoLink = popup.querySelector('#more-info-link');
+                const moreInfoDiv = popup.querySelector('#more-info');
+                moreInfoButton.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  if (moreInfoDiv.style.display === 'none') {
+                    moreInfoDiv.style.display = 'block';
+                    moreInfoButton.textContent = 'Hide Original Response';
+                  } else {
+                    moreInfoDiv.style.display = 'none';
+                    moreInfoButton.textContent = 'Show Original Response';
+                  }
+                });
+              }
 
-              //popup.innerHTML = `${dataName} <br> Status Code: ${d.data.statusCode} <br> Status Message: ${d.data.statusMsg} <br> <a href="#" id="more-info-link">Show Original Response</a><div id="more-info" style="display:none">${response}</div>`;
+            if (d.data.statusCodes === 200 || d.data.statusMsg === 'OK') {
               popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
-              
-              const moreInfoLink = popup.querySelector('#more-info-link');
-              const moreInfoDiv = popup.querySelector('#more-info');
-              moreInfoLink.addEventListener('click', () => {
-                if (moreInfoDiv.style.display === 'none') {
-                  moreInfoDiv.style.display = 'block';
-                  moreInfoLink.textContent = 'Hide Original Response';
-                } else {
-                  moreInfoDiv.style.display = 'none';
-                  moreInfoLink.textContent = 'Show Original Response';
-                }
-              });
+              moreInfoClick();
             }
             else if(d.data.statusCodes === 404 || d.data.statusMsg){
-              // const respText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
               displayMoreInfo.innerText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
               popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
-
-              const moreInfoLink = popup.querySelector('#more-info-link');
-              const moreInfoDiv = popup.querySelector('#more-info');
-              moreInfoLink.addEventListener('click', () => {
-                if (moreInfoDiv.style.display === 'none') {
-                  moreInfoDiv.style.display = 'block';
-                  moreInfoLink.textContent = 'Hide Original Response';
-                } else {
-                  moreInfoDiv.style.display = 'none';
-                  moreInfoLink.textContent = 'Show Original Response';
-                }
-              });
+              moreInfoClick();
             }
             else if(!d.data.resp && !d.data.children){
               popup.append(dataName)
@@ -168,7 +164,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             let button = document.createElement('div');
             createRoot(button).render(<CloseButton />);
             button.addEventListener('click', function () {
-              // Remove the pop-up from the DOM when the close button is clicked
               popup.remove();
               overlay.remove();
             });
