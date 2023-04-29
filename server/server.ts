@@ -5,18 +5,17 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import { transformData } from "../server/helpers/transformData";
-require("dotenv").config();
+import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+dotenv.config();
 const SECRET = uuidv4();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-
+const db = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3000;
 
-//Routers
-// import queryRespRouter from "./routes/queryRespRoute";
 
 //Models
 import QueryRes from "./models/queryResModel";
@@ -26,27 +25,25 @@ import OriginResp from "./models/originRespModel";
 import mongoose from "mongoose";
 mongoose.set("strictQuery", false);
 
+
 mongoose
-	.connect(
-		"mongodb+srv://noahtofte:TyYyosKlRzokadiJ@cluster0.n7mdrbm.mongodb.net/?retryWrites=true&w=majority"
-	)
-	.then(() => {
-		console.log("Connected to DB ✅");
+  .connect(`${db}`)
+  .then(() => {
+    console.log("Connected to DB ✅");
+    QueryRes.watch().on("change", async (data) => {
+      const latestDoc = await QueryRes.findOne({ id: SECRET }).sort({
+        _id: -1,
+      });
 
-		QueryRes.watch().on("change", async (data) => {
-			const latestDoc = await QueryRes.findOne({ id: SECRET }).sort({
-				_id: -1,
-			});
-
-			if (data.operationType === "insert" && latestDoc) {
-				const newDoc = await transformData(latestDoc?.response.queryResp.data);
-				io.emit("newDoc", newDoc);
-				await QueryRes.deleteMany({ id: SECRET });
-				await OriginResp.deleteMany({ id: SECRET });
-			}
-		});
-	})
-	.catch(console.error);
+      if (data.operationType === "insert" && latestDoc) {
+        const newDoc = await transformData(latestDoc?.response.queryResp.data);
+        io.emit("newDoc", newDoc);
+        await QueryRes.deleteMany({ id: SECRET });
+        await OriginResp.deleteMany({ id: SECRET });
+      }
+    });
+  })
+  .catch(console.error);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -70,8 +67,6 @@ app.post("/mediqlSECRET", async (req: Request, res: Response) => {
 	res.status(200).send("thank you AGAIN");
 });
 
-//frontend fetches this route for queryResp stored in our database
-// app.use("/queryResp", queryRespRouter);
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
 app.post("/queryRespReceiver", async (req: Request, res: Response) => {

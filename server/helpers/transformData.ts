@@ -54,7 +54,6 @@ export const transformData = async (input: Input): Promise<Output> => {
     .exec()
     .then((docs) => docs.reverse());
 
-  // await originRespModel.deleteMany({});
   // function code here
   const output: Output = { name: "data", children: [] };
   for (let [inputKey, inputValue] of Object.entries(input)) {
