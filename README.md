@@ -1,4 +1,6 @@
+<p align="center">
 # MediQL
+</p>
 
 ## Description
 
