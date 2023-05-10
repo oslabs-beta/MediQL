@@ -10,7 +10,11 @@ function Navbar() {
   
   const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGlobalPort(event.target.value);
-    };
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
 
     return (
         <>
@@ -24,6 +28,7 @@ function Navbar() {
                 <div className='port'>
                     <Box
                     component="form"
+                    onSubmit={handleSubmit}
                     sx={{
                     '& .MuiTextField-root': { m: 1, width: '25ch' },
                     }}
