@@ -13,3 +13,9 @@
   z-index: 9999;
 }
 
+:root {
+  --app-background-color: hsl(219, 28%, 100%); 
+  background-color: var(--app-background-color);
+}
+
+
