@@ -50,21 +50,20 @@ app.use(express.static(path.resolve(__dirname, "../client")));
 app.use(cors());
 
 //create mediqlSECRET
-app.post("/mediqlSECRET", async (req: Request, res: Response) => {
-	//reqbody will contain 3900 or port given
-	await fetch("http://localhost:3900/mediqlSecret", {
-		method: "POST",
-		body: JSON.stringify({ SECRET: SECRET }),
-		headers: {
-			"Content-Type": "application/json",
-		},
-	}).then(() => {
-		console.log("SECRET sent: ", SECRET);
-		console.log("SECRET type: ", typeof SECRET);
-	});
-
-	res.status(200).send("thank you AGAIN");
-});
+// app.post("/mediqlSECRET", async (req: Request, res: Response) => {
+// 	//reqbody will contain 3900 or port given
+// 	await fetch("http://localhost:3900/mediqlSecret", {
+// 		method: "POST",
+// 		body: JSON.stringify({ SECRET: SECRET }),
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		},
+// 	}).then(() => {
+// 		console.log("SECRET sent: ", SECRET);
+// 		console.log("SECRET type: ", typeof SECRET);
+// 	});
+// 	res.status(200).send("thank you AGAIN");
+// });
 
 
 //Gets response from graphiql and sends to DB in /queryRespReceiver
