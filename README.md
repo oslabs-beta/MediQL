@@ -11,7 +11,8 @@ Currently in Alpha.
 1. Fork this repo and clone to local machine.
 2. Run `npm i` in both server directory and client directory to install respective dependencies.
 3. Create a `.env` file in the server folder, and assign the global environment variable `MONGODB_URI` with your personal MongoDB connection string (personal database connection string).
-4. Run npm start dev.
+4. Run npm start dev. 
+NOTE: Server will be running on localhost:3000 & Client will be running on localhost:8080
 5. Visit http://localhost:8080/.
 
 You should be able to see GraphiQL's GUI loaded up, however, we will need to integrate and connect your personal GraphQL project with this application before being able to test your multi-layered queries!
@@ -73,7 +74,10 @@ app.use(
 );
 ```
 
+5. Make sure your GraphQL project's server/client are running on a PORT that is not localhost:3000 or localhost:8080 as the integrated development environment (IDE) will be using those ports.
+
 6. Now, start up your GraphQL project server and head over to http://localhost:8080/ on your browser. 
+
 7. Input your GraphQL project's server PORT# and get those queries in!
 
 
