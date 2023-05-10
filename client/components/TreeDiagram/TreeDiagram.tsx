@@ -15,11 +15,12 @@ interface TreeDiagramProps {
 
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
   //connects to the DOM and the SVG element returned below
+
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    console.log('data: ', data);
+    console.log("data: ", data);
 
     if (data !== null) {
       let root = d3.hierarchy<Data>(data);
@@ -43,127 +44,146 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       let rootNode = treeLayout(root) as d3.HierarchyPointNode<Data>;
 
       // Links
-      d3.select('svg g')
-        .selectAll('line')
+      d3.select("svg g")
+        .selectAll("line")
         .data(rootNode.links())
-        .join('line')
-        .attr('x1', function (d) {
+        .join("line")
+        .attr("x1", function (d) {
           return d.source.y;
         })
-        .attr('y1', function (d) {
+        .attr("y1", function (d) {
           return d.source.x;
         })
-        .attr('x2', function (d) {
+        .attr("x2", function (d) {
           return d.target.y;
         })
-        .attr('y2', function (d) {
+        .attr("y2", function (d) {
           return d.target.x;
         });
 
       // Nodes
-      d3.select('svg g')
-        .selectAll('circle')
+      d3.select("svg g")
+        .selectAll("circle")
         .data(rootNode.descendants())
-        .join('circle')
-        .attr('cx', function (d) {
+        .join("circle")
+        .attr("cx", function (d) {
           return d.y;
         })
-        .attr('cy', function (d) {
+        .attr("cy", function (d) {
           return d.x;
         })
-        .attr('r', 7)
-        .attr('fill', (d) => {
+        .attr("r", 7)
+        .attr("fill", (d) => {
           // console.log('d.data-->', d.data);
 
           if (d.data.children !== undefined && !d.data.children?.length) {
             // console.log('THIS CHILD IS LENGTH OF 0');
-            return 'orange';
+            return "orange";
           } else if (d.data.statusCode > 299) {
-            return 'red';
+            return "red";
           } else {
-            return 'green';
+            return "green";
           }
         })
-        .on('click', (event, d) => {
-          if (!document.getElementById('popup-data')) {
+        .on("click", (event, d) => {
+          if (!document.getElementById("popup-data")) {
             // Create overlay
-            const overlay = document.createElement('div');
-            // This will allow us to do the styling on scss 
-            overlay.classList.add('popup-overlay');
-            overlay.setAttribute('id', 'popup-overlay');
+            const overlay = document.createElement("div");
+            // This will allow us to do the styling on scss
+            overlay.classList.add("popup-overlay");
+            overlay.setAttribute("id", "popup-overlay");
             document.body.appendChild(overlay);
-        
+
             // Create popup
-            const popup = document.createElement('div');
+            const popup = document.createElement("div");
 
-            // This will allow us to do the styling on scss 
-            popup.classList.add('popup');
-            popup.setAttribute('id', 'popup-data');
+            // This will allow us to do the styling on scss
+            popup.classList.add("popup");
+            popup.setAttribute("id", "popup-data");
 
-            const dataName = document.createElement('h2');
-              dataName.setAttribute('class', 'dataName');
-              dataName.innerText = `${d.data.name}`;
+            const dataName = document.createElement("h2");
+            dataName.setAttribute("class", "dataName");
+            dataName.innerText = `${d.data.name}`;
 
-              const statusCode = document.createElement('p');
-              statusCode.innerText = `Status Code: ${d.data.statusCode}`
+            const statusCode = document.createElement("p");
+            statusCode.innerText = `Status Code: ${d.data.statusCode}`;
 
-              const statusMessage = document.createElement('p');
-              statusMessage.innerText = `Status Message: ${d.data.statusMsg}`
+            const statusMessage = document.createElement("p");
+            statusMessage.innerText = `Status Message: ${d.data.statusMsg}`;
 
-              // const moreInfo = document.createElement('a');
-              // moreInfo.innerText = 'Show Original Response';
-              // moreInfo.setAttribute('href', '#');
-              // moreInfo.setAttribute('id', 'more-info-link');
+            // const moreInfo = document.createElement('a');
+            // moreInfo.innerText = 'Show Original Response';
+            // moreInfo.setAttribute('href', '#');
+            // moreInfo.setAttribute('id', 'more-info-link');
 
-              const moreInfo = document.createElement('button');
-              moreInfo.innerText = 'Show Original Response';
-              moreInfo.setAttribute('id', 'more-info-button');
-              moreInfo.setAttribute('class', 'button-class');
+            const moreInfo = document.createElement("button");
+            moreInfo.innerText = "Show Original Response";
+            moreInfo.setAttribute("id", "more-info-button");
+            moreInfo.setAttribute("class", "button-class");
 
-              const displayMoreInfo = document.createElement('div');
-              displayMoreInfo.innerHTML = `<pre>${JSON.stringify(d.data.resp, null, 2)}</pre>`;
-              displayMoreInfo.setAttribute('id', 'more-info');
+            const displayMoreInfo = document.createElement("div");
+            displayMoreInfo.innerHTML = `<pre>${JSON.stringify(
+              d.data.resp,
+              null,
+              2
+            )}</pre>`;
+            displayMoreInfo.setAttribute("id", "more-info");
 
-              const moreInfoClick = () =>{
-                const moreInfoButton = popup.querySelector('#more-info-button');
-                // const moreInfoLink = popup.querySelector('#more-info-link');
-                const moreInfoDiv = popup.querySelector('#more-info');
-                moreInfoButton.addEventListener('click', (event) => {
-                  event.preventDefault();
-                  if (moreInfoDiv.style.display === 'none') {
-                    moreInfoDiv.style.display = 'block';
-                    moreInfoButton.textContent = 'Hide Original Response';
-                  } else {
-                    moreInfoDiv.style.display = 'none';
-                    moreInfoButton.textContent = 'Show Original Response';
-                  }
-                });
-              }
+            const moreInfoClick = () => {
+              const moreInfoButton = popup.querySelector("#more-info-button");
+              // const moreInfoLink = popup.querySelector('#more-info-link');
+              const moreInfoDiv = popup.querySelector("#more-info");
+              moreInfoButton.addEventListener("click", (event) => {
+                event.preventDefault();
+                if (moreInfoDiv.style.display === "none") {
+                  moreInfoDiv.style.display = "block";
+                  moreInfoButton.textContent = "Hide Original Response";
+                } else {
+                  moreInfoDiv.style.display = "none";
+                  moreInfoButton.textContent = "Show Original Response";
+                }
+              });
+            };
 
-            if (d.data.statusCodes === 200 || d.data.statusMsg === 'OK') {
-              popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
+            if (d.data.statusCodes === 200 || d.data.statusMsg === "OK") {
+              popup.append(
+                dataName,
+                statusCode,
+                statusMessage,
+                moreInfo,
+                displayMoreInfo
+              );
               moreInfoClick();
-            }
-            else if(d.data.statusCodes === 404 || d.data.statusMsg){
-              displayMoreInfo.innerText = d.data.resp ? JSON.stringify(d.data.resp) : 'No response data';
-              popup.append(dataName, statusCode, statusMessage, moreInfo, displayMoreInfo);
+            } else if (d.data.statusCodes === 404 || d.data.statusMsg) {
+              displayMoreInfo.innerText = d.data.resp
+                ? JSON.stringify(d.data.resp)
+                : "No response data";
+              popup.append(
+                dataName,
+                statusCode,
+                statusMessage,
+                moreInfo,
+                displayMoreInfo
+              );
               moreInfoClick();
-            }
-            else if(!d.data.resp && !d.data.children){
-              popup.append(dataName)
-            }
-            else if(d.data.children !== undefined && !d.data.children?.length){
-              const childrenData = document.createElement('div')
-              childrenData.innerText =  d.data.children ? `Children: ${JSON.stringify(d.data.children)}` : 'Children: Null';
+            } else if (!d.data.resp && !d.data.children) {
+              popup.append(dataName);
+            } else if (
+              d.data.children !== undefined &&
+              !d.data.children?.length
+            ) {
+              const childrenData = document.createElement("div");
+              childrenData.innerText = d.data.children
+                ? `Children: ${JSON.stringify(d.data.children)}`
+                : "Children: Null";
               popup.append(dataName, childrenData);
-            }
-            else{
+            } else {
               popup.append(dataName);
             }
 
-            let button = document.createElement('div');
+            let button = document.createElement("div");
             createRoot(button).render(<CloseButton />);
-            button.addEventListener('click', function () {
+            button.addEventListener("click", function () {
               popup.remove();
               overlay.remove();
             });
@@ -173,64 +193,67 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         });
 
       // Labels
-      d3.select('svg g')
-        .selectAll('text.label')
+      d3.select("svg g")
+        .selectAll("text.label")
         .data(rootNode.descendants())
-        .join('text')
-        .classed('label', true)
-        .attr('x', function (d) {
+        .join("text")
+        .classed("label", true)
+        .attr("x", function (d) {
           return d.y;
         })
-        .attr('y', function (d) {
+        .attr("y", function (d) {
           return d.x - 10;
         })
-        .style('fill', function(d){
-          if (d.data.name === 'data') {
-            return '#00C2E0';
-          } 
-          else if(!d.data.resp && !d.data.children){
-            return '#FFCC99'
-          }
-          else {
-            return '#70BCFF'; 
+        .style("fill", function (d) {
+          if (d.data.name === "data") {
+            return "#00C2E0";
+          } else if (!d.data.resp && !d.data.children) {
+            return "#FFCC99";
+          } else {
+            return "#70BCFF";
           }
         })
         .text(function (d) {
           const name = d.data.name;
-          if (typeof name === 'string') {
-            if (typeof name === 'string' && name.includes(',')) {
-              const words = name.split(' ');
+          if (typeof name === "string") {
+            if (typeof name === "string" && name.includes(",")) {
+              const words = name.split(" ");
               for (let i = 0; i < words.length; i++) {
-                if (words[i].includes(',')) {
-                  return words.slice(0, i + 1).join(' ').replace(',', '') + '[...]';
+                if (words[i].includes(",")) {
+                  return (
+                    words
+                      .slice(0, i + 1)
+                      .join(" ")
+                      .replace(",", "") + "[...]"
+                  );
                 }
               }
             }
             return name;
           }
-        })
+        });
 
       // Leaf count labels
-      d3.select('svg g')
-        .selectAll('text.count-label')
+      d3.select("svg g")
+        .selectAll("text.count-label")
         .data(rootNode.descendants())
-        .join('text')
-        .classed('count-label', true)
-        .attr('x', function (d) {
+        .join("text")
+        .classed("count-label", true)
+        .attr("x", function (d) {
           return d.y + 20;
         })
-        .attr('y', function (d) {
+        .attr("y", function (d) {
           return d.x;
         });
 
       //set view box
-      let dimensions = (d3.select('svg g').node() as SVGGElement).getBBox();
+      let dimensions = (d3.select("svg g").node() as SVGGElement).getBBox();
 
       // console.log('dimensions', dimensions);
 
-      let targetTreeD = document.getElementById('tree-d');
+      let targetTreeD = document.getElementById("tree-d");
       targetTreeD?.setAttribute(
-        'viewBox',
+        "viewBox",
         `${dimensions.x} 
          ${dimensions.y}
          ${dimensions.width * 1.3}
@@ -240,13 +263,15 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
   });
   return (
     <>
-      <div id="tree-container">
-        <svg id="tree-d">
+      <div id="tree-container" >
+        <svg id="tree-d" >
           <g transform="translate(30, 0)"></g>
         </svg>
       </div>
     </>
   );
 };
+
+
 
 export default TreeDiagram;

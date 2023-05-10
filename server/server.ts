@@ -25,7 +25,6 @@ import OriginResp from "./models/originRespModel";
 import mongoose from "mongoose";
 mongoose.set("strictQuery", false);
 
-
 mongoose
   .connect(`${db}`)
   .then(() => {
