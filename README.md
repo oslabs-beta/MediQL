@@ -1,5 +1,5 @@
 <p align="center">
-# MediQL
+  <h1>MediQL</h1>
 </p>
 
 ## Description
