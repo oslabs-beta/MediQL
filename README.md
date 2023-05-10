@@ -1,6 +1,4 @@
-<p align="center">
-  <h1>MediQL</h1>
-</p>
+# Mediql
 
 ## Description
 
@@ -68,10 +66,8 @@ app.use(
     context: ({ req }) => ({ req }),
     extensions: async (
       { document, variables, operationName, result }) => {
-      //console.log("opname ", operationName);
-      /////////
+      //invoke postQueryResp function with the argument of result.
       postQueryResp(result);
-      ////////
     },
   })
 );
