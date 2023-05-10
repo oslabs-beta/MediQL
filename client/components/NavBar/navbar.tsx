@@ -1,22 +1,44 @@
-import React from 'react';
-import logo from './logo.png';
+import React, { useContext } from "react";
+import logo from './mediqlLogo.png';
+import PortContext from "../../contextStore/port-context";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import './navbarStyles.scss';
 
-const Navbar = () => {
+function Navbar() {
+  const { setPort: setGlobalPort } = useContext(PortContext);
+  
+  const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGlobalPort(event.target.value);
+    };
+
     return (
         <>
-            <nav>
-                <a href='/'>
-                    <img src={logo}/>
-                </a>
-
-                <div id='title'>
+            <nav className='nav'>
+                <div className='logoName'>
+                    <a href='/'>
+                        <img src={logo}/>
+                    </a>
                     <h1>MediQL</h1>
-                    {/* <ul id='navbar'>
-                        <li>
-                            if you want to add links
-                        </li>
-                    </ul> */}
+                </div>
+                <div className='port'>
+                    <Box
+                    component="form"
+                    sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    >
+                    <div>
+                        <TextField
+                        required
+                        id="outlined-required"
+                        label="PORT# Required"
+                        onChange={handlePortChange}
+                        />
+                    </div>
+                    </Box>
                 </div>
             </nav>
         </>

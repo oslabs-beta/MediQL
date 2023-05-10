@@ -1,11 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&display=swap');
+
 nav {
   display: flex;
-  align-items: center;
   justify-content: flex-start;
-  background-color: #ced9e1;
+  background-color: rgb(15 23 42);
   padding: 20px 80px;
-  box-shadow: 0 5px 15px #868f96;
+  box-shadow: 0 5px 15px rgb(15 23 42);
   list-style-type: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: rgb(254,72,189);
 
   a {
     img {
@@ -13,11 +16,15 @@ nav {
       width: 60px;
     }
   }
+
+  .logoName{
+    display: flex;
+  }
+
 }
 
-#title{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 10%;
+body {
+  margin : 0;
+  padding: 0;
 }
+  

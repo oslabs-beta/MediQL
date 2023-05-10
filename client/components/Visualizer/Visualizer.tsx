@@ -15,17 +15,6 @@ const Visualizer = () => {
     await setData(doc);
   });
 
-  let fetchData = async () => {
-    const fetchedData = await fetch('http://localhost:3000/queryResp', {
-      method: 'GET',
-      headers: { 'content-type': 'application/json' },
-    }).then((res) => res.json());
-    // console.log('fetchData invoked');
-    // console.log('fetchData: ', fetchedData);
-    await setData(fetchedData);
-    return;
-  };
-
   //deleted classname from FetchButton
   return (
     <>
