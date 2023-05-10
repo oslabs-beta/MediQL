@@ -1,12 +1,12 @@
 # MediQL
 
-# Description
+## Description
 
 MediQL is a GraphQL developer tool, built to work on top of GraphiQL, an open-source web-based integrated development environment (IDE). MediQL takes GraphiQL a step further by delivering query response visualization, error indication, and the ability to observe API response statuses and objects which GraphiQL can not.
 
 Currently in Alpha.
 
-# Installation (part 1)
+## Installation (part 1)
 
 1. Fork this repo and clone to local machine.
 2. Run `npm i` in both server directory and client directory to install respective dependencies.
@@ -18,7 +18,7 @@ You should be able to see GraphiQL's GUI loaded up, however, we will need to int
 
 Let's install the necessary dependencies into your personal GraphQL project as it will be needing this to create the integrated development environment (ide).
 
-# Installation (part 2)
+## Installation (part 2)
 
 1. As MediQL is built on top of GraphiQL, it is necessary to have GraphiQL and a /graphql server route set up prior to installing MediQL.
 2. Run `npm i express-graphql` to install dependency for GraphiQL (Visit https://github.com/graphql/graphiql for more information)
@@ -26,7 +26,7 @@ Let's install the necessary dependencies into your personal GraphQL project as i
 
 Now, let's move on to configuring your personal GraphQL project and integrate it with MediQL!
 
-# Usage
+## Usage
 
 1. Within your GraphQL project, in your schema file or file with resolvers (i.e., schema.js), import the `postOriginResp` function from the `mediql` package using CommonJS module syntax.
 
@@ -79,24 +79,24 @@ app.use(
 7. Input your GraphQL project's server PORT# and get those queries in!
 
 
-# Features
+## Features
 
-## GraphiQL
+### GraphiQL
 
-## Query Response Visualization & Error Indication
+### Query Response Visualization & Error Indication
 
-## API Response Transparency
+### API Response Transparency
 
-## Light/Dark Theme
+### Light/Dark Theme
 
-# Tech Stack
+## Tech Stack
 
-# Read More
+## Read More
 
-# Co-Creators
+## Co-Creators
 
-# Acknowledgements
+## Acknowledgements
 
-# Contributing
+## Contributing
 
-# Roadmap
+## Roadmap
