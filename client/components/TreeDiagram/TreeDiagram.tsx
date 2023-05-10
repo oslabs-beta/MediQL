@@ -238,6 +238,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       );
     }
   });
+  
   return (
     <>
       <div id="tree-container">

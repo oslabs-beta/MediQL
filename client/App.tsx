@@ -9,7 +9,8 @@ import './components/TreeDiagram/TreeDiagramStyles.scss';
 import './components/LogoBar/LogoBarStyles.scss';
 import './components/DisplayGraphiql/DisplayGraphiql.scss';
 
-import LogoBar from './components/LogoBar/LogoBar';
+// import LogoBar from './components/LogoBar/LogoBar';
+import Navbar from './components/NavBar/navbar';
 import Visualizer from './components/Visualizer/Visualizer';
 import DisplayGraphiql from './components/DisplayGraphiql/DisplayGraphiql';
 
@@ -62,7 +63,8 @@ export default function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <LogoBar />
+        {/* <LogoBar /> */}
+        <Navbar />
         <MyApp />
         <div className="mainDiv">
           <DisplayGraphiql />

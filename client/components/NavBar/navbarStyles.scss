@@ -1,0 +1,23 @@
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ced9e1;
+  padding: 20px 80px;
+  box-shadow: 0 5px 15px #868f96;
+  list-style-type: none;
+
+  a {
+    img {
+      height: 60px;
+      width: 60px;
+    }
+  }
+}
+
+#title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10%;
+}
