@@ -121,6 +121,20 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
 
 ## Co-Creators
 
+- James Huang
+  - [GitHub](https://github.com/JamesJunJieHuang)
+  - [LinkedIn](https://www.linkedin.com/in/jamesjhuang/)
+- Lily Hoong
+  - [GitHub](https://github.com/hoonglily)
+  - [LinkedIn](https://www.linkedin.com/in/lilyhoong/)
+- Noah Tofte
+  - [GitHub](https://github.com/nAndrewT)
+  - [LinkedIn](https://www.linkedin.com/in/ntofte/)
+- Jake Ruiz
+  - [GitHub](https://github.com/J-Ruiz)
+  - [LinkedIn](https://www.linkedin.com/in/jake-ruiz/)
+
+
 ## Acknowledgements
 
 ## Contributing
