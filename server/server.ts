@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 const db = process.env.MONGODB_URI;
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 
 //Models
@@ -62,6 +62,21 @@ app.use(cors());
 // 		console.log("SECRET sent: ", SECRET);
 // 		console.log("SECRET type: ", typeof SECRET);
 // 	});
+// 	res.status(200).send("thank you AGAIN");
+// });
+// app.post("/mediqlSECRET", async (req: Request, res: Response) => {
+// 	//reqbody will contain 3900 or port given
+// 	await fetch("http://localhost:3900/mediqlSecret", {
+// 		method: "POST",
+// 		body: JSON.stringify({ SECRET: SECRET }),
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		},
+// 	}).then(() => {
+// 		console.log("SECRET sent: ", SECRET);
+// 		console.log("SECRET type: ", typeof SECRET);
+// 	});
+
 // 	res.status(200).send("thank you AGAIN");
 // });
 

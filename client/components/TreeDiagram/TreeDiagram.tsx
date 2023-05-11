@@ -19,6 +19,13 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  const handleOverlayClick = () => {
+    const overlay = document.getElementById("popup-overlay");
+    const popup = document.getElementById("popup-data");
+    overlay?.remove();
+    popup?.remove();
+  };
+
   useEffect(() => {
     console.log("data: ", data);
 
@@ -92,6 +99,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             // This will allow us to do the styling on scss
             overlay.classList.add("popup-overlay");
             overlay.setAttribute("id", "popup-overlay");
+            overlay.addEventListener("click", handleOverlayClick);
             document.body.appendChild(overlay);
 
             // Create popup
@@ -111,11 +119,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             const statusMessage = document.createElement("p");
             statusMessage.innerText = `Status Message: ${d.data.statusMsg}`;
 
-            // const moreInfo = document.createElement('a');
-            // moreInfo.innerText = 'Show Original Response';
-            // moreInfo.setAttribute('href', '#');
-            // moreInfo.setAttribute('id', 'more-info-link');
-
             const moreInfo = document.createElement("button");
             moreInfo.innerText = "Show Original Response";
             moreInfo.setAttribute("id", "more-info-button");
@@ -131,15 +134,14 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
 
             const moreInfoClick = () => {
               const moreInfoButton = popup.querySelector("#more-info-button");
-              // const moreInfoLink = popup.querySelector('#more-info-link');
               const moreInfoDiv = popup.querySelector("#more-info");
               moreInfoButton.addEventListener("click", (event) => {
-                event.preventDefault();
-                if (moreInfoDiv.style.display === "none") {
-                  moreInfoDiv.style.display = "block";
+                event.stopPropagation();
+                if (moreInfoDiv.style.display === "block") {
+                  moreInfoDiv.style.display = "none";
                   moreInfoButton.textContent = "Hide Original Response";
                 } else {
-                  moreInfoDiv.style.display = "none";
+                  moreInfoDiv.style.display = "block";
                   moreInfoButton.textContent = "Show Original Response";
                 }
               });
@@ -261,6 +263,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
       );
     }
   });
+  
   return (
     <>
       <div id="tree-container" >

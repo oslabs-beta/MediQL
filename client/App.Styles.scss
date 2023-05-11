@@ -3,7 +3,6 @@
   flex-direction: row;
   margin-top: 20px;
   height: 100%;
-  // border: 5px solid green;
 }
 
 .toggle-container {
@@ -12,4 +11,10 @@
   right: 1rem;
   z-index: 9999;
 }
+
+:root {
+  --app-background-color: hsl(219, 28%, 100%); 
+  background-color: var(--app-background-color);
+}
+
 
