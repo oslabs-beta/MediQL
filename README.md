@@ -130,7 +130,7 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
 ## **Tech Stack**
 
 <table>
-  <tr style="display: flex; flex-wrap: wrap";>
+  <tr style="display: flex; flex-wrap: wrap;">
     <td align="center" style="width: 10%; height: 50px;">
       <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
         <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" alt="JavaScript" style="max-width: 100%; height: 50px;"/>
