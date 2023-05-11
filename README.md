@@ -105,7 +105,7 @@ Each node in the visualizer is clickable and provides insight on that specific r
 
 ~INSERT GIF HERE~
 
-# <span style="color: #ff69b4;">Light/Dark Theme</span>
+# Light/Dark Theme <span style="color: #ff69b4;">#</span>
 
 We also offer a light and dark theme that is integrated with GraphiQL's user interface which allows users to customize their experience and choose the visual style that best suits their preferences and needs.
 
