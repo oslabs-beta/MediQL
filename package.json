@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server/server.js",
-    "dev": "webpack serve --hot & nodemon server/server.js",
+    "dev": "cd server && npm start & cd client && npm start",
     "build": "webpack --config webpack.config.js --progress --color",
     "start-server": "npm run start-server --prefix server",
     "start-client": "npm start --prefix client"
