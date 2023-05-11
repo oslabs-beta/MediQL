@@ -9,9 +9,7 @@ import './navbarStyles.scss';
 
 function Navbar({theme}) {
   const { setPort: setGlobalPort } = useContext(PortContext);
-  
-  // console.log('theme-->', theme)
-  
+    
   const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGlobalPort(event.target.value);
   };
