@@ -1,6 +1,6 @@
 <h1 align="center">MediQL</h1>
 
-<p align="center">Developer Tool for GraphQL API Security and Performance Testing</p>
+<p align="center">Developer Tool for GraphQL Response Visualization & Error Transparency</p>
 
 ## Description
 
