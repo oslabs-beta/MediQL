@@ -130,70 +130,70 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
 ## **Tech Stack**
 
 <table>
-  <tr>
-    <td align="center">
+  <tr style="display: flex; flex-wrap: wrap;>
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" alt="JavaScript" width="auto" height="50"/>
+        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" alt="JavaScript" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>JavaScript
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/typescript/typescript.png" alt="TypeScript" width="auto" height="50"/>
+        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/typescript/typescript.png" alt="TypeScript" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>TypeScript
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/nodejs.jpg" alt="Node.js" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/nodejs.jpg" alt="Node.js" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>Node.js
     </td>
-        <td align="center">
+        <td align="center" style="width: 10%; height: 50px;">
       <a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/express-logo.jpg" alt="ExpressJS" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/express-logo.jpg" alt="ExpressJS" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>ExpressJS
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://d3js.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/d3.jpg" alt="D3" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/d3.jpg" alt="D3" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>D3
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/react.jpg" alt="React" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/react.jpg" alt="React" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>React
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://graphql.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/graphql.jpg" alt="GraphQL" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/graphql.jpg" alt="GraphQL" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>GraphQL
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/next-js.jpg" alt="NextJS" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/next-js.jpg" alt="NextJS" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>NextJS
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://sass-lang.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/sass.jpg" alt="NextJS" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/sass.jpg" alt="NextJS" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>Sass
     </td>
-    <td align="center">
+    <td align="center" style="width: 10%; height: 50px;">
       <a href="https://socket.io/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/socket-io.jpg" alt="Socket.IO" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/socket-io.jpg" alt="Socket.IO" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>Socket.IO
     </td>
-        <td align="center">
+        <td align="center" style="width: 10%; height: 50px;">
       <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/tailwindcss.jpg" alt="tailwind" width="auto" height="50"/>
+        <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/tailwindcss.jpg" alt="tailwind" style="max-width: 100%; height: 100%;"/>
       </a>
       <br>tailwind
     </td>
