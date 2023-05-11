@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 const db = process.env.MONGODB_URI;
-const PORT = 3000;
+const PORT = 3003;
 
 
 //Models

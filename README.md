@@ -18,7 +18,7 @@ Currently in Alpha.
 1. Fork this repo and clone to local machine.
 2. Run `npm i` in both server directory and client directory to install respective dependencies.
 3. Create a `.env` file in the server folder, and assign the global environment variable `MONGODB_URI` with your personal MongoDB connection string (personal database connection string).
-4. Run npm start dev. 
+4. Run `npm start dev` in the root directory. <br>
 (**NOTE**: Server will be running on localhost:3003 & Client will be running on localhost:8080)
 5. Visit http://localhost:8080/.
 
