@@ -95,7 +95,7 @@ app.use(
 GraphiQL's user interface & functionality is provided for testing GraphQL queries alongside our visualizer extension, making a completely integrated development environment for developers. Plug in your GraphQL project's server PORT and get querying!
 
 <p align="center">
-  <img width="600" src=https://user-images.githubusercontent.com/MediQL/mediql-images/main/Gifs/inputport.gif> <br><br>
+  <img width="600" src=https://github.com/MediQL/mediql-images/blob/main/Gifs/inputport.gif> <br><br>
 </p>
 
 
