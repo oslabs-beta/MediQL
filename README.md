@@ -3,16 +3,17 @@
 <p align="center">Developer Tool for GraphQL Response Visualization & Error Transparency</p>
 
 <p align="center">
-  <img width="100" src="./client/components/NavBar/mediqlLogo.png" alt="MediQL Logo">
+  <img width="100" src="https://raw.githubusercontent.com/oslabs-beta/MediQL/readme/client/components/NavBar/mediqlLogo.png" alt="MediQL Logo">
 </p>
 
-## Description
+
+## **Description**
 
 MediQL is a GraphQL developer tool, built to work on top of GraphiQL, an open-source web-based integrated development environment (IDE). MediQL takes GraphiQL a step further by delivering query response visualization, error indication, and the ability to observe API response statuses and objects which GraphiQL can not.
 
 Currently in Alpha.
 
-## Installation (part 1)
+## **Installation (part 1)**
 
 1. Fork this repo and clone to local machine.
 2. Run `npm i` in both server directory and client directory to install respective dependencies.
@@ -25,7 +26,7 @@ You should be able to see GraphiQL's GUI loaded up, however, we will need to int
 
 Let's install the necessary dependencies into your personal GraphQL project as it will be needing this to create the integrated development environment (ide).
 
-## Installation (part 2)
+## **Installation (part 2)**
 
 1. As MediQL is built on top of GraphiQL, it is necessary to have GraphiQL and a /graphql server route set up prior to installing MediQL.
 2. Run `npm i express-graphql` to install dependency for GraphiQL (Visit https://github.com/graphql/graphiql for more information)
@@ -33,7 +34,7 @@ Let's install the necessary dependencies into your personal GraphQL project as i
 
 Now, let's move on to configuring your personal GraphQL project and integrate it with MediQL!
 
-## Usage
+## **Usage**
 
 1. Within your GraphQL project, in your schema file or file with resolvers (i.e., schema.js), import the `postOriginResp` function from the `mediql` package using CommonJS module syntax.
 
@@ -87,13 +88,16 @@ app.use(
 7. Input your GraphQL project's server PORT# and get those queries in!
 
 
-## Features
+## **Features**
 
 ### :sparkles: GraphiQL :sparkles: 
 
 GraphiQL's user interface & functionality is provided for testing GraphQL queries alongside our visualizer extension, making a completely integrated development environment for developers. Plug in your GraphQL project's server PORT and get querying!
 
-~INSERT GIF HERE~
+<p align="center">
+  <img width="600" src=https://raw.githubusercontent.com/MediQL/mediql-images/main/Gifs/inputport.gif> <br>
+</p>
+
 
 ### :sparkles: Query Response Visualization & Error Indication :sparkles: 
 
@@ -117,15 +121,15 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
 
 ~INSERT GIF HERE~
 
-## Tech Stack
+## **Tech Stack**
 
 ~INSERT LOGOS~
 
-## Read More
+## **Read More**
 
+[Read] (https://medium.com/@noahtofte/364ff07bed34) more about the importance of error transparency!
 
-
-## Co-Creators
+## **Co-Creators**
 
 - James Huang
   - [GitHub](https://github.com/JamesJunJieHuang)
@@ -141,8 +145,46 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
   - [LinkedIn](https://www.linkedin.com/in/jake-ruiz/)
 
 
-## Acknowledgements
+## **Acknowledgements**
 
-## Contributing
+This project uses GraphiQL, an in-browser IDE for exploring GraphQL APIs. GraphiQL is a powerful tool for testing and debugging GraphQL queries, and it has been instrumental in the development of this project.
 
-## Roadmap
+In addition, our team has developed an extension for GraphiQL that adds a response visualizer and error indicator, which enhances its functionality and makes it even more useful for developers. We would like to thank the creators of GraphiQL for providing a solid foundation for our extension, and for inspiring us to build upon its features.
+
+We also want to thank our team for their hard work and dedication in developing the extension and making it available to the community. We hope that our extension will be helpful to other developers who are using GraphiQL to explore and test their GraphQL APIs.
+
+## **Contributing**
+
+Thank you for your interest in contributing to our project! We welcome contributions from developers, designers, testers, and other contributors who share our passion for building great software.
+
+### Prerequisites
+
+Before you start contributing, you should have knowledge of HTML, CSS, and JavaScript, as well as experience with Git and GitHub. Familiarity with React and GraphQL is also a plus.
+
+### Guidelines
+
+To contribute to our project, please follow these guidelines:
+
+1. Fork the repository and clone it to your local machine.
+2. Create a new branch for your changes and make your changes.
+3. Submit a pull request to our repository and describe your changes in detail.
+4. Wait for a code review and address any feedback from our team.
+5. Once your changes have been approved, we will merge your pull request into our repository.
+
+If you need help getting started or have any questions, please reach out to us on our GitHub repository.
+
+### Code of conduct
+
+We expect all contributors to follow our code of conduct, which is based on the Contributor Covenant (http://contributor-covenant.org). This code of conduct outlines our expectations for behavior and communication among contributors and helps to create a respectful and inclusive community for everyone.
+
+### Attribution
+
+We would like to acknowledge and give credit to all contributors who have contributed to our project, including code, documentation, and other contributions. Thank you for helping us to make our project better for everyone!
+
+## **Roadmap**
+
+- [x] Implement support for multiple GraphQL APIs.
+- [ ] Refactor the codebase to improve maintainability.
+- [ ] Deploy the application as a website so that developers can use it without cloning the repo.
+
+
