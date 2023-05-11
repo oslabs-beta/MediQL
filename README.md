@@ -9,7 +9,7 @@
 
 ## **Description**
 
-MediQL is a GraphQL developer tool, built to work on top of GraphiQL, an open-source web-based integrated development environment (IDE). MediQL takes GraphiQL a step further by delivering query response visualization, error indication, and the ability to observe API response statuses and objects which GraphiQL can not.
+MediQL is an innovative GraphQL developer tool that builds upon the capabilities of GraphiQL, an open-source web-based integrated development environment (IDE) for GraphQL. With MediQL, you can supercharge your GraphQL workflow by leveraging advanced features such as query response visualization, error indication, and real-time observation of API response statuses and objects. By seamlessly integrating with GraphiQL, MediQL enhances your development experience and empowers you to streamline debugging, optimize performance, and achieve greater efficiency in building GraphQL APIs.
 
 Currently in Alpha.
 
