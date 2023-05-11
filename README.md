@@ -3,7 +3,7 @@
 <p align="center">Developer Tool for GraphQL Response Visualization & Error Transparency</p>
 
 <p align="center">
-  <img width="600" src="./client/components/NavBar/mediqlLogo.png" alt="MediQL Logo">
+  <img width="100" src="./client/components/NavBar/mediqlLogo.png" alt="MediQL Logo">
 </p>
 
 ## Description
