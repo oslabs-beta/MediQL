@@ -147,7 +147,7 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
 
 ## **Read More**
 
-[Read] (https://medium.com/@noahtofte/364ff07bed34) more about the importance of error transparency!
+[Read](https://medium.com/@noahtofte/364ff07bed34) more about the importance of Error Transparency!!
 
 ## **Co-Creators**
 
