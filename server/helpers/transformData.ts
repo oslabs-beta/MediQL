@@ -1,19 +1,10 @@
-import queryResModel from '../models/queryResModel';
 import originRespModel from '../models/originRespModel';
-import { Request, Response, NextFunction } from 'express';
 import SECRET from '../server';
 
 interface Input {
   [key: string]: Record<string, unknown> | string;
 }
-interface MatchedQuery {
-  response?: {
-    alias: string;
-    originResp: Object;
-    originrespstatus: Number;
-    originRespMessage: string;
-  };
-}
+
 interface FieldObject {
   name: string;
   children: any[];
@@ -45,17 +36,17 @@ export const transformData = async (input: Input): Promise<Output> => {
   if (input === null || input === undefined) {
     // handle case where input is null or undefined
     return { name: 'data', children: [] };
-  };
+  }
 
   const resolverQueries = await originRespModel
-    .find({ id: SECRET})
+    .find({ id: SECRET })
     .sort({ timestamp: -1 })
     .lean()
     .exec()
     .then((docs) => docs.reverse());
 
   // function code here
-  const output: Output = { name: "data", children: [] };
+  const output: Output = { name: 'data', children: [] };
   for (let [inputKey, inputValue] of Object.entries(input)) {
     const matchedQuery: resolverResp | undefined = resolverQueries.filter(
       (obj: resolverResp): boolean => {
