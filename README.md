@@ -103,9 +103,13 @@ This is where MediQL comes in and saves the day!
 
 Each node in the visualizer is clickable and provides insight on that specific resolver's query response! The original API response's status codes and objects are provided to you with no additional call to the external API's. The developer has the ability to look into the original API's response object as well. 
 
-### Light/Dark Theme
+~INSERT GIF HERE~
+
+<span style="color: #ff69b4;">### Light/Dark Theme</span>
 
 We also offer a light and dark theme that is integrated with GraphiQL's user interface which allows users to customize their experience and choose the visual style that best suits their preferences and needs.
+
+~INSERT GIF HERE~
 
 ## Tech Stack
 
