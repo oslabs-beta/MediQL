@@ -3,9 +3,7 @@
 nav {
   display: flex;
   justify-content: flex-start;
-  background-color: rgb(15 23 42);
   padding: 20px 80px;
-  box-shadow: 0 5px 15px rgb(15 23 42);
   list-style-type: none;
   font-family: 'Plus Jakarta Sans', sans-serif;
   color: rgb(254,72,189);
@@ -20,6 +18,16 @@ nav {
   .logoName{
     display: flex;
     padding-right: 3%;
+  }
+}
+
+.nav {
+  background-color: #bdb8d6;
+  box-shadow: 0 5px 15px #887eb6;
+
+  &.dark-theme {
+    background-color: rgb(15, 23, 42);
+    box-shadow: 0 5px 15px rgb(15, 23, 42);
   }
 }
 
