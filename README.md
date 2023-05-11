@@ -83,19 +83,19 @@ app.use(
 
 ## Features
 
-### GraphiQL
+### :sparkles: GraphiQL :sparkles: 
 
 GraphiQL's user interface & functionality is provided for testing GraphQL queries alongside our visualizer extension, making a completely integrated development environment for developers. Plug in your GraphQL project's server PORT and get querying!
 
 ~INSERT GIF HERE~
 
-### Query Response Visualization & Error Indication
+### :sparkles: Query Response Visualization & Error Indication :sparkles: 
 
 When a GraphQL query has been made, MediQL visualizes the query response with as a tree of nodes on the right side of your screen. Errors are indicated in red. Possible errors or null values are indicated in orange. Lastly, completed queries with no issues are indicated in green.
 
 ~INSERT GIF HERE~
 
-### API Response Transparency
+### :sparkles: API Response Transparency :sparkles: 
 
 As we all know, GraphQL responses do not provide API Response Transparency. If a field is not available, the developer ends up with a null value, with no indication of what type of API error was given originally. The  developer would be at risk of the ambiguity of errors. 
 
@@ -105,7 +105,7 @@ Each node in the visualizer is clickable and provides insight on that specific r
 
 ~INSERT GIF HERE~
 
-# Light/Dark Theme <span style="color: #ff69b4;">#</span>
+#### :sparkles: Light/Dark Theme :sparkles:
 
 We also offer a light and dark theme that is integrated with GraphiQL's user interface which allows users to customize their experience and choose the visual style that best suits their preferences and needs.
 
