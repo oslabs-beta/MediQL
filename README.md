@@ -133,15 +133,12 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
   <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" height="50" />
   <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/typescript/typescript.png" height="50" />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/nodejs.jpg" height="50" />
-  <br />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/express-logo.jpg" height="50" />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/d3.jpg" height="50" />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/react.jpg" height="50" />
-  <br />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/graphql.jpg" height="50" />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/next-js.jpg" height="50" />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/sass.jpg" height="50" />
-  <br />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/socket-io.jpg" height="50" />
   <img src="https://github.com/MediQL/mediql-images/blob/main/Tech%20Images/tailwindcss.jpg" height="50" />
 </p>
