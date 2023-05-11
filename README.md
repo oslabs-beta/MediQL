@@ -115,7 +115,9 @@ This is where MediQL comes in and saves the day!
 
 Each node in the visualizer is clickable and provides insight on that specific resolver's query response! The original API response's status codes and objects are provided to you with no additional call to the external API's. The developer has the ability to look into the original API's response object as well. 
 
-~INSERT GIF HERE~
+<p align="center">
+  <img width="800" src=https://github.com/MediQL/mediql-images/blob/main/Gifs/nodes.gif> <br>
+</p>
 
 ### :sparkles: Light/Dark Theme :sparkles: 
 
@@ -127,7 +129,29 @@ We also offer a light and dark theme that is integrated with GraphiQL's user int
 
 ## **Tech Stack**
 
-~INSERT LOGOS~
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" alt="JavaScript" width="50" height="50"/>
+      </a>
+      <br>JavaScript
+    </td>
+    <td align="center">
+      <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/typescript/typescript.png" alt="TypeScript" width="50" height="50"/>
+      </a>
+      <br>TypeScript
+    </td>
+    <td align="center">
+      <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/nodejs/nodejs.png" alt="Node.js" width="50" height="50"/>
+      </a>
+      <br>Node.js
+    </td>
+    <!-- Add more columns here -->
+  </tr>
+</table>
 
 ## **Read More**
 
