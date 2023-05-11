@@ -37,12 +37,13 @@ line {
 #tree-container {
   overflow-y: scroll;
   overflow-x: scroll;
-  height: 80vh;
+  height: 100vh;
   width: 50%;
 }
 
 #tree-d {
-  padding-top: 18%;
+  padding-top: 3%;
+  padding-bottom: 3%;
   // transform: translateX(50px);
   min-height: 50%;
   min-width: 50%;
@@ -81,7 +82,6 @@ line {
 }
 
 .popup {
-  display: block;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -110,7 +110,7 @@ line {
 #more-info{
   text-align: left;
   display: none;
-  border: groove lightblue;
+  // border: groove lightblue;
 }
 
 pre {
