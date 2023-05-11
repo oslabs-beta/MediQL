@@ -95,7 +95,7 @@ app.use(
 GraphiQL's user interface & functionality is provided for testing GraphQL queries alongside our visualizer extension, making a completely integrated development environment for developers. Plug in your GraphQL project's server PORT and get querying!
 
 <p align="center">
-  <img width="600" src=https://github.com/MediQL/mediql-images/blob/main/Gifs/inputport.gif> <br>
+  <img width="800" src=https://github.com/MediQL/mediql-images/blob/main/Gifs/inputport.gif> <br>
 </p>
 
 
@@ -104,7 +104,7 @@ GraphiQL's user interface & functionality is provided for testing GraphQL querie
 When a GraphQL query has been made, MediQL visualizes the query response with as a tree of nodes on the right side of your screen. Errors are indicated in red. Possible errors or null values are indicated in orange. Lastly, completed queries with no issues are indicated in green.
 
 <p align="center">
-  <img width="600" src=https://github.com/MediQL/mediql-images/blob/main/Gifs/treerender.gif> <br>
+  <img width="800" src=https://github.com/MediQL/mediql-images/blob/main/Gifs/treerender.gif> <br>
 </p>
 
 ### :sparkles: API Response Transparency :sparkles: 
