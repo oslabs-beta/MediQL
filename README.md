@@ -26,23 +26,32 @@ You should be able to see GraphiQL's GUI loaded up, however, we will need to int
 
 Let's install the necessary dependencies into your personal GraphQL project as it will be needing this to create the integrated development environment (ide).
 
-## **Installation (part 2)**
+## **Installation in your personal GraphQL Project (part 2)**
 
 1. As MediQL is built on top of GraphiQL, it is necessary to have GraphiQL and a /graphql server route set up prior to installing MediQL.
 2. Run `npm i express-graphql` to install dependency for GraphiQL (Visit https://github.com/graphql/graphiql for more information)
 3. Run `npm i mediql` to install dependency for MediQL (Visit https://github.com/MediQL/mediql-npm-package for more information)
+4. Run `npm i cors` to install cors dependency as the CORS middleware enables Cross-Origin Resource Sharing, allowing your GraphQL project's server to handle requests from different origins, such as MediQL's application.
 
 Now, let's move on to configuring your personal GraphQL project and integrate it with MediQL!
 
 ## **Usage**
 
-1. Within your GraphQL project, in your schema file or file with resolvers (i.e., schema.js), import the `postOriginResp` function from the `mediql` package using CommonJS module syntax.
+1. Ensure that your GraphQL project's server application will be able to respond to requests from different domains or ports, making it easier to handle cross-origin requests from MediQL.
+
+```javascript
+const app = express();
+const cors = require("cors");
+app.use(cors());
+```
+
+2. Within your GraphQL project, in your schema file or file with resolvers (i.e., schema.js), import the `postOriginResp` function from the `mediql` package using CommonJS module syntax.
 
 ```javascript
 const { postOriginResp } = require("mediql");
 ```
 
-2. In that same file, invoke the postOriginResp function inside each of your resolver functions with the specific arguments of `response`, `parsedResponse`, and `info`.
+3. In that same file, invoke the postOriginResp function inside each of your resolver functions with the specific arguments of `response`, `parsedResponse`, and `info`.
 
 ```javascript
 //declare & assign the response variable as the result of your fetch request to an external api url 
@@ -55,15 +64,15 @@ postOriginResp(response, parsedResponse, info);
 return parsedResponse;
 ```
 
-3. Before the next step, you will need to have a '/graphql' endpoint route configured for GraphiQL in your server file. (Visit https://github.com/graphql/graphiql for more information)
+4. Before the next step, you will need to have a '/graphql' endpoint route configured for GraphiQL in your server file. (Visit https://github.com/graphql/graphiql for more information)
 
-4. In your server file (i.e., server.js), import the `postQueryResp` function from the `mediql` package using CommonJS module syntax.
+5. In your server file (i.e., server.js), import the `postQueryResp` function from the `mediql` package using CommonJS module syntax.
 
 ```javascript
 const { postQueryResp } = require("mediql");
 ```
 
-5. Within your '/graphql' endpoint route, include the extensions option and specify the function outlined below and invoke the `postQueryResp` function with the argument of `result` inside of it.
+6. Within your '/graphql' endpoint route, include the extensions option and specify the function outlined below and invoke the `postQueryResp` function with the argument of `result` inside of it.
 
 ```javascript
 app.use(
@@ -81,11 +90,11 @@ app.use(
 );
 ```
 
-5. Make sure your GraphQL project's server/client are running on a PORT that is not localhost:3003 or localhost:8080 as the integrated development environment (IDE) will be using those ports.
+7. Make sure your GraphQL project's server/client are running on a PORT that is not localhost:3003 or localhost:8080 as the integrated development environment (IDE) will be using those ports.
 
-6. Now, start up your GraphQL project server and head over to http://localhost:8080/ on your browser. 
+8. Now, start up your GraphQL project server and head over to http://localhost:8080/ on your browser. 
 
-7. Input your GraphQL project's server PORT# and get those queries in!
+9. Input your GraphQL project's server PORT# and get those queries in!
 
 
 ## **Features**
