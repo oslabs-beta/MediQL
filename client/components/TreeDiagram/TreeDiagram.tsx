@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import CloseButton from './closeButton';
 import { createRoot } from 'react-dom/client';
 
@@ -14,11 +14,6 @@ interface TreeDiagramProps {
 }
 
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
-  //connects to the DOM and the SVG element returned below
-
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
   const handleOverlayClick = () => {
     const overlay = document.getElementById('popup-overlay');
     const popup = document.getElementById('popup-data');
@@ -32,6 +27,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
     if (data !== null) {
       let root = d3.hierarchy<Data>(data);
 
+      // The amount of width each branch needs for appropriate styling for greater UX
       let levelWidth = [1];
       let childCount = function (level: number, n: d3.HierarchyNode<Data>) {
         if (n.children && n.children.length > 0) {
@@ -44,7 +40,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         }
       };
       childCount(0, root);
-      // console.log('level width: ', levelWidth);
       let treeHeight = d3.max(levelWidth) * 65;
       let treeLayout = d3.tree<Data>().size([treeHeight, 350]);
 
@@ -81,10 +76,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         })
         .attr('r', 7)
         .attr('fill', (d) => {
-          // console.log('d.data-->', d.data);
-
           if (d.data.children !== undefined && !d.data.children?.length) {
-            // console.log('THIS CHILD IS LENGTH OF 0');
             return 'orange';
           } else if (d.data.statusCode > 299) {
             return 'red';
@@ -92,7 +84,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             return 'green';
           }
         })
-        .on('click', (event, d) => {
+        .on('click', (d) => {
           if (!document.getElementById('popup-data')) {
             // Create overlay
             const overlay = document.createElement('div');
