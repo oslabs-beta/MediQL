@@ -17,7 +17,7 @@ module.exports = {
     liveReload: true,
     proxy: {
       "/": {
-        target: "http://localhost:3000",
+        target: "http://localhost:3003",
       },
     },
   },
@@ -66,7 +66,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/socket.io": {
-        target: "http://localhost:3000",
+        target: "http://localhost:3003",
         ws: true,
       },
     },
