@@ -14,8 +14,9 @@ interface TreeDiagramProps {
 }
 
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
+  //Allows user to click outside of the popup to close the popup box without targeting the 'x' button.
   const handleOverlayClick = () => {
-    const overlay = document.getElementById('popup-overlay');
+    const overlay = document.getElementById('popup-selector');
     const popup = document.getElementById('popup-data');
     overlay?.remove();
     popup?.remove();
@@ -84,14 +85,16 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             return 'green';
           }
         })
-        .on('click', (d) => {
+        .on('click', (event, d) => {
           if (!document.getElementById('popup-data')) {
             // Create overlay
             const overlay = document.createElement('div');
             // This will allow us to do the styling on scss
             overlay.classList.add('popup-overlay');
-            overlay.setAttribute('id', 'popup-overlay');
+            overlay.setAttribute('id', 'popup-selector');
             overlay.addEventListener('click', handleOverlayClick);
+
+            //find a way to do this with a react element or modals
             document.body.appendChild(overlay);
 
             // Create popup
@@ -198,6 +201,8 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .attr('y', function (d) {
           return d.x - 10;
         })
+
+        // Note : Make these colors SASS for universal implementation
         .style('fill', function (d) {
           if (d.data.name === 'data') {
             return '#00C2E0';
@@ -207,6 +212,8 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             return '#70BCFF';
           }
         })
+
+        // If the name is more than one value, it slices it and hides it so you can click it and view the rest. Improves the UX
         .text(function (d) {
           const name = d.data.name;
           if (typeof name === 'string') {
@@ -225,19 +232,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             }
             return name;
           }
-        });
-
-      // Leaf count labels
-      d3.select('svg g')
-        .selectAll('text.count-label')
-        .data(rootNode.descendants())
-        .join('text')
-        .classed('count-label', true)
-        .attr('x', function (d) {
-          return d.y + 20;
-        })
-        .attr('y', function (d) {
-          return d.x;
         });
 
       //set view box
