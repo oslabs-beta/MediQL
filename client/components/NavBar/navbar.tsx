@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import logo from './mediqlLogo.png';
+// import logo from './mediqlLogo.png';
 import PortContext from "../../contextStore/port-context";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import './navbarStyles.scss';
 
 function Navbar({theme}) {
+  //set port context so port can be used to render graphiql component
   const { setPort: setGlobalPort } = useContext(PortContext);
     
   const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +49,8 @@ function Navbar({theme}) {
       <nav className={`nav ${theme === "dark" ? "dark-theme" : ""}`}>
         <div className='logoName'>
           <a href='/'>
-            <img src={logo}/>
+            {/* <img src={logo}/> */}
+            <img src={require('./mediqlLogo.png').default} />
           </a>
           <h1>MediQL</h1>
         </div>

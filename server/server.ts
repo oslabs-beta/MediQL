@@ -8,6 +8,7 @@ import { transformData } from "../server/helpers/transformData";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 dotenv.config();
+// SECRET is necessary for future implementation of a deployed application with one singular database
 const SECRET = uuidv4();
 
 const app = express();
@@ -34,6 +35,7 @@ mongoose
         _id: -1,
       });
 
+	  //explicitly targeting additions into the collection, ensuring a document is found, before transforming Data
       if (data.operationType === "insert" && latestDoc) {
         const newDoc = await transformData(latestDoc?.response.queryResp.data);
         io.emit("newDoc", newDoc);

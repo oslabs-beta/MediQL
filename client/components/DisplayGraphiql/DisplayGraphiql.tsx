@@ -1,14 +1,11 @@
 import React, { useContext } from "react";
 
+//inviting graphiQL GUI component into our application
 import { GraphiQL } from "graphiql";
-import { GraphiQLProvider } from "@graphiql/react";
-import { QueryEditor } from "@graphiql/react";
 import { createGraphiQLFetcher } from "@graphiql/toolkit";
-
 import "graphiql/graphiql.min.css";
 import PortContext from "../../contextStore/port-context";
 
-// </GraphiQLProvider>
 const DisplayGraphiql = () => {
   const { port } = useContext(PortContext);
   return (
@@ -16,9 +13,9 @@ const DisplayGraphiql = () => {
       <GraphiQL
         fetcher={createGraphiQLFetcher({
           url: `http://localhost:${port}/graphql`,
-          //   shouldPersistHeaders: true,
-          //   headers: { 'Content-Type': 'application/json' },
-          skipSchemaValidation: true,
+          // shouldPersistHeaders: true,
+          // headers: { 'Content-Type': 'application/json' },
+          // skipSchemaValidation: true,
         })}
       />
     </div>

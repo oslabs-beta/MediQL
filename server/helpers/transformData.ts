@@ -10,7 +10,7 @@ interface FieldObject {
   children: any[];
 }
 
-interface MovieObject {
+interface RespObject {
   name: string;
   resp?: object | undefined;
   statusCode?: number | undefined;
@@ -18,7 +18,7 @@ interface MovieObject {
   children: any[];
 }
 
-interface resolverResp {
+interface ResolverResp {
   response?: {
     alias: string;
     originResp?: Object;
@@ -33,6 +33,7 @@ interface Output {
 }
 
 export const transformData = async (input: Input): Promise<Output> => {
+  console.log('input: ', input)
   if (input === null || input === undefined) {
     // handle case where input is null or undefined
     return { name: 'data', children: [] };
@@ -47,15 +48,17 @@ export const transformData = async (input: Input): Promise<Output> => {
 
   // function code here
   const output: Output = { name: 'data', children: [] };
+  //iterate through input object's alias
   for (let [inputKey, inputValue] of Object.entries(input)) {
-    const matchedQuery: resolverResp | undefined = resolverQueries.filter(
-      (obj: resolverResp): boolean => {
+    //matching the queries that are repeated, and taking the latest query that has been repeated
+    const matchedQuery: ResolverResp | undefined = resolverQueries.filter(
+      (obj: ResolverResp): boolean => {
         return obj.response?.alias === inputKey;
       }
     )[0];
     const { originResp, originRespStatus, originRespMessage } =
       matchedQuery?.response || {};
-    const movieObject: MovieObject = {
+    const respObject: RespObject = {
       resp: originResp,
       statusCode: originRespStatus?.valueOf(),
       statusMsg: originRespMessage,
@@ -65,25 +68,29 @@ export const transformData = async (input: Input): Promise<Output> => {
     if (!inputValue) {
       inputValue = {};
     }
+    //iterate through the fields within alias
     for (const [fieldKey, fieldValue] of Object.entries(inputValue)) {
       if (!Object.keys(inputValue).length) {
         continue;
       }
+      //if field value does not exist or has the value of null, push in an empty array into children field
       if (!fieldValue) {
         const fieldObject: FieldObject = {
           name: fieldKey,
           children: [],
         };
-        movieObject.children.push(fieldObject);
-      } else {
+       respObject.children.push(fieldObject);
+      } 
+      else {
         const fieldObject = {
           name: fieldKey,
           children: [{ name: fieldValue }],
         };
-        movieObject.children.push(fieldObject);
+       respObject.children.push(fieldObject);
       }
     }
-    output.children.push(movieObject);
+    output.children.push(respObject);
   }
+  console.log('output: ', output)
   return output;
 };
