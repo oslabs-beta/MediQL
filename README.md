@@ -30,7 +30,7 @@ Let's install the necessary dependencies into your personal GraphQL project as i
 
 1. As MediQL is built on top of GraphiQL, it is necessary to have GraphiQL and a /graphql server route set up prior to installing MediQL.
 2. Run `npm i express-graphql` to install dependency for GraphiQL (Visit https://github.com/graphql/graphiql for more information)
-3. Run `npm i mediql` to install dependency for MediQL (Visit https://github.com/MediQL/mediql-npm-package for more information)
+3. Run `npm i mediql` to install dependency for MediQL (Visit https://github.com/MediQL/mediql-npm-package or https://www.npmjs.com/package/mediql for more information)
 4. Run `npm i cors` to install cors dependency as the CORS middleware enables Cross-Origin Resource Sharing, allowing your GraphQL project's server to handle requests from different origins, such as MediQL's application.
 
 Now, let's move on to configuring your personal GraphQL project and integrate it with MediQL!
