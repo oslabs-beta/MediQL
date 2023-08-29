@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import CloseButton from './closeButton';
 import { createRoot } from 'react-dom/client';
 
@@ -14,13 +14,9 @@ interface TreeDiagramProps {
 }
 
 const TreeDiagram = ({ data }: TreeDiagramProps) => {
-  //connects to the DOM and the SVG element returned below
-
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
+  //Allows user to click outside of the popup to close the popup box without targeting the 'x' button.
   const handleOverlayClick = () => {
-    const overlay = document.getElementById('popup-overlay');
+    const overlay = document.getElementById('popup-selector');
     const popup = document.getElementById('popup-data');
     overlay?.remove();
     popup?.remove();
@@ -32,6 +28,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
     if (data !== null) {
       let root = d3.hierarchy<Data>(data);
 
+      // The amount of width each branch needs for appropriate styling for greater UX
       let levelWidth = [1];
       let childCount = function (level: number, n: d3.HierarchyNode<Data>) {
         if (n.children && n.children.length > 0) {
@@ -44,7 +41,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         }
       };
       childCount(0, root);
-      // console.log('level width: ', levelWidth);
       let treeHeight = d3.max(levelWidth) * 65;
       let treeLayout = d3.tree<Data>().size([treeHeight, 350]);
 
@@ -81,10 +77,7 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         })
         .attr('r', 7)
         .attr('fill', (d) => {
-          // console.log('d.data-->', d.data);
-
           if (d.data.children !== undefined && !d.data.children?.length) {
-            // console.log('THIS CHILD IS LENGTH OF 0');
             return 'orange';
           } else if (d.data.statusCode > 299) {
             return 'red';
@@ -98,8 +91,10 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             const overlay = document.createElement('div');
             // This will allow us to do the styling on scss
             overlay.classList.add('popup-overlay');
-            overlay.setAttribute('id', 'popup-overlay');
+            overlay.setAttribute('id', 'popup-selector');
             overlay.addEventListener('click', handleOverlayClick);
+
+            //find a way to do this with a react element or modals
             document.body.appendChild(overlay);
 
             // Create popup
@@ -206,6 +201,8 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
         .attr('y', function (d) {
           return d.x - 10;
         })
+
+        // Note : Make these colors SASS for universal implementation
         .style('fill', function (d) {
           if (d.data.name === 'data') {
             return '#00C2E0';
@@ -215,6 +212,8 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             return '#70BCFF';
           }
         })
+
+        // If the name is more than one value, it slices it and hides it so you can click it and view the rest. Improves the UX
         .text(function (d) {
           const name = d.data.name;
           if (typeof name === 'string') {
@@ -233,19 +232,6 @@ const TreeDiagram = ({ data }: TreeDiagramProps) => {
             }
             return name;
           }
-        });
-
-      // Leaf count labels
-      d3.select('svg g')
-        .selectAll('text.count-label')
-        .data(rootNode.descendants())
-        .join('text')
-        .classed('count-label', true)
-        .attr('x', function (d) {
-          return d.y + 20;
-        })
-        .attr('y', function (d) {
-          return d.x;
         });
 
       //set view box
